@@ -4,8 +4,9 @@ navbar:
   left:
     - text: "Home"
       href: index.html
-#    - text: "Laboratórios"
-#      href: laboratorio.html
+    - text: "Laboratórios"
+      menu:
+       - href: Lab1.html
     - text: "Tarefas"
       menu: 
 #      - text: "Tarefa 1"

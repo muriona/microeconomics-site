@@ -1,0 +1,74 @@
+---
+title: "Lab 1 - Teoria do Consumidor"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    code_download: true
+    theme: paper
+date: "Última versão em `r format(Sys.time(), '%d/%m/%y')`"
+---
+
+```{css, echo = FALSE}
+
+@import url('https://fonts.googleapis.com/css?family=Muli:400,400i,700&display=swap');
+
+/*------------- Whole Document---------------- */
+
+body {
+    font-family: 'Muli';
+    font-size: 19px;
+}
+
+/*----------------ADDING WHITE SPACE-------------*/
+
+.title {
+  margin-top: 2em !important;
+  margin-bottom: 0.75em;
+}
+
+.section h1,
+.section h2, 
+.section h3, 
+.section h4, 
+.section h5 { 
+  padding-top: 3em !important; /*adding so much padding because theme adds a margin-top: -65px by default */
+  margin-bottom: 0.75em;
+}
+
+.list-group-item {
+    color: #7b8a8b;
+    font-size: 16px;
+}
+.list-group-item.active {
+    color: white;
+    background-color: #e32d91;
+    border: none;
+}
+.list-group-item:hover, 
+.list-group-item.active:hover {
+    color: #ffffff;
+    background-color: #e32d91;
+}
+
+/* headers */
+
+h1, h2, h3, h4, h5 {
+  color:#e32d91;
+}
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval=FALSE)
+```
+
+# Sobre este laboratório
+
+Baixe a pasta no link abaixo. Abra o arquivo no RStudio no seu computador.
+
+```{r echo = FALSE, eval=TRUE}
+xfun::pkg_load2(c('htmltools', 'mime'))
+xfun::embed_dir("lab1/", text = "Você pode o script aqui.")
+
+```
+
