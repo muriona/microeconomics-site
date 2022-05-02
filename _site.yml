@@ -6,7 +6,8 @@ navbar:
       href: index.html
     - text: "Laboratórios"
       menu:
-       - href: Lab1.html
+      - text: "Lab 1"
+        href: Lab1.html
     - text: "Tarefas"
       menu: 
 #      - text: "Tarefa 1"
