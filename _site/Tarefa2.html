@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Tarefa 2 - Teoria da Produção e Externalidades</title>
+
+<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">EPS 5222</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown-header">Tarefas</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Tarefa 2 - Teoria da Produção e
+Externalidades</h1>
+
+</div>
+
+
+<style type="text/css">
+
+@import url('https://fonts.googleapis.com/css?family=Muli:400,400i,700&display=swap');
+
+/*------------- Whole Document---------------- */
+
+body {
+    font-family: 'Muli';
+    font-size: 19px;
+}
+
+/*----------------ADDING WHITE SPACE-------------*/
+
+.title {
+  margin-top: 2em !important;
+  margin-bottom: 0.75em;
+}
+
+.section h1,
+.section h2, 
+.section h3, 
+.section h4, 
+.section h5 { 
+  padding-top: 3em !important; /*adding so much padding because theme adds a margin-top: -65px by default */
+  margin-bottom: 0.75em;
+}
+
+.list-group-item {
+    color: #7b8a8b;
+    font-size: 16px;
+}
+.list-group-item.active {
+    color: white;
+    background-color: #e32d91;
+    border: none;
+}
+.list-group-item:hover, 
+.list-group-item.active:hover {
+    color: #ffffff;
+    background-color: #e32d91;
+}
+
+/* headers */
+
+h1, h2, h3, h4, h5 {
+  color:#e32d91;
+}
+</style>
+<div class="figure">
+<img src="img/krzysztof-hepner-ULJCBY8Tcfg-unsplash.jpg" alt="" />
+<p class="caption">Foto de Krzysztof Hepner em Unsplash</p>
+</div>
+<div id="mercado-das-refinerias-de-gasolina" class="section level1">
+<h1>Mercado das Refinerias de Gasolina</h1>
+<ol style="list-style-type: decimal">
+<li>Considere os dados de uma empresa produtora de gasolina (refineria)
+(Painel A), além das curvas agregadas de Oferta (<span
+class="math inline">\(P = 1+0,15Q\)</span>) e Demanda (<span
+class="math inline">\(P=10-0,12Q\)</span>) do painel B. Com base na
+Teoria da Produção, qual é o preço e quantidade de equilíbrio da
+empresa?</li>
+</ol>
+<p><img src="Tarefa2_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<ol start="2" style="list-style-type: decimal">
+<li>Qual é o Lucro da empresa neste ponto de equilíbrio? Use um gráfico
+em complemento com a explicação.</li>
+<li>O que irá acontecer neste mercado no longo prazo? use um gráfico
+para ajudar na explicação</li>
+<li>Assuma que o mercado se encontra em equilíbrio de longo prazo.
+Utilize a teoria da produção para demonstrar o impacto da entrada de
+empresas estrangeiras no mercado, levando a um novo preço de equilíbrio
+de mercado de R$ 4,50. Qual será o novo equilíbrio (preço e quantidade)
+para a empresa?</li>
+<li>Quais são os lucros da empresa neste novo preço?</li>
+<li>De acordo com a sua resposta à questão anterior, como as empresas se
+comportarão no curto prazo? As empresas continuarão operando no curto
+prazo?</li>
+</ol>
+<p>Observação: pode reproduzir todos os dados do gráfico (Painel A), com
+base na Tabela a seguir (onde: <code>q</code> em milhares de litros por
+dia, <code>L</code> em milhares de trabalhadores e os custos
+<code>CV</code> e <code>CF</code> em milhares de R$ por dia):</p>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+L
+</th>
+<th style="text-align:right;">
+q
+</th>
+<th style="text-align:right;">
+CF
+</th>
+<th style="text-align:right;">
+CV
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+150
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+150
+</td>
+<td style="text-align:right;">
+80
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+37
+</td>
+<td style="text-align:right;">
+150
+</td>
+<td style="text-align:right;">
+160
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+62
+</td>
+<td style="text-align:right;">
+150
+</td>
+<td style="text-align:right;">
+240
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+85
+</td>
+<td style="text-align:right;">
+150
+</td>
+<td style="text-align:right;">
+320
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+104
+</td>
+<td style="text-align:right;">
+150
+</td>
+<td style="text-align:right;">
+400
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+117
+</td>
+<td style="text-align:right;">
+150
+</td>
+<td style="text-align:right;">
+480
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+126
+</td>
+<td style="text-align:right;">
+150
+</td>
+<td style="text-align:right;">
+560
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+133
+</td>
+<td style="text-align:right;">
+150
+</td>
+<td style="text-align:right;">
+640
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+140
+</td>
+<td style="text-align:right;">
+150
+</td>
+<td style="text-align:right;">
+720
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+147
+</td>
+<td style="text-align:right;">
+150
+</td>
+<td style="text-align:right;">
+800
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:right;">
+154
+</td>
+<td style="text-align:right;">
+150
+</td>
+<td style="text-align:right;">
+880
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="externalidades-e-incentivos-a-visão-microeconômica-do-covid-19"
+class="section level1">
+<h1>Externalidades e incentivos: a visão microeconômica do Covid-19</h1>
+<div class="figure">
+<img src="img/hakan-nural-YCVUR2JgfHA-unsplash.jpg" alt="" />
+<p class="caption">Foto de Hakan Nural em Unsplash</p>
+</div>
+<p>Assista ao vídeo a seguir: “Externalidades e Incentivos: A Economia
+da COVID”, e pause o vídeo às 3:47 para responder as perguntas
+abaixo.</p>
+<p><a href="https://www.youtube.com/watch?v=2EFG6dvtQ6M"
+title="Economics of Covid-19">Link para vídeo no Youtube</a></p>
+<ol style="list-style-type: decimal">
+<li><p>Resuma em suas próprias palavras porque uma vacina contra gripe é
+um exemplo de uma externalidade positiva.</p></li>
+<li><p>Identifique 1-2 outras atividades/bens/serviços com
+externalidades positivas.</p></li>
+<li><p>Dada a definição de uma externalidade positiva, você pode prever
+a definição de uma externalidade negativa?</p></li>
+<li><p>Quais são os benefícios de um indivíduo que recebe uma vacina
+contra a gripe?</p></li>
+<li><p>O apresentador afirma que o número de pessoas que tomam vacinas
+contra a gripe é menor do que o número socialmente ideal de vacinas
+contra a gripe? Por quê?</p></li>
+<li><p>Quais são as duas formas de aumentar o número de pessoas que
+recebem vacinas contra a gripe?</p></li>
+<li><p>Explique como o desenvolvimento de vacinas contra o coronavírus
+também é um exemplo de uma externalidade positiva.</p></li>
+<li><p>Considerando que, sem algum tipo de intervenção, o
+desenvolvimento de vacinas também seria subprovido, quais são algumas
+soluções possíveis para incentivar o desenvolvimento de
+vacinas?</p></li>
+<li><p>Das soluções que você identificou, quais são as mais
+viáveis?</p></li>
+<li><p>Agora assista o restante do vídeo: várias vacinas já foram
+desenvolvidas para o Covid-19, com eficácias comprovadamente altas e de
+acordo a muitos especialistas, numa velocidade nunca antes vista na
+história. Por que a velocidade para obter uma ou várias vacinas eficazes
+é tão importante quanto o fato delas serem eficazes?</p></li>
+</ol>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

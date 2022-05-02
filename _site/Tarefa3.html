@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Tarefa 2 - Monopólio e competição monopolística</title>
+
+<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">EPS 5222</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown-header">Tarefas</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Tarefa 2 - Monopólio e competição
+monopolística</h1>
+
+</div>
+
+
+<style type="text/css">
+
+@import url('https://fonts.googleapis.com/css?family=Muli:400,400i,700&display=swap');
+
+/*------------- Whole Document---------------- */
+
+body {
+    font-family: 'Muli';
+    font-size: 19px;
+}
+
+/*----------------ADDING WHITE SPACE-------------*/
+
+.title {
+  margin-top: 2em !important;
+  margin-bottom: 0.75em;
+}
+
+.section h1,
+.section h2, 
+.section h3, 
+.section h4, 
+.section h5 { 
+  padding-top: 3em !important; /*adding so much padding because theme adds a margin-top: -65px by default */
+  margin-bottom: 0.75em;
+}
+
+.list-group-item {
+    color: #7b8a8b;
+    font-size: 16px;
+}
+.list-group-item.active {
+    color: white;
+    background-color: #e32d91;
+    border: none;
+}
+.list-group-item:hover, 
+.list-group-item.active:hover {
+    color: #ffffff;
+    background-color: #e32d91;
+}
+
+/* headers */
+
+h1, h2, h3, h4, h5 {
+  color:#e32d91;
+}
+</style>
+<div class="figure">
+<img src="img/carlos-esteves-1MWbwTaeJIA-unsplash.jpg" alt="" />
+<p class="caption">Foto de Carlos Esteves em Unsplash</p>
+</div>
+<div id="a-morte-dos-diamantes" class="section level1">
+<h1>A morte dos diamantes</h1>
+<p>Quanto você gastaria em um anel de diamantes para noivado? Se você
+respondesse em torno da média dos Estados Unidos de R$ 4.000, então você
+também foi vítima de uma das mais incríveis campanhas de marketing de
+todos os tempos. Um diamante é intrinsecamente inútil e, contra a crença
+popular, não são tão raros assim. Seu valor de revenda é próximo de
+nada.</p>
+<p>Então, por que estamos dispostos a gastar tanto em um anel? Bem,
+podemos rastrear isso até o século XIX. Antes de 1866, os diamantes
+tinham sido raros, mas quando descobertas maciças foram encontradas na
+África do Sul, o diamante estava na beira da perda de seu valor. Foi
+quando Cecil Rhodes interveio e fundou a De Beers Corporation -
+consolidando as minas e restringindo o fornecimento, mantendo a ficção
+de que os diamantes eram escassos e tinham valor inerente.</p>
+<p>A verdadeira mudança foi em 1938, quando a empresa contratou a N.W.
+Ayer para aumentar as vendas. Amarrando seu produto ao amor, e
+especificamente a uma proposta de casamento, até o final do século, mais
+de 80% de todas as noivas tinham recebido um anel de casamento com
+diamantes.</p>
+<p>A campanha publicitária “Um diamante é para sempre” exibia um
+diamante como símbolo de amor, e sugeria que um homem deve gastar até
+dois meses de salário com o símbolo.</p>
+</div>
+<div id="monopólio" class="section level1">
+<h1>Monopólio</h1>
+<p>Até 1990, a DeBeers tinha um controle absoluto no mercado, em um
+determinado ponto representava 90% de todas as vendas, mas agora o
+controle do mercado está se afrouxando. Usando nossos modelos de
+monopólio e competição monopolística, vamos examinar os efeitos deste
+mercado em mudança.</p>
+<p>Abaixo está uma representação da curva da demanda por diamantes.
+Suponha que a DeBeers esteja operando como um monopólio com a função de
+Demanda <span class="math inline">\(P=6000-25Q\)</span>).</p>
+<p><img src="Tarefa3_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<ol style="list-style-type: decimal">
+<li>Como monopolista, qual é o efeito total de uma mudança de preço de
+R$ 4.000 para R$ R$ 3.000 na receita da empresa? Use um gráfico para
+representar a mudanças em áreas.</li>
+</ol>
+<p>Se você fizesse o exercício 1 para cada mudança marginal no preço,
+você encontraria a curva de receita marginal (RMg). A receita marginal é
+fornecida para os próximos exercícios, juntamente com o custo marginal
+(CMg) para a DeBeers.</p>
+<p>A função de Receita Total é <span class="math inline">\(R = 6000Q -
+25Q^2\)</span> e a função do Custo Marginal é <span
+class="math inline">\(Cmg = 0,2Q^2\)</span></p>
+<p><img src="Tarefa3_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<ol start="2" style="list-style-type: decimal">
+<li><p>Com base na figura anterior, qual é a quantidade que a DeBeers
+deve produzir? Qual o preço que deve cobrar?</p></li>
+<li><p>Qual é o excedente do Consumidor, excedente do Produtor e
+excedente do Mercado?</p></li>
+<li><p>Qual é a perda de peso morto deste mercado?</p></li>
+</ol>
+<p>Uma curva de Custo Total Médio (CTMe) é apresentada para a DeBeers.
+Estes custos incluem marketing, exploração mineira e outros.</p>
+<p><img src="Tarefa3_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<ol start="5" style="list-style-type: decimal">
+<li>Quais são os lucros da DeBeers? Por que eles são capazes de
+sustentá-los no longo prazo?</li>
+</ol>
+</div>
+<div id="competição-monopolística" class="section level1">
+<h1>Competição Monopolística</h1>
+<p>Dos anos 90 até agora, o mercado mudou consideravelmente, com a
+DeBeer tendo que se adaptar aos novos desafios.</p>
+<p>O primeiro é a introdução de concorrentes diretos. A empresa estatal
+de diamantes russa ALROSA agora produz mais diamantes do que a própria
+DeBeers. Algumas novas empresas até compraram minas da DeBeers quando a
+empresa estava tentando equilibrar seu Balancete.</p>
+<p>Outra mudança é a introdução de substitutos, com os diamantes
+sintéticos se tornando mais atraentes para os jovens compradores. Os
+avanços na produção desses produtos são bastante recentes, notadamente
+em 2015 a nova Tecnologia Diamantada mostrou o potencial dos sintéticos
+ao criar um diamante polido de dez carats.</p>
+<p>Isto significa que o mercado está mudando de monopólio para
+competição monopolística. Sabemos que a entrada de outros farão com que
+a curva de demanda dos monopolistas mude.</p>
+<ol start="6" style="list-style-type: decimal">
+<li><p>Mostrar o efeito das mudanças se a nova função de Demanda é <span
+class="math inline">\(P=4700-25Q\)</span>, desenhe a nova curva de
+Demanda e a nova curva de receita marginal.</p></li>
+<li><p>Neste novo cenário de concorrência monopolística, qual a
+quantidade que a DeBeers deve produzir? Qual o preço que eles devem
+cobrar? Desenhe</p></li>
+<li><p>Quais são os lucros da DeBeers agora? Desenhe</p></li>
+<li><p>Qual é a perda de peso morto em concorrência monopolística?
+Desenhe</p></li>
+<li><p>Estas mudanças de mercado são boas ou ruins para os
+consumidores?</p></li>
+</ol>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

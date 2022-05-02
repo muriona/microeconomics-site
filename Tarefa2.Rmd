@@ -1,0 +1,229 @@
+---
+title: "Tarefa 2 - Teoria da Produção e Externalidades"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    theme: paper
+link-citations: yes
+---
+
+```{css, echo = FALSE}
+
+@import url('https://fonts.googleapis.com/css?family=Muli:400,400i,700&display=swap');
+
+/*------------- Whole Document---------------- */
+
+body {
+    font-family: 'Muli';
+    font-size: 19px;
+}
+
+/*----------------ADDING WHITE SPACE-------------*/
+
+.title {
+  margin-top: 2em !important;
+  margin-bottom: 0.75em;
+}
+
+.section h1,
+.section h2, 
+.section h3, 
+.section h4, 
+.section h5 { 
+  padding-top: 3em !important; /*adding so much padding because theme adds a margin-top: -65px by default */
+  margin-bottom: 0.75em;
+}
+
+.list-group-item {
+    color: #7b8a8b;
+    font-size: 16px;
+}
+.list-group-item.active {
+    color: white;
+    background-color: #e32d91;
+    border: none;
+}
+.list-group-item:hover, 
+.list-group-item.active:hover {
+    color: #ffffff;
+    background-color: #e32d91;
+}
+
+/* headers */
+
+h1, h2, h3, h4, h5 {
+  color:#e32d91;
+}
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+```
+
+```{r grassmarket, fig.margin = TRUE, echo = FALSE, warning=FALSE, message=FALSE, fig.width=3, fig.cap="Foto de Krzysztof Hepner em Unsplash"}
+knitr::include_graphics("img/krzysztof-hepner-ULJCBY8Tcfg-unsplash.jpg")
+library(Deriv)
+library(tidyverse)
+library(readxl)
+library(directlabels)
+library(cowplot) # for arranging plots
+
+```
+
+# Mercado das Refinerias de Gasolina
+
+1.  Considere os dados de uma empresa produtora de gasolina (refineria) (Painel A), além das curvas agregadas de Oferta ($P = 1+0,15Q$) e Demanda ($P=10-0,12Q$) do painel B. Com base na Teoria da Produção, qual é o preço e quantidade de equilíbrio da empresa?
+
+```{r}
+
+demanda <- function(q) 10 - (0.12*q)
+oferta <- function(q) 1 + (0.15*q)
+
+dados <- data.frame(q= c(0:140))
+
+dados <- dados %>% 
+  mutate(demanda = demanda(q),
+         oferta = oferta(q))
+
+mercado_long<- dados %>% 
+  pivot_longer(-q, names_to = "curves", values_to = "price") %>% 
+  mutate(tipo="Mercado")
+
+PLOT01 <- mercado_long %>% 
+  ggplot(aes(q, price, color=curves))+
+    geom_line(size=1.2)+
+  xlim(0,100)+
+  scale_y_continuous(limits= c(0,10),
+                     breaks=seq(0,10, by=1))+
+  theme_bw()+
+  geom_dl(aes(label = curves), method = "smart.grid")+
+  labs(y="Preço (R$ por litro)",
+       x="Milhões de litros/dia",
+       subtitle="Curvas do Mercado")+
+  theme(axis.text=element_text(size=12),
+        axis.title=element_text(size=10, face="bold"),
+        legend.position = "none")
+
+# Graficando a função de custos
+
+custos <- read_excel("~/Dropbox/mauricio/UFSC/01_GRAD/2020.2/EPS 5222/Aula 08/custos_com_dados.xlsx", 
+    sheet = "Sheet 1",
+    skip = 1)
+
+custos$CMg <- as.numeric(custos$CMg)
+
+custos <- custos %>% rename(q=Produção)
+
+custos_long <- custos %>% 
+  select(4,8,9,10,11) %>% 
+  filter(q <= 140) %>% 
+  pivot_longer(2:5, names_to="curves", values_to="price") %>% 
+  mutate(tipo="Empresa")
+  
+PLOT02 <- custos_long %>%  
+  ggplot(aes(q, price, color=curves))+
+  geom_smooth(se=FALSE)+
+  labs(y="Preço (R$ por litro)",
+       x="Milhares de litros/dia",
+       subtitle="Custos da Empresa")+
+  theme_bw()+
+  geom_dl(aes(label = curves), method = "smart.grid")+
+  scale_y_continuous(limits= c(0,10),
+                     breaks=seq(0,10, by=1))+
+  scale_x_continuous(limits= c(0,140),
+                     breaks=seq(0,140, by=20))+
+  theme(axis.text=element_text(size=12),
+        axis.title=element_text(size=10, face="bold"),
+        legend.position = "none")
+
+# resultado final
+
+plot_grid(PLOT02, PLOT01, labels = c("A", "B"), ncol = 2, nrow =1, label_size = 8)
+
+```
+
+```{r, eval=FALSE}
+#Custos com splinefun como outra aternativa para suavizar as curvas de custos
+CMg_fun <- splinefun(x=custos$Produção, y=custos$CMg)
+CVMe_fun <- splinefun(x=custos$Produção, y=custos$CVMe)
+CTMe_fun <- splinefun(x=custos$Produção, y=custos$CTMe)
+CFMe_fun <- splinefun(x=custos$Produção, y=custos$CFMe)
+
+ggplot(data = tibble(x = 0:150), aes(x = x)) +
+  geom_function(fun = CMg_fun, aes(color="CMg"), 
+                size=1.2)+
+  geom_function(fun = CVMe_fun, aes(color="CVMe"),
+                size=1.2)+
+  geom_function(fun = CTMe_fun, aes(color="CTMe"),
+                size=1.2)+
+  geom_function(fun = CFMe_fun, aes(color="CFMe"),
+                size=1.2)+
+  theme_bw()+
+  scale_y_continuous(limits= c(0,10),
+                     breaks=seq(0,10, by=1))
+
+```
+
+2.  Qual é o Lucro da empresa neste ponto de equilíbrio? Use um gráfico em complemento com a explicação.
+3.  O que irá acontecer neste mercado no longo prazo? use um gráfico para ajudar na explicação
+4.  Assuma que o mercado se encontra em equilíbrio de longo prazo. Utilize a teoria da produção para demonstrar o impacto da entrada de empresas estrangeiras no mercado, levando a um novo preço de equilíbrio de mercado de R\$ 4,50. Qual será o novo equilíbrio (preço e quantidade) para a empresa?
+5.  Quais são os lucros da empresa neste novo preço?
+6.  De acordo com a sua resposta à questão anterior, como as empresas se comportarão no curto prazo? As empresas continuarão operando no curto prazo?
+
+Observação: pode reproduzir todos os dados do gráfico (Painel A), com base na Tabela a seguir (onde: `q` em milhares de litros por dia, `L` em milhares de trabalhadores e os custos `CV` e `CF` em milhares de R\$ por dia):
+
+```{r}
+library(kableExtra)
+
+custos %>% 
+  rename(CF = "Custo Fixo",
+         L = "N. De trabalhadores") %>% 
+  select(1,4,5,6) %>% 
+  kbl() %>% 
+  kable_styling()
+  
+
+```
+
+# Externalidades e incentivos: a visão microeconômica do Covid-19
+
+```{r nc, fig.margin = TRUE, echo = FALSE, fig.width=3, fig.cap="Foto de Hakan Nural em Unsplash"}
+knitr::include_graphics("img/hakan-nural-YCVUR2JgfHA-unsplash.jpg")
+```
+
+Assista ao vídeo a seguir: "Externalidades e Incentivos: A Economia da COVID", e pause o vídeo às 3:47 para responder as perguntas abaixo.
+
+```{marginfigure}
+*Dica:* Para legendas em português, assista: https://www.youtube.com/watch?v=QYuVx8y2reU 
+```
+
+[Link para vídeo no Youtube](https://www.youtube.com/watch?v=2EFG6dvtQ6M "Economics of Covid-19")
+
+1.  Resuma em suas próprias palavras porque uma vacina contra gripe é um exemplo de uma externalidade positiva.
+
+2.  Identifique 1-2 outras atividades/bens/serviços com externalidades positivas.
+
+3.  Dada a definição de uma externalidade positiva, você pode prever a definição de uma externalidade negativa?
+
+4.  Quais são os benefícios de um indivíduo que recebe uma vacina contra a gripe?
+
+    ```{marginfigure}
+    *Dica:* você deve identificar os benefícios internos e externos.
+    ```
+
+5.  O apresentador afirma que o número de pessoas que tomam vacinas contra a gripe é menor do que o número socialmente ideal de vacinas contra a gripe? Por quê?
+
+6.  Quais são as duas formas de aumentar o número de pessoas que recebem vacinas contra a gripe?
+
+7.  Explique como o desenvolvimento de vacinas contra o coronavírus também é um exemplo de uma externalidade positiva.
+
+8.  Considerando que, sem algum tipo de intervenção, o desenvolvimento de vacinas também seria subprovido, quais são algumas soluções possíveis para incentivar o desenvolvimento de vacinas?
+
+9.  Das soluções que você identificou, quais são as mais viáveis?
+
+10. Agora assista o restante do vídeo: várias vacinas já foram desenvolvidas para o Covid-19, com eficácias comprovadamente altas e de acordo a muitos especialistas, numa velocidade nunca antes vista na história. Por que a velocidade para obter uma ou várias vacinas eficazes é tão importante quanto o fato delas serem eficazes?
+
+    ```{marginfigure}
+    *Dica:* Pense do ponto de vista de uma única farmaceutica (ou grupo) desenvolvendo sua própria vacina, p.ex a da Astra Zeneca.
+    ```

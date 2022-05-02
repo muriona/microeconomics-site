@@ -1,0 +1,19 @@
+name: "eps5222"
+navbar:
+  title: "EPS 5222"
+  left:
+    - text: "Home"
+      href: index.html
+#    - text: "Laboratórios"
+#      href: laboratorio.html
+    - text: "Tarefas"
+      menu: 
+#      - text: "Tarefa 1"
+#        href: Tarefa1.html
+#      - text: "Tarefa 2"
+#        href: Tarefa3.html
+#      - text: "Tarefa 3"
+#        href: Tarefa3.html
+output:
+  html_document:
+    css: style.css

@@ -1,0 +1,112 @@
+---
+title: "Instruções Gerais para Realização e Entrega das Tarefas em Grupo"
+subtitle: "Semestre 2021.1"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    theme: paper
+link-citations: yes
+---
+
+```{css, echo = FALSE}
+
+@import url('https://fonts.googleapis.com/css?family=Muli:400,400i,700&display=swap');
+
+/*------------- Whole Document---------------- */
+
+body {
+    font-family: 'Muli';
+    font-size: 19px;
+}
+
+/*----------------ADDING WHITE SPACE-------------*/
+
+.title {
+  margin-top: 2em !important;
+  margin-bottom: 0.75em;
+}
+
+.section h1,
+.section h2, 
+.section h3, 
+.section h4, 
+.section h5 { 
+  padding-top: 3em !important; /*adding so much padding because theme adds a margin-top: -65px by default */
+  margin-bottom: 0.75em;
+}
+
+.list-group-item {
+    color: #7b8a8b;
+    font-size: 16px;
+}
+.list-group-item.active {
+    color: white;
+    background-color: #e32d91;
+    border: none;
+}
+.list-group-item:hover, 
+.list-group-item.active:hover {
+    color: #ffffff;
+    background-color: #e32d91;
+}
+
+/* headers */
+
+h1, h2, h3, h4, h5 {
+  color:#e32d91;
+}
+```
+
+```{r grassmarket, fig.margin = TRUE, echo = FALSE, warning=FALSE, message=FALSE, fig.width=3, fig.cap="Photo by Javier Quesada on Unsplash"}
+knitr::include_graphics("img/javier-quesada-qYfwGVNJqSA-unsplash.jpg")
+
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE)
+```
+
+# Realização das Tarefas
+
+-   As tarefas serão realizadas em grupo, de acordo com lista de grupos que aparecem registrados no Moodle.
+-   Isto significa que todos os membros do grupo deverão participar ativamente na resolução de cada Tarefa.
+-   Deverá ser usado obrigatoriamente o RStudio para a realização das mesmas.
+-   Deverá ser usado obrigatoriamente o template em `Rmd` que se encontra no Moodle.
+-   Um formulário online estará disponível para que cada membro do grupo informe sobre o % de participação de cada um. Este formulário chamado de `Autoavaliação` servirá também para atribuir as notas individuais. O formulário encontra-se no Moodle da disciplina, aba "Tarefas" e também [aqui](https://docs.google.com/forms/d/e/1FAIpQLScWG04Ny0ajaaG6LdQYPW60JI023dX90iUBUMY0umMgW53kWg/viewform? "clique no link").
+-   Espera-se que cada membro contribua com um percentual similar para a execução da Tarefa. Esta contribuição servirá para ponderar as notas individuais conforme a figura a seguir:
+
+```{r}
+library(tidyverse)
+library(plotly)
+contribuicao <- tibble(contribuicao = 0:40) %>% 
+mutate(ponderacao = 1/(1+exp(-0.6*(contribuicao-19))))
+
+logistica <- ggplot(contribuicao, aes(contribuicao, ponderacao))+
+  geom_line(color="#e32d91", size=1.2)+
+  theme_minimal()+
+  labs(x="contribuição individual à Tarefa (%)",
+       y="ponderação na nota individual")
+
+ggplotly(logistica, dynamicTicks = TRUE)
+```
+
+-   A `ponderação` na figura anterior representa a redução da nota individual à medida que a contribuição diminui proporcionalmente àquela dos outros colegas do grupo
+
+# Entrega das Tarefas
+
+-   A entrega das Tarefas será obrigatóriamente pelo Moodle, nos links abertos especificamente para cada Tarefa.
+
+-   Deverá ser entregue obrigatóriamente dois arquivos (não usar zip ou outra forma de compressão):
+
+    -   Arquivo .Rmd
+
+    -   Arquivo .html
+
+-   A entrega de ambos os arquivos é importante pois nós revisaremos também o código usado no `.Rmd` para gerar o arquivo `.html.`
+
+-   Por isso é importante que o grupo confira que está entregando as versões finais dos dois arquivos (não serão aceitas novas versões posteriormente).
+
+-   Quaisquer dúvidas sobre a entrega e/ou elaboração das Tarefas podem ser enviadas via slack, no canal \`\#atividadesemgrupo\` ou se for algo particular, via mensagem direta.
+
+- A não entrega de um dos arquivos (ou o fato do .html ou .Rmd estiver com erros dificultando a sua avaliação) acarretará numa redução de 25% sobre a nota final obtida pelo grupo.

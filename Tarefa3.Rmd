@@ -1,0 +1,292 @@
+---
+title: "Tarefa 2 - Monopólio e competição monopolística"
+output:
+  pdf_document:
+    toc: yes
+  html_document:
+    toc: yes
+    toc_float: yes
+    theme: paper
+link-citations: yes
+---
+
+```{css, echo = FALSE}
+
+@import url('https://fonts.googleapis.com/css?family=Muli:400,400i,700&display=swap');
+
+/*------------- Whole Document---------------- */
+
+body {
+    font-family: 'Muli';
+    font-size: 19px;
+}
+
+/*----------------ADDING WHITE SPACE-------------*/
+
+.title {
+  margin-top: 2em !important;
+  margin-bottom: 0.75em;
+}
+
+.section h1,
+.section h2, 
+.section h3, 
+.section h4, 
+.section h5 { 
+  padding-top: 3em !important; /*adding so much padding because theme adds a margin-top: -65px by default */
+  margin-bottom: 0.75em;
+}
+
+.list-group-item {
+    color: #7b8a8b;
+    font-size: 16px;
+}
+.list-group-item.active {
+    color: white;
+    background-color: #e32d91;
+    border: none;
+}
+.list-group-item:hover, 
+.list-group-item.active:hover {
+    color: #ffffff;
+    background-color: #e32d91;
+}
+
+/* headers */
+
+h1, h2, h3, h4, h5 {
+  color:#e32d91;
+}
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+```
+
+```{r grassmarket, fig.margin = TRUE, echo = FALSE, warning=FALSE, message=FALSE, fig.width=3, fig.cap="Foto de Carlos Esteves em Unsplash"}
+knitr::include_graphics("img/carlos-esteves-1MWbwTaeJIA-unsplash.jpg")
+library(Deriv)
+library(tidyverse)
+library(readxl)
+library(directlabels)
+library(cowplot) # for arranging plots
+
+```
+
+# A morte dos diamantes
+
+Quanto você gastaria em um anel de diamantes para noivado? Se você respondesse em torno da média dos Estados Unidos de R\$ 4.000, então você também foi vítima de uma das mais incríveis campanhas de marketing de todos os tempos. Um diamante é intrinsecamente inútil e, contra a crença popular, não são tão raros assim. Seu valor de revenda é próximo de nada.
+
+Então, por que estamos dispostos a gastar tanto em um anel? Bem, podemos rastrear isso até o século XIX. Antes de 1866, os diamantes tinham sido raros, mas quando descobertas maciças foram encontradas na África do Sul, o diamante estava na beira da perda de seu valor. Foi quando Cecil Rhodes interveio e fundou a De Beers Corporation - consolidando as minas e restringindo o fornecimento, mantendo a ficção de que os diamantes eram escassos e tinham valor inerente.
+
+A verdadeira mudança foi em 1938, quando a empresa contratou a N.W. Ayer para aumentar as vendas. Amarrando seu produto ao amor, e especificamente a uma proposta de casamento, até o final do século, mais de 80% de todas as noivas tinham recebido um anel de casamento com diamantes.
+
+A campanha publicitária "Um diamante é para sempre" exibia um diamante como símbolo de amor, e sugeria que um homem deve gastar até dois meses de salário com o símbolo.
+
+# Monopólio
+
+Até 1990, a DeBeers tinha um controle absoluto no mercado, em um determinado ponto representava 90% de todas as vendas, mas agora o controle do mercado está se afrouxando. Usando nossos modelos de monopólio e competição monopolística, vamos examinar os efeitos deste mercado em mudança.
+
+Abaixo está uma representação da curva da demanda por diamantes. Suponha que a DeBeers esteja operando como um monopólio com a função de Demanda $P=6000-25Q$).
+
+```{r}
+
+demanda <- function(q) 6000 - (25*q)
+
+#demanda <- function(q) 4700 - (25*q)
+
+dados <- data.frame(q= c(0:200))
+
+dados <- dados %>% 
+  mutate(D = demanda(q)) 
+
+dados %>% 
+  ggplot(aes(q, D))+
+  geom_line(size=1.2, color="#e32d91")+
+  theme_bw()+
+  labs(y="Preço (R$)", x="Quantidade (milhões de carats)")
+```
+
+1.  Como monopolista, qual é o efeito total de uma mudança de preço de R\$ 4.000 para R\$ R\$ 3.000 na receita da empresa? Use um gráfico para representar a mudanças em áreas.
+
+Se você fizesse o exercício 1 para cada mudança marginal no preço, você encontraria a curva de receita marginal (RMg). A receita marginal é fornecida para os próximos exercícios, juntamente com o custo marginal (CMg) para a DeBeers.
+
+A função de Receita Total é $R = 6000Q - 25Q^2$ e a função do Custo Marginal é $Cmg = 0,2Q^2$
+
+```{r}
+
+receita <- function(q) (6000 - (25*q))*q
+
+#receita <- function(q) (4900 - (25*q))*q
+
+rmg <- Deriv(receita, "q")
+
+cmg <- function(q) (0.2*q^2)
+
+ct <- function(q) ((0.0667*q^3))
+
+
+
+
+dados <- dados %>% 
+  mutate(cmg = cmg(q),
+         rmg = rmg(q))
+
+dados %>% 
+  pivot_longer(2:4, names_to="curves", values_to="Valor") %>% 
+  filter(Valor >= 0) %>% 
+  ggplot(aes(q, Valor, color=curves))+
+  geom_line(size=1.2)+
+  geom_dl(aes(label = curves), method = "smart.grid")+
+  theme_bw()+
+  labs(y="Preço (R$)", x="Quantidade (milhões de carats)")+
+  theme(legend.position = "none")+
+  scale_y_continuous(limits= c(0,6000),
+                     breaks=seq(0,6000, by=1000))
+```
+
+2.  Com base na figura anterior, qual é a quantidade que a DeBeers deve produzir? Qual o preço que deve cobrar?
+
+```{r eval = FALSE}
+
+optimal_q <- uniroot(function(x) rmg(x) - cmg(x), 
+                     c(60,100))
+
+demanda(optimal_q$root)
+```
+
+
+3.  Qual é o excedente do Consumidor, excedente do Produtor e excedente do Mercado?
+
+4.  Qual é a perda de peso morto deste mercado?
+
+Uma curva de Custo Total Médio (CTMe) é apresentada para a DeBeers. Estes custos incluem marketing, exploração mineira e outros.
+
+```{r}
+
+custos <- read_excel("~/Dropbox/mauricio/UFSC/01_GRAD/2020.2/EPS 5222/Aula 08/custos_com_dados.xlsx", 
+    sheet = "Sheet 1",
+    skip = 1)
+
+custos_teste <- custos %>% 
+  select(4,11)
+
+#### para CTMe de dados do excel
+
+#dados <- dados %>% 
+#  left_join(custos_teste, by=c("q"="Produção")) %>% 
+#  mutate(ctme = CTMe*500) %>% 
+#  select(-5)
+
+#### para CTMe de dados do excel
+
+
+dados <- dados %>% 
+  mutate(ctme = ct(q)/q)
+
+dados %>% 
+  pivot_longer(2:5, names_to="curves",  
+               values_to="Valor") %>% 
+  filter(Valor >= 0) %>% 
+  ggplot(aes(q, Valor, color=curves))+
+  geom_smooth(se=FALSE, size=1.2)+
+  geom_dl(aes(label = curves), method = "smart.grid")+
+  theme_bw()+
+  labs(y="Preço (dólares)", x="Quantidade (milhões de carats)")+
+  theme(legend.position = "none")+
+  scale_y_continuous(limits= c(0,6000),
+                     breaks=seq(0,6000, by=1000))
+
+
+```
+
+```{r eval = FALSE}
+
+demanda(optimal_q$root)
+
+receita(optimal_q$root)
+ct(optimal_q$root)
+
+receita(optimal_q$root) - ct(optimal_q$root)
+
+ctme_fun(optimal_q$root)
+
+ct(optimal_q$root)/optimal_q$root
+
+dados %>% 
+  mutate(RT = demanda(q)*q,
+         CT = ct(q),
+         L = RT - CT) %>% 
+  select(-2:-5) %>% 
+  pivot_longer(2:4, values_to = "dolares") %>% 
+  ggplot(aes(q, dolares, color=name))+
+  geom_line(size=1.2)+
+  geom_vline(xintercept = optimal_q$root)+
+  geom_hline(yintercept = receita(optimal_q$root) - ct(optimal_q$root))
+```
+
+5.  Quais são os lucros da DeBeers? Por que eles são capazes de sustentá-los no longo prazo?
+
+# Competição Monopolística
+
+Dos anos 90 até agora, o mercado mudou consideravelmente, com a DeBeer tendo que se adaptar aos novos desafios.
+
+O primeiro é a introdução de concorrentes diretos. A empresa estatal de diamantes russa ALROSA agora produz mais diamantes do que a própria DeBeers. Algumas novas empresas até compraram minas da DeBeers quando a empresa estava tentando equilibrar seu Balancete.
+
+Outra mudança é a introdução de substitutos, com os diamantes sintéticos se tornando mais atraentes para os jovens compradores. Os avanços na produção desses produtos são bastante recentes, notadamente em 2015 a nova Tecnologia Diamantada mostrou o potencial dos sintéticos ao criar um diamante polido de dez carats.
+
+Isto significa que o mercado está mudando de monopólio para competição monopolística. Sabemos que a entrada de outros farão com que a curva de demanda dos monopolistas mude.
+
+6.  Mostrar o efeito das mudanças se a nova função de Demanda é $P=4700-25Q$, desenhe a nova curva de Demanda e a nova curva de receita marginal.
+
+```{r eval=FALSE}
+
+demanda2 <- function(q) 4700 - 25*q
+
+receita2 <- function(q) demanda2(q)*q
+
+Rmg2 <- function(q) 4700 - 50*q
+
+ctme_fun <- splinefun(x=dados$q, y=dados$ctme)
+cmg_fun <- splinefun(x=dados$q, y=dados$cmg)
+
+points <- data.frame(x=c(70,70),
+                     y=c(1400,2156))
+
+dados %>% 
+  select(1,2,3,5) %>% 
+  mutate(D2 = demanda2(q),
+         RMg2 = Rmg2(q)) %>% 
+  pivot_longer(2:6, names_to="curves",  
+               values_to="Valor") %>% 
+  filter(Valor >= 0) %>% 
+  ggplot(aes(q, Valor, color=curves))+
+  geom_smooth(se=FALSE, size=1.2)+
+  geom_dl(aes(label = curves), method = "smart.grid")+
+  theme_bw()+
+  labs(y="Preço (R$)", x="Quantidade (milhões de carats)")+
+  theme(legend.position = "none")+
+#  annotate("point", x = 50, y = 1400, 
+#           colour = "black", size = 3.5)+
+#  annotate("point", x = 50, y = 2000, 
+#           colour = "black", size = 3.5)+
+#  annotate("text", x = 50, y = 1150, label = "(70,1400)", colour = "black", vjust = -0.5)+
+#  annotate("text", x = 50, y = 2100, label = "(70,2000)", colour = "black", vjust = -0.5)+
+  scale_y_continuous(limits= c(0,6000),
+                     breaks=seq(0,6000, by=1000))
+
+optimal_q2 <- uniroot(function(x) Rmg2(x) - cmg(x), 
+                     c(60,100))
+
+receita2(optimal_q2$root)
+
+ct(optimal_q2$root)
+```
+
+7.  Neste novo cenário de concorrência monopolística, qual a quantidade que a DeBeers deve produzir? Qual o preço que eles devem cobrar? Desenhe
+
+8.  Quais são os lucros da DeBeers agora? Desenhe
+
+9.  Qual é a perda de peso morto em concorrência monopolística? Desenhe
+
+10. Estas mudanças de mercado são boas ou ruins para os consumidores?
