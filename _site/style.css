@@ -23,50 +23,12 @@ body {
   margin-bottom: 0.75em;
 }
 
-.list-group-item {
-    color: #ffffff;
-    font-size: 16px;
-}
-.list-group-item.active {
-    color: white;
-    background-color: #e32d91;
-    border: none;
-}
-.list-group-item:hover, 
-.list-group-item.active:hover {
-    color: #ffffff;
-    background-color: #e32d91;
-}
-
-/* headers */
-
-h1, h2, h3, h4, h5 {
-  color:#e32d91;
-}
-
-<style>
 .navbar {
-  background-color:#e32d91;
-  color: yellow !important;
-}
+    background-color: #4d2de3;
+    color: yellow !important;
+}  
 
-.navbar-inverse .navbar-nav > li > a:hover,
-.navbar-inverse .navbar-nav > li > a:focus {
-    background-color: yellow;
-    color: #e32d91;
-}
-.navbar-inverse .navbar-nav > .active > a,
-.navbar-inverse .navbar-nav > .active > a:hover,
-.navbar-inverse .navbar-nav > .active > a:focus {
-  color: #e32d91;
-  background-color: yellow;
-}
-.navbar-inverse .navbar-toggle:hover,
-.navbar-inverse .navbar-toggle:focus {
-  background-color: yellow;
-}
-.navbar-inverse .navbar-collapse,
-.navbar-inverse .navbar-form {
-  border-color: #e32d91;
-}
-</style>
+.navbar-default .navbar-nav>li>a {
+    color: #f3f3f3;
+}  
+    
