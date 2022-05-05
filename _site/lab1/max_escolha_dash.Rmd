@@ -93,7 +93,7 @@ ro <- data_budget %>%
   labs(x="Unidades do bem X", y="Unidades do bem Y")+
   # Add a label
   annotate(geom = "text", x = 80, y = 51, 
-           label = glue("A equação é: {slope}x + {n_y}"), 
+           label = glue("A equação é: {n_y}{slope}x"), 
            color = "darkblue")
 
 ggplotly(ro)
@@ -106,6 +106,8 @@ ggplotly(ro)
 
 Column {.sidebar data-width=200}
 ------------------
+
+A forma da curva de indiferença é : $U=x^{a}y^{b}$
 
 ```{r}
 
@@ -129,10 +131,10 @@ sliderInput("coefy",
 
 sliderInput("utilidade",
             label = "Selecione o valor de U",
-            min = 100,
+            min = 10,
             max = 2000,
             value = 1500,
-            step = 100,
+            step = 10,
             dragRange = TRUE
             )
 ```
@@ -169,7 +171,8 @@ indif_curva <- data_ci %>%
   annotate(geom="text",
            x = 80,
            y= 51,
-           label = glue("Função de Utilidade na forma: U = x^{input$coefx} * y^{input$coefy}"),
+           parse = TRUE,
+           label = glue("Função de Utilidade: U = x^{coefx}y^{coefy}"),
            color = "darkblue")+
   labs(x="Unidades do bem X", y="Unidades do bem Y")+
   scale_x_continuous(expand = c(0, 0), breaks = seq(0, 100, 10)) +
