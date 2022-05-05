@@ -50,7 +50,7 @@ sliderInput("orcamento",
             min = 40,
             max = 100,
             value = 80,
-            step = 10,
+            step = 5,
             dragRange = TRUE
             )
 ```
@@ -107,14 +107,23 @@ ggplotly(ro)
 Column {.sidebar data-width=200}
 ------------------
 
-A forma da curva de indiferença é : $U=x^{a}y^{b}$
+A forma da curva de indiferença é : $U=kx^{a}y^{b}$
 
 ```{r}
+
+sliderInput("k",
+            label = "Selecione o coeficiente de k",
+            min = 0.1,
+            max = 3,
+            value = 1,
+            step = 0.05,
+            dragRange = TRUE
+            )
 
 sliderInput("coefx",
             label = "Selecione o coeficiente de `a` de x",
             min = 0.1,
-            max = 1,
+            max = 2,
             value = 1,
             step = 0.1,
             dragRange = TRUE
@@ -123,7 +132,7 @@ sliderInput("coefx",
 sliderInput("coefy",
             label = "Selecione o coeficiente de `b` de y",
             min = 0.1,
-            max = 1,
+            max = 2,
             value = 1,
             step = 0.1,
             dragRange = TRUE
@@ -152,8 +161,10 @@ coefx <- input$coefx
 
 coefy <- input$coefy
 
+k <- input$k
+
 utility_y <- function(my_x, my_U) {
-  my_U^(1/input$coefy)/my_x^(coefx/coefy)
+  my_U^(1/input$coefy)/(k^(1/coefy)*my_x^(coefx/coefy))
 }
 
 data_ci <- tibble(x=0:100,
@@ -172,7 +183,7 @@ indif_curva <- data_ci %>%
            x = 80,
            y= 51,
            parse = TRUE,
-           label = glue("Função de Utilidade: U = x^{coefx}y^{coefy}"),
+           label = glue("Função de Utilidade: U = {k}x^{coefx}y^{coefy}"),
            color = "darkblue")+
   labs(x="Unidades do bem X", y="Unidades do bem Y")+
   scale_x_continuous(expand = c(0, 0), breaks = seq(0, 100, 10)) +
@@ -194,10 +205,19 @@ ggplotly(indif_curva)
 
 ```{r}
 
+sliderInput("pk",
+            label = "Selecione o coeficiente de k",
+            min = 0.1,
+            max = 3,
+            value = 1,
+            step = 0.05,
+            dragRange = TRUE
+            )
+
 sliderInput("pcoefx",
             label = "Selecione o coeficiente `a` de x",
             min = 0.1,
-            max = 1,
+            max = 2,
             value = 1,
             step = 0.1,
             dragRange = TRUE
@@ -206,7 +226,7 @@ sliderInput("pcoefx",
 sliderInput("pcoefy",
             label = "Selecione o coeficiente `b` de y",
             min = 0.1,
-            max = 1,
+            max = 2,
             value = 1,
             step = 0.1,
             dragRange = TRUE
@@ -217,7 +237,7 @@ sliderInput("putilidade",
             min = 100,
             max = 2000,
             value = 1500,
-            step = 100,
+            step = 50,
             dragRange = TRUE
             )
 sliderInput("ppx",
@@ -243,7 +263,7 @@ sliderInput("porcamento",
             min = 40,
             max = 100,
             value = 80,
-            step = 10,
+            step = 5,
             dragRange = TRUE
             )
 
@@ -275,15 +295,17 @@ pcoefx <- input$pcoefx
 
 pcoefy <- input$pcoefy
 
+pk <- input$pk
+
 budget <- function(x) (slope * x) + n_y
 
 utility_y <- function(my_x, my_U) {
-  my_U^(1/input$pcoefy)/my_x^(pcoefx/pcoefy)
+  my_U^(1/input$pcoefy)/(pk^(1/pcoefy)*my_x^(pcoefx/pcoefy))
 }
   data_budget <- tibble(x=0:100,
                y=budget(x),
                U=input$putilidade,
-    y_ci=U^(1/input$pcoefy)/x^(input$pcoefx/input$pcoefy))
+    y_ci=utility_y(x,U))
   
   ro <- data_budget %>% 
   ggplot(aes(x,y)) +
