@@ -260,7 +260,7 @@ sliderInput("ppy",
 
 sliderInput("porcamento",
             label = "Selecione o orçamento total",
-            min = 40,
+            min = 30,
             max = 100,
             value = 80,
             step = 5,
