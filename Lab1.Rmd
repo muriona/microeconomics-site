@@ -64,7 +64,7 @@ knitr::opts_chunk$set(echo = TRUE, eval=FALSE)
 
 # Sobre este laboratório
 
-Baixe a pasta no link abaixo. Abra o arquivo no RStudio no seu computador.
+Baixe a pasta no link abaixo. Abra o arquivo `.Rmd` no RStudio no seu computador.
 
 ```{r echo = FALSE, eval=TRUE}
 xfun::pkg_load2(c('htmltools', 'mime'))
