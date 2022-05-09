@@ -10,8 +10,8 @@ navbar:
         href: Lab1.html
     - text: "Tarefas"
       menu: 
-#      - text: "Tarefa 1"
-#        href: Tarefa1.html
+      - text: "Tarefa 1"
+        href: Tarefa1.html
 #      - text: "Tarefa 2"
 #        href: Tarefa3.html
 #      - text: "Tarefa 3"

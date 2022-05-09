@@ -1,98 +1,59 @@
 ---
-title: "Tarefa 1 - Oferta e Demanda"
+title: "Tarefa 1 - Oferta e Demanda no Mercado mundial do Café"
 output: 
   html_document:
     toc: true
     toc_float: true
     theme: paper
+    css: tarefas.css
 link-citations: yes
 ---
 
-```{css, echo = FALSE}
-
-@import url('https://fonts.googleapis.com/css?family=Muli:400,400i,700&display=swap');
-
-/*------------- Whole Document---------------- */
-
-body {
-    font-family: 'Muli';
-    font-size: 14px;
-}
-
-h1 {
-    font-family: 'Muli';
-    font-size: 19px;
-}
-
-/*----------------ADDING WHITE SPACE-------------*/
-
-.title {
-  margin-top: 2em !important;
-  margin-bottom: 0.75em;
-}
-
-.section h1,
-.section h2, 
-.section h3, 
-.section h4, 
-.section h5 { 
-  padding-top: 3em !important; /*adding so much padding because theme adds a margin-top: -65px by default */
-  margin-bottom: 0.75em;
-}
-
-.list-group-item {
-    color: #7b8a8b;
-    font-size: 16px;
-}
-.list-group-item.active {
-    color: white;
-    #background-color: #e32d91;
-    border: none;
-}
-.list-group-item:hover, 
-.list-group-item.active:hover {
-    #color: #ffffff;
-    #background-color: #e32d91;
-}
-
-/* headers */
-
-h1, h2, h3, h4, h5 {
-  color:"#fff";
-}
-```
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 ```
 
-```{r grassmarket, fig.margin = TRUE, echo = FALSE, warning=FALSE, message=FALSE, fig.width=3, fig.cap="Foto de Mike Kenneally em Unsplash"}
-#nitr::include_graphics("img/mike-kenneally-zlwDJoKTuA8-unsplash.jpg")
+```{r grassmarket, fig.margin = TRUE, echo = FALSE, warning=FALSE, message=FALSE, fig.width=3, fig.cap="Foto de Tina Guina em Unsplash"}
+
+knitr::include_graphics("img/tina-guina-obV_LM0KjxY-unsplash.jpg")
+
 library(Deriv)
 library(tidyverse)
-library(readxl)
 library(directlabels)
-library(cowplot) # for arranging plots
 library(plotly)
+library(glue)
 
 ```
 
+
+# Dados
+
+Para esta primeira tarefa, iremos estudar o caso do Mercado de Café. 
+Os dados utilizados podem ser acessados e baixados do site [Macrotrends](https://www.macrotrends.net/2535/coffee-prices-historical-chart-data).
+
+
 # Período 1973 a 1995
 
-As secas ou geadas ocasionalmente destroem ou danificam muitos cafezais brasileiros. Pelo fato de o Brasil se o maior produtor mundial de café, as secas ou geadas resultam em um decréscimo na oferta de café e provocam acentuadas elevações do preço. Por exemplo, em julho de 1975, geadas destruíram a maior parte da safra de café que seria colhida entre 1976 e 1977. 
+As secas ou geadas ocasionalmente destroem ou danificam muitos cafezais brasileiros. Pelo fato de o Brasil ser o maior produtor mundial de café, as secas ou geadas resultam em um decréscimo na oferta de café e provocam acentuadas elevações do preço. Por exemplo, em julho de 1975, geadas destruíram a maior parte da safra de café que seria colhida entre 1976 e 1977. 
 
 Como mostra a Figura abaixo, o preço da libra de café em Nova York passou de ```US$ 0,68``` em 1975 para ```US$ 1,23``` em 1976, e para `US$ 3,33` em 1977. Depois, os preços caíram, mas novamente subiram em 1986, após uma seca de sete meses em 1985, que arruinou boa parte da safra brasileira. Por fim, a partir de junho de 1994, geadas seguidas por seca destruíram cerca de metade da safra brasileira de café. Como resultado, o preço em 1994 e 1995 ficou em torno de duas vezes o preço de 1993. 
 
-```{r}
-coffee <- read.csv("coffee-prices-historical-chart-data.csv")
+```{r fig.retina=2}
+coffee <- read_csv("dados/coffee-prices-historical-chart-data.csv", 
+    col_types = cols(date = col_date(format = "%Y-%m-%d")), 
+    skip = 14)
 
-coffee$date <- as.Date(coffee$date)
+last.year <- tail(lubridate::year(coffee$date),1)
+
+#coffee$date <- as.Date(coffee$date)
 
 coffee_plot <- coffee %>% 
   filter(date <= "1995-12-31") %>% 
   ggplot(aes(date, value))+
   scale_x_date(date_breaks = "2 year", date_labels = "%b\n%Y")+
   geom_line(color="#e32d91")+
+  geom_smooth(se=FALSE, color="#4d2de3")+
   labs(y="Preço nominal (dólares por libra)",
        title= "Preço do Café (1973 a 1995)")+
   theme(axis.title.x = element_blank())
@@ -107,13 +68,14 @@ ggplotly(coffee_plot)
 Em 2002, porém, o preço havia caído para o nível mais baixo em 30 anos. Ao atingir uma queda de `US$ 0,45` por libra em 2002, o preço do café aumentou a uma taxa média de 17% ao ano, chegando a `US$ 1,46` — igual ao pico de 1995 — em 2010. 
 O importante na Figura é observar que o aumento de preço ocorrido após secas ou geadas geralmente é de curta duração. Dentro de um ano, o preço começa a cair e, dentro de três ou quatro anos, ele retorna ao nível anterior às geadas.
 
-```{r}
+```{r, fig.retina=2}
 
 coffee_plot <- coffee %>% 
-  filter(date > "1995-12-31") %>% 
+  filter(date > "1995-12-31" & date < "2011-01-01") %>% 
   ggplot(aes(date, value))+
   scale_x_date(date_breaks = "2 year", date_labels = "%b\n%Y")+
   geom_line(color="#e32d91")+
+  geom_smooth(se=FALSE, color="#4d2de3")+
   labs(y="Preço nominal (dólares por libra)",
        title="Preço do Café (1996 a 2010)")+
   theme(axis.title.x = element_blank())
@@ -130,20 +92,21 @@ Ao atingir uma queda de `US$ 0,45` por libra em 2002, o preço do café aumentou
 
 Os produtores de café brasileiros trabalharam para aumentar sua produção na década passada, mas o clima ruim levou a resultados inconsistentes na colheita. O preço do café varia desse modo porque tanto a demanda como a oferta (especialmente a oferta) são muito mais elásticas no longo do que no curto prazo.
 
-Observe que, em um prazo muito curto (um ou dois meses após as geadas), a oferta é completamente inelástica: apenas uma quantidade fixa de grãos de café pode ser produzida no ano, parte da qual foi danificada pelas geadas. A demanda também é relativamente inelástica. Em consequência das geadas, a curva de oferta é deslocada para a esquerda, e o preço aumenta acentuadamente.
+Observe que, em um prazo muito curto (um ou dois meses após as geadas), a **oferta é completamente inelástica**: apenas uma quantidade fixa de grãos de café pode ser produzida no ano, parte da qual foi danificada pelas geadas. A **demanda também é relativamente inelástica**. Em consequência das geadas, a *curva de oferta é deslocada para a esquerda*, e o preço aumenta *acentuadamente*.
 
-No período intermediário — digamos, um ano após as geadas — tanto a oferta quanto a demanda tornam-se mais elásticas. A oferta apresenta-se mais elástica em virtude de os cafezais existentes poderem ter colheitas mais intensivas (com algum prejuízo para a qualidade), e a demanda torna-se mais elástica porque os consumidores tiveram tempo para alterar os hábitos de compra. 
+No médio prazo — digamos, um ano após as geadas — tanto a **oferta** quanto a **demanda** tornam-se **mais elásticas**. A oferta apresenta-se mais elástica em virtude de os cafezais existentes poderem ter colheitas mais intensivas (com algum prejuízo para a qualidade), e a demanda torna-se mais elástica porque os consumidores tiveram tempo para alterar os hábitos de compra. 
 
-Finalmente, no longo prazo, o preço retorna ao nível normal, pois os cafeicultores tiveram tempo para repor os cafezais danificados pelas geadas. A curva de oferta no longo prazo passa, então, a refletir apenas o custo de produção do café, incluindo os custos da terra, do plantio, da manutenção dos cafezais e de uma taxa de lucro competitiva.
+Finalmente, no longo prazo, o preço retorna ao nível normal, pois os cafeicultores tiveram tempo para repor os cafezais danificados pelas geadas. A **curva de oferta** no longo prazo passa, então, a refletir apenas o custo de produção do café, incluindo os custos da terra, do plantio, da manutenção dos cafezais e de uma taxa de lucro competitiva.
 
-```{r}
+```{r fig.retina=2}
 
 coffee_plot <- coffee %>% 
   ggplot(aes(date, value))+
   scale_x_date(date_breaks = "10 year", date_labels = "%b\n%Y")+
   geom_line(color="#e32d91")+
+  geom_smooth(se=FALSE, color="#4d2de3")+
   labs(y="Preço nominal (dólares por libra)",
-       title="Preço do Café (1973 a 2021)")+
+       title=glue("Preço do Café (1973 a {last.year})"))+
   theme(axis.title.x = element_blank())
 
 ggplotly(coffee_plot)
@@ -152,32 +115,57 @@ ggplotly(coffee_plot)
 
 # Instruções
 
-Com base nestas informações:
+## Para o período até 2018
 
-1) Procure explicar de maneira similar como possíveis secas ou outras quedas de produção de café no Brasil (referencie notícias ou informações publicadas em alguma mídia) afetaram o preço entre 2010 e 2021. `(2,5 pts.)`
+1) Revise a análise feita em [Análise Geral] e utilize curvas de oferta e demanda para exemplificá-las, mostrando as diferenças entre um período e outro *(três "fotografias", uma para curto, outra para médio e outra para longo prazos)*. Utilize o conceito de elasticidade também e mostre os gráficos para explicar seus efeitos $(2,0pts)$.
 
-```{r}
+1) Procure explicar de maneira similar a [Análise Geral] quais fatos (p.ex. secas ou quedas de produção de café no Brasil) afetaram o preço entre 2010 e 2018. Obs.: Referencie notícias ou informações publicadas em alguma mídia $(2,0pts)$.
+
+```{r fig.retina=2}
 
 coffee_plot <- coffee %>% 
-  filter(date > "2010-01-01") %>% 
+  filter(date > "2010-01-01" & date < "2019-01-01") %>% 
   ggplot(aes(date, value))+
   scale_x_date(date_breaks = "2 year", date_labels = "%b\n%Y")+
   geom_line(color="#e32d91")+
+  geom_smooth(se=FALSE, color="#4d2de3")+
   labs(y="Preço nominal (dólares por libra)",
-       title="Preço do Café (2010 a 2021)")+
+       title=glue("Preço do Café (2010 a 2018)"))+
   theme(axis.title.x = element_blank())
 
 ggplotly(coffee_plot)
 
 ```
 
-    ```{marginfigure}
-*Dica:* Use o ponto de vista do consumidor, como a pandemia pode ter afetado o consumo de café?.
-    ```
+## Para o período pré, pandemia e pós-pandemia
 
-2) Agora, analise mais específicamente o comportamento do preço do café no período pré-pandemia (2 ou 3 anos anteriores a 2020) e pandemia  (ano 2020). O que aconteceu com os preços? tente representar usando curvas de oferta-demanda. `(2,5 pts.)`
+As próximas questões referem-se ao período pré-pandemia (2 ou 3 anos anteriores a 2020), pandemia  (anos 2020 e 2021) e pós-pandemia (2022).
 
-3) Considerando que, muito provavelmente, a grande quantidade de demissões e desligamentos no ano 2020 tenha reduzido a renda das famílias, utilize a linha de orçamento e as curvas de indiferença para exemplificar o que pode ter acontecido com o consumo de café com relação a outros bens (coloque café no eixo `x`, e o conjunto das outras mercadorias no eixo `y`). Exemplifique utilizando mudanças nas linhas de orçamento e tente explicar os efeitos renda e substituição. `(2,5 pts.)`
+```{r fig.retina=2}
 
-4) Utilizando como base a explicação da elasticidade no curto, intermédio e longo prazos (página 3), realice um gráfico das curvas de oferta e demanda para cada um, e exemplifique com alguns valores de preço e quantidade. `(2,5 pts.)`
+coffee_plot <- coffee %>% 
+  filter(date >= "2017-01-01") %>% 
+  ggplot(aes(date, value))+
+  scale_x_date(date_breaks = "6 month", date_labels = "%b\n%Y")+
+  geom_line(color="#e32d91")+
+  geom_smooth(se=FALSE, color="#4d2de3")+
+  labs(y="Preço nominal (dólares por libra)",
+       title=glue("Preço do Café (2017 a {last.year})"))+
+  theme(axis.title.x = element_blank())
+
+ggplotly(coffee_plot)
+
+```
+
+1) O que aconteceu com os preços desde 2017 até a atualidade? represente os efeitos usando curvas de oferta-demanda $(2,0pts)$.
+
+2) Considerando que, muito provavelmente, a grande quantidade de demissões e desligamentos no ano de 2020 tenha reduzido a renda das famílias, utilize a *reta de orçamento* e as *curvas de indiferença* para exemplificar o que pode ter acontecido com o consumo de café com relação a outros bens (coloque café no eixo $x$, e o conjunto das outras mercadorias no eixo $y$). Exemplifique utilizando mudanças nas *retas de orçamento* e tente explicar os *efeitos renda e substituição*. $(2,0pts)$.
+
+3) Utilizando como base a explicação da elasticidade no curto, médio e longo prazos de [Análise Geral], realice um gráfico das curvas de oferta e demanda para cada um dos períodos abaixo e exemplifique com alguns valores de $preço$ e $quantidade$ para demonstrar o efeito da elasticidade neste mercado para cada período $(2,0 pts)$:
+
+a) pré-pandemia (2 ou 3 anos anteriores a 2020); 
+b) pandemia  (anos 2020 e 2021); e 
+c) pós-pandemia (2022).
+
+ 
 
