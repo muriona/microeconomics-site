@@ -8,6 +8,8 @@ navbar:
       menu:
       - text: "Lab 1"
         href: Lab1.html
+      - text: "Lab 2"
+        href: Lab2.html
     - text: "Tarefas"
       menu: 
       - text: "Tarefa 1"

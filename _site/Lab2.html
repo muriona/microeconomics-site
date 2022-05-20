@@ -9,15 +9,14 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Prof. Mauricio Uriona Maldonado" />
 
 
-<title>EPS 5222 - Modelos Econômicos e Quantitativos</title>
+<title>Lab 2 - Teoria da Produção</title>
 
 <script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
@@ -30,7 +29,12 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 
@@ -57,9 +61,14 @@ if (window.hljs) {
 
 
 
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
 
 
-<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="labs.css" type="text/css" />
 
 
 
@@ -221,7 +230,73 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
 
 
 
@@ -231,6 +306,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -287,27 +372,33 @@ $(document).ready(function () {
 
 <div id="header">
 
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
 
 
-<h1 class="title toc-ignore">EPS 5222 - Modelos Econômicos e
-Quantitativos</h1>
-<h4 class="author">Prof. Mauricio Uriona Maldonado</h4>
+
+<h1 class="title toc-ignore">Lab 2 - Teoria da Produção</h1>
+<h4 class="date">Última versão em 19/05/22</h4>
 
 </div>
 
 
-<div class="figure">
-<img src="img/jaime-lopes-0RDBOAdnbWM-unsplash.jpg" alt="Photo by Jaime Lopes on unsplash" width="960" />
-<p class="caption">
-Photo by Jaime Lopes on unsplash
-</p>
+<div id="sobre-este-laboratório" class="section level1">
+<h1>Sobre este laboratório</h1>
+<p>Baixe a pasta no link abaixo. Abra o arquivo <code>.Rmd</code> no
+RStudio no seu computador.</p>
+<p><a href="data:application/zip;base64,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" download="lab2.zip">Você pode baixar o script aqui.</a></p>
 </div>
-<p>Bem-vindos!</p>
-<p>Neste site vocês encontrarão todas as tarefas que serão realizadas ao
-longo do semestre.</p>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiTGFiIDIgLSBUZW9yaWEgZGEgUHJvZHXDp8OjbyIKb3V0cHV0OiAKICBodG1sX2RvY3VtZW50OgogICAgdG9jOiB0cnVlCiAgICB0b2NfZmxvYXQ6IHRydWUKICAgIGNvZGVfZG93bmxvYWQ6IHRydWUKICAgIHRoZW1lOiBwYXBlcgogICAgY3NzOiBsYWJzLmNzcwpkYXRlOiAiw5psdGltYSB2ZXJzw6NvIGVtIGByIGZvcm1hdChTeXMudGltZSgpLCAnJWQvJW0vJXknKWAiCi0tLQoKCmBgYHtyIHNldHVwLCBpbmNsdWRlPUZBTFNFfQprbml0cjo6b3B0c19jaHVuayRzZXQoZWNobyA9IFRSVUUsIGV2YWw9RkFMU0UpCmBgYAoKIyBTb2JyZSBlc3RlIGxhYm9yYXTDs3JpbwoKQmFpeGUgYSBwYXN0YSBubyBsaW5rIGFiYWl4by4gQWJyYSBvIGFycXVpdm8gYC5SbWRgIG5vIFJTdHVkaW8gbm8gc2V1IGNvbXB1dGFkb3IuCgpgYGB7ciBlY2hvID0gRkFMU0UsIGV2YWw9VFJVRX0KeGZ1bjo6cGtnX2xvYWQyKGMoJ2h0bWx0b29scycsICdtaW1lJykpCnhmdW46OmVtYmVkX2RpcigibGFiMi8iLCB0ZXh0ID0gIlZvY8OqIHBvZGUgYmFpeGFyIG8gc2NyaXB0IGFxdWkuIikKCmBgYAoK</div>
 
 
-
+</div>
+</div>
 
 </div>
 
@@ -339,7 +430,41 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("Lab2.Rmd");
+});
+</script>
 
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

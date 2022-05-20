@@ -1,0 +1,288 @@
+---
+title: "Teoria da Produção"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+
+#knitr::opts_chunk(echo = TRUE)
+
+library(flexdashboard)
+library(shiny)
+library(tidyverse)
+library(plotly)
+library(akima)
+library(Ryacas0)
+library(glue)
+```
+
+# Produção no Curto Prazo
+
+Column {.sidebar data-width=200}
+------------------
+
+A função de produção tem a forma: $F_{(L)}=aL^3+bL^2+cL$
+
+```{r}
+
+sliderInput("a",
+            label = "Selecione o valor de `a`",
+            min = -1,
+            max = 1,
+            value = -0.5,
+            step = 0.05,
+            dragRange = TRUE
+            )
+
+sliderInput("b",
+            label = "Selecione o valor de `b`",
+            min = -1,
+            max = 10,
+            value = 6,
+            step = 0.1,
+            dragRange = TRUE
+            )
+
+sliderInput("c",
+            label = "Selecione o valor de `c`",
+            min = -10,
+            max = 10,
+            value = -1,
+            step = 1,
+            dragRange = TRUE
+            )
+
+```
+
+
+Column {data-width=800 .tabset}
+-----------------------------------------------------------------------
+
+### Função de Produção
+
+```{r echo=FALSE, fig.retina=2}
+
+library(Deriv)
+library(tidyverse)
+library(DT)
+library(glue)
+library(knitr)
+
+#funcao_prod <- function(h){
+  
+#  (154/(1+exp(-0.8*(h-5))))+1
+#}
+
+renderPlotly({
+  
+funcao_prod <- function(x){
+  input$a*x^3+input$b*x^2+input$c*x
+  }
+
+
+L <- seq(from= 0.1, to=20, by=0.1)
+Q <- funcao_prod(L)
+producao <- data.frame(L,Q=round(Q,2))
+
+#datatable(producao, options = list(
+#  initComplete = JS(
+#    "function(settings, json) {",
+#    "$(this.api().table().header()).css({'font-size': '15px', 'background-color': '#c2d1f0', 'color': '#fff'});",
+#    "}"))) %>%  formatStyle(columns = colnames(.$x$data), `font-size` = '12px')
+
+
+
+  
+func_producao <- producao %>% 
+  ggplot(aes(L,Q))+
+  geom_line(color="#e32d91", size=1.2)+
+  geom_hline(yintercept = 0, linetype=3)+
+  geom_label(aes(x=9.5,y=funcao_prod(9.5)), color = "#e32d91", label="Produto Total", size = 5)+
+  annotate(geom = "text", 
+           x = 9.5, 
+           y = funcao_prod(9.5)+5, 
+           label = "Produto Total", 
+           color = "#e32d91")+
+  labs(x = "Horas Trabalhadas x1000 (L)", 
+       y = "Unidades Produzidas x1000 (Q)") +
+  scale_x_continuous(expand = c(0, 0), breaks = seq(0, 10, 1)) +
+  scale_y_continuous(expand = c(0, 0), breaks = seq(-20, 140, 20)) +
+  coord_cartesian(xlim = c(0, 11), ylim = c(-25, 145)) +
+  theme_light()+
+  theme(axis.text=element_text(size=10),
+        axis.title=element_text(size=10, face="bold"))
+  
+  ggplotly(func_producao)
+})
+
+```
+
+
+
+### PMg e PMe
+
+```{r fig.retina=2}
+
+renderPlotly({
+  
+  funcao_prod <- function(x){
+  input$a*x^3+input$b*x^2+input$c*x
+  }
+  
+L <- seq(from= 0.1, to=20, by=0.1)
+Q <- funcao_prod(L)
+producao <- data.frame(L,Q=round(Q,2))
+
+PMg <- Deriv(funcao_prod, "x")
+
+
+producao <- producao %>% 
+  mutate(
+         PMg = PMg(L),
+         PMe = (Q/L))
+
+PMe_empirical <- splinefun(x=producao$L,
+                             y=producao$PMe)
+
+producao <- producao %>% 
+  mutate(PMe = round(PMe, 2),
+         PMg = round(PMg, 2))
+
+colors <- c("PMg" = "orange", "PMe"="blue")
+
+outputperunit <- producao %>% 
+ # filter(L>1) %>% 
+  ggplot(aes(x=L))+
+  geom_line(aes(y= PMg, color="PMg"), size=1.2)+
+  geom_line(aes(y=PMe, color="PMe"), size=1.2)+
+  geom_hline(yintercept = 0, linetype = 2)+
+  annotate(geom = "text", 
+           x = 7.5, 
+           y = PMg(7.5)+5, 
+           label = "PMg", 
+           color = "orange")+
+  annotate(geom = "text", 
+           x = 9.5, 
+           y = PMe_empirical(9.5)+5, 
+           label = "PMe", 
+           color = "blue")+
+  scale_color_manual(values=colors)+
+  labs(x = "Horas Trabalhadas x1000 (L)", 
+       y = "Unidades x1000 por horas x1000 (Q/L)") +
+  scale_x_continuous(expand = c(0, 0), breaks = seq(0, 10, 1)) +
+  scale_y_continuous(expand = c(0, 0), breaks = seq(-20, 40, 10)) +
+  coord_cartesian(xlim = c(0, 11), ylim = c(-25, 45)) +
+  theme_light()+
+  theme(axis.text=element_text(size=10),
+        axis.title=element_text(size=10, face="bold"),
+        legend.position = "none")
+
+
+
+ggplotly(outputperunit)
+})
+```
+
+
+# Produção no Longo Prazo
+
+
+Column {.sidebar data-width=200}
+------------------
+
+A função de produção tem a forma: $F_{(K,L)}=AL^aK^b$
+
+
+```{r}
+
+sliderInput("A",
+            label = "Selecione o coeficiente 'A'",
+            min = 0.1,
+            max = 3,
+            value = 1,
+            step = 0.05,
+            dragRange = TRUE
+            )
+
+sliderInput("coefa",
+            label = "Selecione o coeficiente de `a` de `L`",
+            min = 0.1,
+            max = 3,
+            value = 0.5,
+            step = 0.1,
+            dragRange = TRUE
+            )
+
+sliderInput("coefb",
+            label = "Selecione o coeficiente de `b` de `K`",
+            min = 0.1,
+            max = 3,
+            value = 0.5,
+            step = 0.1,
+            dragRange = TRUE
+            )
+
+sliderInput("utilidade",
+            label = "Selecione o Total de Produto 'Q'",
+            min = 0,
+            max = 1000,
+            value = 500,
+            step = 50,
+            dragRange = TRUE
+            )
+```
+
+Column {data-width=800}
+-----------------------------------------------------------------------
+
+### Desenhando as Isoquantas
+
+```{r, fig.retina=2}
+
+renderPlotly({
+
+coefa <- input$coefa
+
+coefb <- input$coefb
+
+A <- input$A
+
+utility_y <- function(my_x, my_U) {
+  my_U^(1/input$coefb)/(A^(1/input$coefb)*my_x^(coefa/coefb))
+}
+
+data_ci <- tibble(x=0:1000,
+                 U=input$utilidade,
+                 y=utility_y(x,U))
+
+indif_curva <- data_ci %>% 
+  ggplot(aes(x,y)) +
+  geom_line(size=1.2, color="darkblue")+
+  annotate(geom = "text", 
+           x = 250, 
+           y = utility_y(250,input$utilidade)+20, 
+           label = glue("Q={input$utilidade}"), 
+           color = "darkblue")+
+  annotate(geom="text",
+           x = 400,
+           y = 3000,
+           label = glue("Função de Produção: Q = {input$A}L^{input$coefa} * K^{input$coefb}"),
+           color = "darkblue")+
+  labs(x="Horas Trabalhadas", y="Capital Utilizado")+
+  scale_x_continuous(expand = c(0, 0), breaks = seq(0, 500, 100)) +
+  scale_y_continuous(expand = c(0, 0), breaks = seq(0, 4000, 1000)) +
+  coord_cartesian(xlim = c(0, 500), ylim = c(0, 4000)) +
+  theme_light()
+
+ggplotly(indif_curva)
+
+})
+
+
+```
+
+
