@@ -1,0 +1,195 @@
+---
+title: "Teoria da Produção"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+
+#knitr::opts_chunk(echo = TRUE)
+
+library(flexdashboard)
+library(shiny)
+library(tidyverse)
+library(plotly)
+library(akima)
+library(Ryacas0)
+library(glue)
+```
+
+
+# Custos no Longo Prazo
+
+
+Column {.sidebar data-width=200}
+------------------
+
+A função de produção tem a forma: $F_{(K,L)}=AL^aK^b$
+
+
+```{r}
+
+sliderInput("A",
+            label = "Selecione o coeficiente 'A'",
+            min = 0.1,
+            max = 3,
+            value = 1,
+            step = 0.05,
+            dragRange = TRUE
+            )
+
+sliderInput("coefa",
+            label = "Selecione o coeficiente de `a` de `L`",
+            min = 0.1,
+            max = 3,
+            value = 0.5,
+            step = 0.1,
+            dragRange = TRUE
+            )
+
+sliderInput("coefb",
+            label = "Selecione o coeficiente de `b` de `K`",
+            min = 0.1,
+            max = 3,
+            value = 0.5,
+            step = 0.1,
+            dragRange = TRUE
+            )
+
+sliderInput("utilidade",
+            label = "Selecione o Total de Produto 'Q'",
+            min = 10000,
+            max = 35000,
+            value = 30000,
+            step = 1000,
+            dragRange = TRUE
+            )
+
+sliderInput("w",
+            label = "Selecione o custo 'w' de L",
+            min = 0,
+            max = 5,
+            value = 2,
+            step = 0.5,
+            dragRange = TRUE
+            )
+
+sliderInput("r",
+            label = "Selecione o custo 'r' de K",
+            min = 0,
+            max = 5,
+            value = 2,
+            step = 0.5,
+            dragRange = TRUE
+            )
+
+sliderInput("isocost",
+            label = "Selecione o orçamento",
+            min = 50000,
+            max = 150000,
+            value = 80000,
+            step = 2000,
+            dragRange = TRUE
+            )
+
+```
+
+Column {data-width=800}
+-----------------------------------------------------------------------
+
+### Desenhando as Isoquantas
+
+
+
+
+```{r, fig.retina=2}
+
+library(Ryacas0)
+
+renderPlotly({
+
+price_w <- input$w
+
+price_r <- input$r
+
+isocost <- input$isocost
+
+isocost_line <- function(x) (-price_w/price_r) * x + (isocost/price_r)
+
+coefa <- input$coefa
+
+coefb <- input$coefb
+
+A <- input$A
+
+utility_y <- function(my_x, my_U) {
+  my_U^(1/input$coefb)/(A^(1/input$coefb)*my_x^(coefa/coefb))
+}
+
+data_ci <- tibble(x=0:50000,
+                 Q=input$utilidade,
+                 Isoquanta=utility_y(x,Q),
+                 Isocusto=isocost_line(x))
+
+
+data_ci2 <- data_ci %>% 
+  filter(x>=1) 
+
+isoquanta_empirical <- splinefun(x=data_ci2$x,
+                             y=data_ci2$Isoquanta)
+
+#optimal_L <- uniroot(function(x) isocost_line(x) - isoquanta_empirical(x), c(10000,15000))
+
+#optimal_K <- isoquanta_empirical(optimal_L$root)
+
+
+
+
+indif_curva <- data_ci %>%
+  pivot_longer(-x:-Q) %>% 
+  ggplot(aes(x,value, color=name)) +
+  geom_line(size=1.2)+
+  annotate(geom = "text", 
+           x = 40000, 
+           y = utility_y(40000,input$utilidade)+2000, 
+           label = glue("Q={input$utilidade}"), 
+           color = "darkblue",
+           size = 5)+
+  annotate(geom="text",
+           x = 40000,
+           y = 80000,
+           label = glue("Função de Produção: Q = {input$A}L^{input$coefa} * K^{input$coefb}"),
+           color = "darkblue")+
+  annotate(geom="text",
+           x = 40000,
+           y = 70000,
+           label = glue("Eq. Isocusto: K = {round(isocost/price_r,0)}-{(price_w/price_r)}L"),
+           color = "darkblue")+
+   annotate(geom="text",
+           x = 40000,
+           y = 60000,
+           label = glue("Custo Total = {isocost}"),
+           color = "darkblue")+
+  labs(x = "Horas Trabalhadas (L)", 
+       y = "Horas de Capital (K)") +
+  # Make the axes go all the way to zero
+  scale_x_continuous(expand = c(0, 0), breaks = seq(0, 50000, 10000),
+                     labels = scales::comma) +
+  scale_y_continuous(expand = c(0, 0), breaks = seq(0, 100000, 20000),
+                     labels = scales::comma) +
+  coord_cartesian(xlim = c(0, 55000), ylim = c(0, 110000))+
+  theme_classic()+
+  theme(axis.text=element_text(size=14),
+        axis.title=element_text(size=14, face="bold"))
+
+ggplotly(indif_curva)
+
+})
+
+
+```
+
+
