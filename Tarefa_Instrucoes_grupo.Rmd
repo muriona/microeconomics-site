@@ -1,0 +1,48 @@
+---
+title: "Autoavaliação das Tarefas em Grupo"
+subtitle: "Semestre 2022.1"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    theme: paper
+    css: tarefas.css
+link-citations: yes
+---
+
+
+
+```{r grassmarket, fig.margin = TRUE, echo = FALSE, warning=FALSE, message=FALSE, fig.width=3, fig.cap="Photo by Javier Quesada on Unsplash"}
+knitr::include_graphics("img/javier-quesada-qYfwGVNJqSA-unsplash.jpg")
+
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE)
+```
+
+# Autoavaliação das Tarefas
+
+- Considerando que alguns alunos relataram desequilíbrio na realização da primeira tarefa, estaremos implementando um mecanismo de autoavaliação, na expectativa de equilibrar os esforços dos membros do grupo.
+-   Um formulário online estará disponível para que cada membro do grupo informe sobre o % de participação de cada um. Este formulário chamado de `Autoavaliação` servirá também para atribuir as notas individuais. O formulário encontra-se [aqui](https://forms.gle/cB4Yo71HRas6ay4b7).
+-   Espera-se que cada membro contribua com um percentual similar para a execução de cada Tarefa. Esta contribuição servirá para ponderar as notas individuais conforme a figura a seguir:
+
+```{r}
+library(tidyverse)
+library(plotly)
+contribuicao <- tibble(contribuicao = 0:35) %>% 
+mutate(ponderacao = round(1/(1+exp(-0.6*(contribuicao-19))),3))
+
+logistica <- ggplot(contribuicao, aes(contribuicao, ponderacao))+
+  geom_line(color="#e32d91", size=1.2)+
+  theme_minimal()+
+  labs(x="contribuição individual à Tarefa (%)",
+       y="ponderação na nota individual")+
+  scale_y_continuous(labels=scales::comma)+
+  coord_cartesian(xlim = c(0,30))+
+  theme_classic()
+
+ggplotly(logistica, dynamicTicks = TRUE)
+```
+
+-   A `ponderação` na figura anterior representa a redução da nota individual à medida que a contribuição diminui proporcionalmente àquela dos outros colegas do grupo

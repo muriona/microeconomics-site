@@ -61,10 +61,10 @@ sliderInput("coefb",
 
 sliderInput("utilidade",
             label = "Selecione o Total de Produto 'Q'",
-            min = 10000,
+            min = 100,
             max = 35000,
             value = 30000,
-            step = 1000,
+            step = 100,
             dragRange = TRUE
             )
 
@@ -80,7 +80,7 @@ sliderInput("w",
 sliderInput("r",
             label = "Selecione o custo 'r' de K",
             min = 0,
-            max = 5,
+            max = 8,
             value = 2,
             step = 0.5,
             dragRange = TRUE
@@ -88,10 +88,10 @@ sliderInput("r",
 
 sliderInput("isocost",
             label = "Selecione o orçamento",
-            min = 50000,
+            min = 10,
             max = 150000,
             value = 80000,
-            step = 2000,
+            step = 10,
             dragRange = TRUE
             )
 
