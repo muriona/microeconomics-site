@@ -1,0 +1,27 @@
+---
+title: "Lab 4 - Competição Perfeita"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    code_download: true
+    theme: paper
+    css: labs.css
+date: "Última versão em `r format(Sys.time(), '%d/%m/%y')`"
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval=FALSE)
+```
+
+# Sobre este laboratório
+
+Baixe a pasta no link abaixo. Abra o arquivo `.Rmd` no RStudio no seu computador.
+
+```{r echo = FALSE, eval=TRUE}
+xfun::pkg_load2(c('htmltools', 'mime'))
+xfun::embed_dir("lab4/", text = "Você pode baixar o script aqui.")
+
+```
+

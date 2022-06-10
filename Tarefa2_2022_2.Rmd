@@ -1,0 +1,417 @@
+---
+title: "Tarefa 2 - Teoria da Produção e Estruturas de Mercado"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    theme: paper
+    css: tarefas.css
+link-citations: yes
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+```
+
+```{r grassmarket}
+
+
+library(Deriv)
+library(tidyverse)
+library(readxl)
+library(directlabels)
+library(cowplot) # for arranging plots
+
+```
+
+# Dados
+
+Para aplicar os conhecimentos sobre a Teoria da Produção e Estruturas de Mercado vamos usar o caso do setor de tabletas (barras) de chocolate
+
+```{r fig.margin = TRUE, echo = FALSE, warning=FALSE, message=FALSE, fig.width=3, fig.cap="Foto de Tetiana Bykovets em Unsplash"}
+
+knitr::include_graphics("img/tetiana-bykovets-H22N-9s8AUw-unsplash.jpg")
+
+```
+
+# Mercado em Concorrência Perfeita
+
+Inicialmente vamos assumir que a função de demanda nacional de tabletes de chocolate está definida por: $Q^{D}(p)=45-0.45p$, onde $Q$ está medido em **milhões de tabletes por mês** e $p$ em R$ por tablete.
+
+E que a função de produção de uma firma qualquer nesse mercado está definida por $q_{(K,L)}=K^{0.5}L^{0.5}$, onde $q$ está medida em **tabletes por mês**. 
+
+O custo de mão de obra é $w=10$ Reais por hora e o custo de capital é $r=22$ Reais por hora de máquina. No curto prazo, existem 1000 empresas no setor, cada uma com $K=9$ mil horas de máquina por mês.
+
+Uma amostra dos dados de produção de uma firma qualquer são mostrados a seguir:
+
+```{r table}
+library(DT)
+
+w = 10
+K = 9000
+r = 22
+
+cobb <- function(L){
+  (K^0.5)*L^0.5
+}
+
+
+data <- data.frame(L=1:200000)
+
+data <- data %>% 
+  mutate(Q=cobb(L))
+
+skip <- 999
+take <- 1
+total <- nrow(data)
+reps <- total %/% (skip+take)
+index <- rep(0:(reps-1),each=take)*(skip+take)+(1:take)+skip
+
+data_sample <- data %>% 
+  mutate(q=round(Q,1),
+         K = K) 
+
+data_sample <- data_sample[index,]
+
+data_sample %>% 
+  select(K,L,q) %>% 
+  datatable(rownames = F,
+            extensions = "Buttons", 
+            options = list(paging = TRUE,
+                           scrollX=TRUE, 
+                           searching = TRUE,
+                           ordering = TRUE,
+                           dom = 'Bfrtip',
+                           buttons = c('copy', 'csv', 'excel'),
+                           pageLength=5, 
+                           lengthMenu=c(3,5,10)))
+         
+data <- data %>% 
+  mutate(CV = L*10,
+         CF = K*r,
+         CT = CV + CF,
+         CTeq=(K*r)+(Q^2)*w/9000)
+
+
+```
+
+
+Com base nestas informações:
+
+1. Grafique a função de produção de curto prazo de uma empresa qualquer no setor
+
+```{r fp}
+
+
+prod_plot <- data %>% 
+  ggplot(aes(L,Q))+
+  geom_line(size=1)+
+  theme_bw()
+
+
+```
+
+2. Com esses dados é possível calcular a Função (equação) do Custo Total de uma empresa qualquer. Informe-a aqui.
+
+```{r ct}
+
+CT <- function(q){
+  (K*r)+(q^2)*w/K
+}
+
+```
+
+
+
+3. Calcule a Função de Custo Marginal de uma empresa qualquer e informe-a aqui
+
+```{r}
+
+CMg <- Deriv(CT, "q")
+
+```
+
+
+4. Grafique o custo total, custo variável, custo fixo para uma empresa. Use $q$ no eixo horizontal e $Reais$ no eixo vertical
+
+```{r ctplot}
+ct_plot <- data %>% 
+  pivot_longer(3:5) %>% 
+  ggplot(aes(Q,value/1000000, color=name))+
+  geom_line(size=1)+
+  labs(y="Milhões de R$")+
+  theme_bw()
+
+#ct_plot
+```
+
+
+5. Grafique o custo médio, custo variável médio, custo fixo médio e custo marginal de curto prazo para uma empresa. Use $q$ tabletes por mês no eixo horizontal e **R$ por tablete** no eixo vertical
+
+```{r}
+
+data <- data %>% 
+  mutate(CVMe = CV/Q,
+         CFMe = CF/Q,
+         CMe = CT/Q,
+         CMg = CMg(Q)) 
+
+custos_unitarios_plot <- data %>% 
+  pivot_longer(7:10) %>% 
+  ggplot(aes(Q, value, color=name))+
+  geom_line(size=1.2)+
+  scale_y_continuous(limits = c(0,100),
+                     n.breaks = 10)+
+  scale_x_continuous(limits = c(0,40000))+
+  theme_bw()
+
+#custos_unitarios_plot
+
+```
+
+
+6. Grafique as curvas de oferta e demanda de curto prazo para o mercado de tabletes de chocolate e encontre a quantidade e preço de equilíbrio. Coloque $Q$ em milhões de tabletes no eixo horizontal e **R$ por tablete** no eixo vertical.
+
+**Dica** calcule inicialmente a função *inversa* da Demanda, ou seja, $p$ em função de $Q^{D}$:
+$$Demanda=p(Q^{D})=a-bQ^{D}$$
+
+**Dica 2** a função de oferta do mercado é igual à soma das funções de oferta de cada empresa: $$Q^{O}(p)=\sum_{i=1}^{1000}q(p)_{i}=1000q(p)_{i}$$. 
+
+Logo, calcule a função *inversa* da Oferta, ou seja, $p$ em função de $Q^{O}$: $$Oferta=p(Q^{O})=a+bQ^{O}$$
+
+```{r demanda2}
+
+demanda <- function(Q){
+  100-(2.22*Q)
+}
+
+data <- data %>% 
+  mutate(Q_mercado = Q*1000,
+         Demanda = demanda(Q_mercado)) 
+
+#data %>% 
+#  select(Q_mercado, Demanda, CMg) %>% 
+#  pivot_longer(2:3) %>% 
+#  ggplot(aes(Q_mercado,value, color=name))+
+#  geom_line(size=1.2)+
+#  scale_y_continuous(limits = c(0,100))+
+#  scale_x_continuous(labels=scales::comma)
+
+#demanda = 100 - 4e-06Q
+#oferta = 2.22e-06Q
+
+#Q_eq = 16.07e06
+#P_eq = 35.67 R$
+
+
+
+```
+
+```{r demanda}
+
+
+data2 <- data.frame(Q=1:40)
+
+data2 <- data2 %>% 
+  mutate(Demanda=demanda(Q),
+         Oferta = 1000*CMg(Q)) 
+
+lm1 <- lm(Demanda ~ Q, data=data2)
+lm2 <- lm(Oferta ~ Q, data=data2)
+
+Demanda_func <- function(Q){
+  coef(lm1)[1] + coef(lm1)[2]*Q
+}
+
+optimal <- uniroot(function(x) 1000*CMg(x) - Demanda_func(x), c(10,30))
+
+Q_otimo <- optimal$root
+P_otimo <- Demanda_func(Q_otimo)
+
+oferta_demanda_plot <- data2 %>% 
+  pivot_longer(2:3) %>% 
+  ggplot(aes(Q, value, color=name))+
+  geom_line(size=1.2)+
+  coord_cartesian(xlim = c(0,40), ylim = c(0,100))+
+  scale_y_continuous(n.breaks = 10)+
+  theme_bw()
+
+#oferta_demanda_plot
+
+```
+
+
+7. Encontre no gráfico da questão $5$, o Lucro de curto prazo para cada empresa e a sua produção ótima. Coloque $q$ em tabletes por mês no eixo horizontal e **R$ por tablete** no eixo vertical.
+
+```{r}
+
+RMg <- function(x){50}
+
+
+```
+
+```{r}
+optimal_q <- uniroot(function(x) CMg(x) - RMg(x), c(20000,30000))
+
+q_otimo <- optimal_q$root
+
+CMe_otimo <- CT(q_otimo)/q_otimo
+
+
+lucro <- data %>% 
+  pivot_longer(7:10) %>% 
+  ggplot(aes(Q, value, color=name))+
+  geom_line(size=1.2)+
+  geom_hline(yintercept = P_otimo, linetype = 2, size=1) + 
+  geom_hline(yintercept = CMe_otimo, linetype = 2)+
+  geom_vline(xintercept = q_otimo, linetype = 2)+
+  scale_y_continuous(limits = c(0,100),
+                     n.breaks = 10)+
+  scale_x_continuous(limits = c(0,40000))+
+  theme_bw()
+
+#lucro
+
+
+Lucro_Total <- (q_otimo*P_otimo)-CT(q_otimo)
+
+```
+8. O que irá acontecer no Longo Prazo? qual será o novo preço e quantidade ótima de cada firma? Use o gráfico da questão 7 com as novas informações de preço e quantidade.
+
+```{r}
+
+optimal_q_lp <- uniroot(function(x) CMg(x) - CT(x)/x, c(10000,20000))
+
+q_otimo_lp <- optimal_q_lp$root
+
+P_otimo_lp <- CMg(q_otimo_lp)
+
+lucro_lp_plot <- data %>% 
+  pivot_longer(7:10) %>% 
+  ggplot(aes(Q, value, color=name))+
+  geom_line(size=1.2)+
+  geom_hline(yintercept = P_otimo_lp, linetype = 2, size=1) + 
+  geom_vline(xintercept = q_otimo_lp, linetype = 2)+
+  scale_y_continuous(limits = c(0,100),
+                     n.breaks = 10)+
+  scale_x_continuous(limits = c(0,40000))+
+  theme_bw()
+
+#lucro_lp_plot
+
+```
+
+
+9. Mostre o novo equilíbrio do mercado de tabletes de chocolate com base no novo preço. Use o gráfico da questão 6 e além das curvas já apresentadas, adicione a nova curva de oferta.
+
+```{r}
+
+oferta_lp <- function(Q){
+  (2.22*Q)-40.73
+}
+
+oferta_demanda_lp <- data2 %>% 
+  mutate(O_LP = oferta_lp(Q)) %>% 
+  pivot_longer(2:4) %>% 
+  ggplot(aes(Q,value, color=name))+
+  geom_line()+
+  coord_cartesian(xlim=c(0,40),
+                  ylim=c(0,100))+
+  theme_bw()
+
+
+optimal_Q_lp <- uniroot(function(x) oferta_lp(x) - Demanda_func(x), c(30,40))
+
+Q_otimo_lp <- optimal_Q_lp$root
+
+
+Firmas_lp <- (Q_otimo_lp*1000000)/q_otimo_lp
+
+#oferta_demanda_lp
+
+```
+
+10. Considerando este equilíbrio de longo prazo, quantas empresas fazem, agora, parte do mercado? Lembrando que a quantidade inicial era de 1000 empresas.
+
+# Mercado em Monopólio
+
+Ao longo do tempo empresas acabam entrando e saindo e algumas poucas acabam ficando maiores. Vamos supor que uma única empresa fique no mercado de tabletes de chocolate nacional devido às economias de escala, à fusão com outras empresas menores e aos custos crescentes de produção de chocolate (dificultando as operações de menor porte e privilegiando as grandes empresas produtoras).
+
+Esta estrutura de mercado configura-se agora, como um Monopólio.
+
+Vamos assumir a mesma curva de Demanda do mercado: $$Q^{D}(p)=45-0.45p$$
+
+A Receita Total da empresa monopolista: $RT=100Q-2.22Q^2$
+
+**Observação** A equação da Receita Total acima também pode ser calculada ao multiplicar a função inversa da demanda pela quantidade $Q$.
+
+E o custo marginal da empresa monopolista: $CMg=0.1Q^2$
+
+```{r}
+
+RMg_monopolio <- function(Q){
+  100-(4.44*Q)
+}
+
+CMg_monopolio <- function(Q){
+  0.1*Q^2
+}
+
+optimal_Q_monopolio <- uniroot(function(x) RMg_monopolio(x) - CMg_monopolio(x), c(10,20))
+
+Q_otimo_monopolio <- optimal_Q_monopolio$root
+
+P_monopolio <- Demanda_func(Q_otimo_monopolio)
+
+CMe_monopolio <- (0.1/3)*(Q_otimo_monopolio)^2
+
+monopolio_plot <- data2 %>% 
+  mutate(RMg = RMg_monopolio(Q),
+         CMg = CMg_monopolio(Q),
+         CMe = (0.1/3)*Q^2) %>% 
+  select(-Oferta) %>% 
+  pivot_longer(2:5) %>% 
+  ggplot(aes(Q,value, color=name))+
+  geom_line(size=1)+
+  geom_hline(yintercept = P_monopolio, linetype=2)+
+  geom_hline(yintercept = CMe_monopolio, linetype=2)+
+  geom_vline(xintercept = Q_otimo_monopolio, linetype=2)+
+  coord_cartesian(xlim=c(0,40),
+                  ylim=c(0,100))+
+  theme_bw()
+
+#monopolio_plot
+
+
+Lucro_monopolio <- Q_otimo_monopolio*(P_monopolio-CMe_monopolio)
+
+```
+
+11. Considerando estas novas informações, qual é a quantidade em milhões de tabletes, que a empresa deve produzir? Qual preço deve cobrar?
+
+12. Qual é o excedente do consumidor? excedente do produtor? e excedente do mercado?
+
+13. Qual é a perda de peso morto deste mercado?
+
+14. Quais são os lucros da empresa monopolista?
+
+15. Grafique as curvas de Receita Total, Custo Total e Lucro para a empresa monopolista
+
+```{r}
+
+monopolio_plot <- data2 %>% 
+  mutate(RT=(100*Q)-(2.22*Q^2),
+         CT = (0.1/3)*Q^3,
+         L = RT-CT) %>% 
+  select(Q, RT, CT, L) %>% 
+  pivot_longer(2:4) %>% 
+  ggplot(aes(Q, value, color=name))+
+  geom_line(size=1)+
+  coord_cartesian(xlim=c(0,40),
+                  ylim=c(0,2000))+
+  theme_bw()
+
+#monopolio_plot
+```
+

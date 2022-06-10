@@ -1,6 +1,8 @@
 ---
 title: "Tarefa 2 - Teoria da Produção e Externalidades"
 output: 
+  pdf_document:
+    latex_engine: xelatex
   html_document:
     toc: true
     toc_float: true
@@ -21,6 +23,7 @@ library(tidyverse)
 library(readxl)
 library(directlabels)
 library(cowplot) # for arranging plots
+
 
 ```
 
