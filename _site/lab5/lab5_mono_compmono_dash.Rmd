@@ -1,0 +1,205 @@
+---
+title: "Monopólio e Competência Monopolística"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+
+#knitr::opts_chunk(echo = TRUE)
+
+library(flexdashboard)
+library(shiny)
+library(tidyverse)
+library(plotly)
+library(akima)
+library(Ryacas0)
+library(glue)
+library(directlabels)
+library(Deriv)
+
+
+```
+
+# Monopólio e Concorrência Monopolística
+
+
+Column {.sidebar data-width=200}
+------------------
+
+O Custo Total tem a forma: $CT=a+bQ^{c}$
+
+```{r}
+
+sliderInput("Ad",
+            label = "Altere a Curva de Demanda",
+            min = 20,
+            max = 50,
+            value = 40,
+            step = 1,
+            dragRange = TRUE
+            )
+
+sliderInput("a",
+            label = "Altere o coef `a` do Custo Total",
+            min = 0,
+            max = 100,
+            value = 50,
+            step = 10,
+            dragRange = TRUE
+            )
+
+sliderInput("b",
+            label = "Altere o coef `b` do Custo Total",
+            min = 0.1,
+            max = 3,
+            value = 1,
+            step = 0.1,
+            dragRange = TRUE
+            )
+
+sliderInput("c",
+            label = "Altere o coef `c` do Custo Total",
+            min = 1,
+            max = 3,
+            value = 2,
+            step = 0.1,
+            dragRange = TRUE
+            )
+
+```
+
+
+Column {data-width=800 .tabset}
+-----------------------------------------------------------------------
+
+### CMg, RMg, CMe
+
+```{r}
+
+dados <- data.frame(q=seq(from=0, to=20, by=0.1))
+
+renderPlotly({
+
+intercept_d <- input$Ad
+
+demanda <- function(q) intercept_d - q
+receita <- function(q) demanda(q)*q
+custo <- function(q) input$a + (input$b)*q^input$c
+lucro <- function(q) receita(q) - custo(q)
+
+
+RMg <- Deriv(receita, "q")
+
+CMg <- Deriv(custo, "q")
+
+CMe <- function(q) custo(q)/q
+
+RMe <- function(q) receita(q)/q
+
+
+optimal_q <- uniroot(function(x) CMg(x) - RMg(x), 
+                     c(1,20))
+
+q_otimo <- optimal_q$root
+p_otimo <- demanda(q_otimo)
+CMg_otimo <- CMg(q_otimo)
+
+Lerner <- round((p_otimo - CMg(q_otimo))/p_otimo,3)
+Elasticidade <- round(-1/Lerner,2)
+    
+plot2 <- dados %>% 
+  mutate(D = demanda(q),
+         CMg = CMg(q),
+         RMg = RMg(q),
+         CMe = round(CMe(q),1)) %>% 
+  pivot_longer(-q, names_to = "Variaveis", values_to="Valor") %>% 
+  ggplot(aes(q,Valor, color=Variaveis))+
+  geom_line(size=1.2)+
+  annotate("text", x=19,y=50, label=glue("P={round(p_otimo,2)}R$/u"))+
+  annotate("text", x=19, y=45, label=glue("Q={round(q_otimo,2)}mil u"))+
+  annotate("text", x=19, y=40,
+           label=glue("Lucro={round(lucro(q_otimo),2)}mil R$"))+
+  annotate("text", x=19, y=35,
+           label=glue("Lerner={100*Lerner}%"))+
+  annotate("text", x=19, y=30,
+           label=glue("Elasticidade={Elasticidade}"))+
+  labs(x="Quantidade (milhares de unidades)", y="R$ por unidade")+
+  theme_classic()+
+    theme(legend.position = "none")+
+  scale_y_continuous(limits = c(0, 50))+
+  geom_vline(xintercept = optimal_q$root,
+             linetype = 3)+
+  geom_hline(yintercept = demanda(optimal_q$root),
+             linetype = 3)+
+  geom_rect(aes(xmin=0, xmax=optimal_q$root, 
+                ymin=CMe(optimal_q$root), 
+                ymax=demanda(optimal_q$root)),
+            fill = "yellow", color = "yellow",
+            alpha=0.5)
+
+  ggplotly(plot2)
+
+})
+
+```
+
+### Custo Total, Receita Total, Lucro
+
+```{r}
+
+
+renderPlotly({
+
+
+demanda <- function(q) input$Ad - q
+receita <- function(q) demanda(q)*q
+custo <- function(q) input$a + (input$b)*q^input$c
+lucro <- function(q) receita(q) - custo(q)
+
+
+RMg <- Deriv(receita, "q")
+
+CMg <- Deriv(custo, "q")
+
+CMe <- function(q) custo(q)/q
+
+RMe <- function(q) receita(q)/q
+
+
+optimal_q <- uniroot(function(x) CMg(x) - RMg(x), 
+                     c(1,20))
+
+q_otimo <- optimal_q$root
+p_otimo <- demanda(q_otimo)
+
+
+Total <- dados %>% 
+  mutate(D = demanda(q),
+         CT = custo(q),
+         RT = receita(q),
+         L = lucro(q)) %>% 
+  select(-D) %>% 
+  pivot_longer(-q,names_to = "Variaveis", values_to="Valor") %>% 
+  ggplot(aes(q, Valor, color = Variaveis))+
+  geom_line(size = 1.2)+
+  annotate("text", x=19,y=300, label=glue("P={round(p_otimo,2)}R$ por u"))+
+  annotate("text", x=19, y=250, label=glue("Q={round(q_otimo,2)}mil u"))+
+  annotate("text", x=19, y=200,
+           label=glue("Lucro={round(lucro(q_otimo),2)}mil R$"))+
+  labs(x="Quantidade (milhares de unidades)", y="Milhares de R$")+
+  theme_classic()+
+  theme(legend.position = "none")+
+  scale_y_continuous(limits = c(0,500))+
+  geom_hline(yintercept = lucro(optimal_q$root),
+             linetype = 3)
+
+  ggplotly(Total)
+
+})
+
+```
+

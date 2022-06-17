@@ -14,6 +14,8 @@ navbar:
         href: Lab3.html
       - text: "Lab 4"
         href: Lab4.html
+      - text: "Lab 5"
+        href: Lab5.html
     - text: "Tarefas"
       menu: 
       - text: "Autoavaliação"
