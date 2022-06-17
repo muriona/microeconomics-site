@@ -4,12 +4,12 @@ author: Prof. Mauricio Uriona Maldonado
 ---
 
 
-```{r photo, fig.margin = TRUE, echo = FALSE, fig.width=3, fig.cap="Photo by Jaime Lopes on unsplash"}
-knitr::include_graphics("img/jaime-lopes-0RDBOAdnbWM-unsplash.jpg")
+```{r photo, fig.margin = TRUE, echo = FALSE, fig.width=3, fig.cap="Photo by Mick Haupt on unsplash"}
+knitr::include_graphics("img/mick-haupt-qfrtUw4NBPQ-unsplash.jpg")
 
 ```
 
 
 Bem-vindos!
 
-Neste site vocês encontrarão todas as tarefas que serão realizadas ao longo do semestre.
+Neste site vocês encontrarão todas as tarefas que serão realizadas ao longo do semestre além de outros materiais.

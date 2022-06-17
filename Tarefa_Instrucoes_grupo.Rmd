@@ -31,7 +31,7 @@ knitr::opts_chunk$set(echo = FALSE, message = FALSE)
 library(tidyverse)
 library(plotly)
 contribuicao <- tibble(contribuicao = 0:35) %>% 
-mutate(ponderacao = round(1/(1+exp(-0.6*(contribuicao-19))),3))
+mutate(ponderacao = round(1/(1+exp(-0.4*(contribuicao-20))),3))
 
 logistica <- ggplot(contribuicao, aes(contribuicao, ponderacao))+
   geom_line(color="#e32d91", size=1.2)+
