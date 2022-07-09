@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021) (preloaded format=xelatex 2022.3.29)  17 JUN 2022 12:11
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021) (preloaded format=xelatex 2022.3.29)  8 JUL 2022 21:18
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -734,26 +734,16 @@ LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
 (Font)              scaled to size 4.99947pt on input line 85.
 File: Tarefa2_files/figure-latex/unnamed-chunk-1-1.pdf Graphic file (type pdf)
 <use Tarefa2_files/figure-latex/unnamed-chunk-1-1.pdf>
-File: img/hakan-nural-YCVUR2JgfHA-unsplash.jpg Graphic file (type bmp)
-<img/hakan-nural-YCVUR2JgfHA-unsplash.jpg>
-
-Overfull \hbox (40.39182pt too wide) in paragraph at lines 159--159
-[][] 
- []
-
-
-LaTeX Warning: Float too large for page by 24.06718pt on input line 160.
-
 [1
 
-] [2] [3] [4] (./Tarefa2.aux) ) 
+] [2] [3] (./Tarefa2.aux) ) 
 Here is how much of TeX's memory you used:
- 18374 strings out of 478147
- 343239 string characters out of 5852101
- 812824 words of memory out of 5000000
- 38756 multiletter control sequences out of 15000+600000
+ 18349 strings out of 478147
+ 342173 string characters out of 5852101
+ 812685 words of memory out of 5000000
+ 38732 multiletter control sequences out of 15000+600000
  475662 words of font info for 75 fonts, out of 8000000 for 9000
  16 hyphenation exceptions out of 8191
- 86i,8n,121p,1004b,369s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 86i,8n,121p,1004b,338s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on Tarefa2.pdf (4 pages).
+Output written on Tarefa2.pdf (3 pages).

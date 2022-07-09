@@ -1,0 +1,269 @@
+---
+title: "Tarefa 3 - Vacinas"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    theme: paper
+    css: tarefas.css
+link-citations: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,
+                      fig.retina = 2,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+# Vacinas e suas externalidades
+
+```{r nc, fig.margin = TRUE, echo = FALSE, fig.width=3, fig.cap="Foto de Hakan Nural em Unsplash"}
+knitr::include_graphics("img/hakan-nural-YCVUR2JgfHA-unsplash.jpg")
+```
+
+1.  Explique porque uma vacina contra a Covid-19 é um exemplo de uma externalidade positiva.
+
+2.  Dada a definição de uma externalidade positiva, qual seria um exmeplo de externalidade negativa da vacinação? Considere toda a cadeia desde a pesquisa e desenvolviimento, fabricação da vacina e de seus bens complementares.
+
+3.  Grafique os benefícios de um indivíduo que recebe uma vacina contra a Covid **Dica:** você deve identificar os benefícios internos e externos.
+
+4. Grafique os dados de vacinação de covid-19 no Brasil, desde o início da vacinação (Março de 2021) até agora, coloque as datas no eixo $x$ e o percentual da população vacinada no eixo $y$.
+
+5.  O número de pessoas que foi vacinado contra a covid-19 é menor do que o número socialmente ideal? Por quê sim/não? **Dica:** utilize um gráfico para comparar os benefícios internos e externos.
+
+6.  Quais são as formas de aumentar o número de pessoas que recebem vacinas contra a covid-19, do ponto de vista da teoria microeconômica?
+
+
+# Vacinas e o mercado
+
+7. Considere o mercado de trabalho no setor de restaurantes na cidade, como um mercado de competição perfeita, com curvas de oferta e demanda do mercado mostradas no gráfico abaixo.
+
+```{r}
+
+library(tidyverse)
+library(directlabels)
+library(readxl)
+library(cowplot)
+library(glue)
+```
+
+```{r}
+demanda <- function(q) 100 - (q/15000)
+oferta <- function(q) (q/6000)
+
+dados <- data.frame(q= c(0:600000))
+
+dados <- dados %>% 
+  mutate(demanda = demanda(q),
+         oferta = oferta(q))
+
+mercado_long<- dados %>% 
+  pivot_longer(-q, names_to = "curves", values_to = "price") %>% 
+  mutate(tipo="Mercado")
+
+PLOT01 <- mercado_long %>% 
+  ggplot(aes(q, price, color=curves))+
+    geom_line(size=1.2)+
+ # xlim(0,100)+
+  scale_y_continuous(limits= c(0,100),
+                     breaks=seq(0,100, by=20))+
+  scale_x_continuous(labels = scales::comma)+
+  theme_bw()+
+  geom_dl(aes(label = curves), method = "smart.grid")+
+  labs(y="Preço (R$/Kg)",
+       x="kg/mês",
+       subtitle="Curvas do Mercado de Restaurantes")+
+  theme(axis.text=element_text(size=12),
+        axis.title=element_text(size=10, face="bold"),
+        legend.position = "none")
+
+# Graficando a função de custos
+
+
+
+# resultado final
+
+
+#plot_grid(PLOT02, PLOT01, labels = c("A", "B"), ncol = 2, nrow =1, label_size = 8)
+
+PLOT01
+
+optimal_mercado <- uniroot(function(x) demanda(x) - oferta(x), c(400000,500000))
+
+Q_mercado <- optimal_mercado$root
+P_mercado <- demanda(Q_mercado)
+```
+
+
+Calcule a quantidade ótima de atendentes (garçons e garçonetes) em restaurantes. Assuma uma função de produção do restaurante típico: $q=50L^{0.67}$, onde $L$ está em número de atendentes, $q$ em $\left[\frac{Kg}{mês}\right]$. Assuma também que o salário médio desses trabalhadores é de 1 salário mínimo. 
+
+**Dica:** Grafique o salário médio $w$ e a Receita Marginal do Produto do Trabalho ($RMgP_L$) no mesmo gráfico.
+
+Obs. Cuide com as unidades utilizadas. Para fins de entendimento, a $RMgP_L$ está em $$RMgP_L=\left[\frac{Reais}{mês*trabalhador}\right]$$.
+
+pois: $$RMgP_L=PMg*P=\left[\frac{Kg}{mês*trabalhador}\right]*\left[\frac{Reais}{Kg}\right]$$
+
+O salário também está nas mesmas unidades: 
+$$w=\left[\frac{Reais}{mês*trabalhador}\right]$$
+
+```{r}
+w = 1*1212
+
+
+cobb <- function(L){
+  (50)*L^0.67
+}
+
+#cobb <- function(L){
+#  12*(L)-L^2
+#}
+
+data <- data.frame(L=1:60)
+
+data <- data %>% 
+  mutate(Q=cobb(L))
+
+
+```
+
+```{r}
+library(Deriv)
+
+PML <- Deriv(cobb, "L")
+
+w_func <- function(L){w}
+
+
+data <- data %>% 
+  mutate(PML = PML(L),
+         RMgP = PML(L)*P_mercado,
+         w=w)
+
+prod <- data %>% 
+  ggplot(aes(L,Q))+
+  geom_line()+
+  labs(x="Atendentes", y="Kg/mês", title = "Produção por mês")+
+  scale_x_continuous(limits = c(0,50))+
+  scale_y_continuous(limits = c(0,1000))+
+  theme_bw()
+
+
+
+PMg <- data %>% 
+  ggplot(aes(L,PML))+
+  geom_line()+
+  labs(x="Atendentes", y="Kg/mês",
+       title="Produto Marginal do Trabalho")+
+  scale_x_continuous(limits = c(0,50))+
+  theme_bw()
+
+
+trabalho <- data %>% 
+  ggplot(aes(L, RMgP))+
+  geom_line(color = "orange", size=1.2)+
+  scale_y_continuous(limits = c(0,2000))+
+  labs(x="Atendentes", y="R$/Atendente/mês", title="RMgP")+
+  scale_x_continuous(limits = c(0,50))+
+  theme_bw()
+
+data %>% 
+  ggplot(aes(L, RMgP))+
+  #geom_line(color = "orange", size=1.2)+
+  scale_y_continuous(limits = c(0,2000))+
+  labs(x="Atendentes", y="R$/Atendente/mês", title="RMgP e w")+
+  scale_x_continuous(limits = c(0,50))+
+  theme_bw()
+
+
+
+```
+
+```{r}
+optimal <- uniroot(function(x) PML(x)*P_mercado - w_func(x), c(3,35))
+
+L_otimo <- optimal$root
+Q_otimo <- cobb(L_otimo)
+
+trabalho2 <- data %>% 
+  pivot_longer(4:5) %>% 
+  ggplot(aes(L, value, color=name))+
+  geom_line(size=1.2)+
+  geom_vline(xintercept = L_otimo, linetype = 2)+
+  scale_x_continuous(limits = c(0,50))+
+  annotate("text", x=33, y=2500, label = glue({round(L_otimo,0)}))+
+  annotate("text", x=33, y=2350, label = "atendentes")+
+  theme_bw()+
+  labs(x="Quantidade de Atendentes",
+       y="R$ por atendente")+
+  scale_color_brewer(palette = "Dark2")
+
+
+
+```
+
+8. Como a covid-19 afetou esse mercado? grafique a situação pré-vacinação e calcule o novo número de atendentes ótimo. **Dica:** Começe pelo deslocamento da Demanda do mercado de restaurantes, assumindo uma contração da Demanda em 50%.
+
+```{r}
+mercado_long %>% 
+  ggplot(aes(q, price, color=curves))+
+  #  geom_line(size=1.2)+
+ # xlim(0,100)+
+  scale_y_continuous(limits= c(0,100),
+                     breaks=seq(0,100, by=20))+
+  scale_x_continuous(labels = scales::comma)+
+  theme_bw()+
+  geom_dl(aes(label = curves), method = "smart.grid")+
+  labs(y="Preço (R$/Kg)",
+       x="Kg/mês",
+       title="Curvas do Mercado de Restaurantes",
+       subtitle = "Situação pré-vacinação")+
+  theme(axis.text=element_text(size=12),
+        axis.title=element_text(size=10, face="bold"),
+        legend.position = "none")
+```
+
+```{r}
+data %>% 
+  ggplot(aes(L, RMgP))+
+  #geom_line(color = "orange", size=1.2)+
+  scale_y_continuous(limits = c(0,2000))+
+  labs(x="Atendentes", y="R$/Atendente/mês", title="RMgP e w",
+       subtitle = "Situação Pré-vacinação")+
+  scale_x_continuous(limits = c(0,50))+
+  theme_bw()
+```
+
+
+9. Com base na questão anterior, grafique a situação pós-vacinação para o mercado de trabalho de atendentes no setor de restaurantes. Assuma uma recuperação de x% (você escolhe o $x$) na Demanda do Mercado de restaurantes. Como ficou agora o mercado de trabalho? qual é a nova quantidade ótima de atendentes?
+
+```{r}
+mercado_long %>% 
+  ggplot(aes(q, price, color=curves))+
+  #  geom_line(size=1.2)+
+ # xlim(0,100)+
+  scale_y_continuous(limits= c(0,100),
+                     breaks=seq(0,100, by=20))+
+  scale_x_continuous(labels = scales::comma)+
+  theme_bw()+
+  geom_dl(aes(label = curves), method = "smart.grid")+
+  labs(y="Preço (R$/Kg)",
+       x="Kg/mês",
+       title="Curvas do Mercado de Restaurantes",
+       subtitle = "Situação pós-vacinação")+
+  theme(axis.text=element_text(size=12),
+        axis.title=element_text(size=10, face="bold"),
+        legend.position = "none")
+
+```
+
+```{r}
+data %>% 
+  ggplot(aes(L, RMgP))+
+  #geom_line(color = "orange", size=1.2)+
+  scale_y_continuous(limits = c(0,2000))+
+  labs(x="Atendentes", y="R$/Atendente/mês", title="RMgP e w",
+       subtitle = "Situação Pós-vacinação")+
+  scale_x_continuous(limits = c(0,50))+
+  theme_bw()
+```

@@ -9,14 +9,16 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
+<meta name="author" content="Prof. Mauricio" />
 
+<meta name="date" content="2022-07-08" />
 
-<title>Lab 4 - Competição Perfeita</title>
+<title>Untitled</title>
 
 <script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
@@ -29,12 +31,7 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
-<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
-<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<script src="site_libs/navigation-1.1/codefolding.js"></script>
-<script src="site_libs/navigation-1.1/sourceembed.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 
@@ -61,14 +58,9 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-#rmd-source-code {
-  display: none;
-}
-</style>
 
 
-<link rel="stylesheet" href="labs.css" type="text/css" />
+<link rel="stylesheet" href="style.css" type="text/css" />
 
 
 
@@ -230,73 +222,7 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
-<style type="text/css">
-.code-folding-btn { margin-bottom: 4px; }
-</style>
 
-
-
-<style type="text/css">
-
-#TOC {
-  margin: 25px 0px 20px 0px;
-}
-@media (max-width: 768px) {
-#TOC {
-  position: relative;
-  width: 100%;
-}
-}
-
-@media print {
-.toc-content {
-  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
-  float: right;
-}
-}
-
-.toc-content {
-  padding-left: 30px;
-  padding-right: 40px;
-}
-
-div.main-container {
-  max-width: 1200px;
-}
-
-div.tocify {
-  width: 20%;
-  max-width: 260px;
-  max-height: 85%;
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-  div.tocify {
-    width: 25%;
-  }
-}
-
-@media (max-width: 767px) {
-  div.tocify {
-    width: 100%;
-    max-width: none;
-  }
-}
-
-.tocify ul, .tocify li {
-  line-height: 20px;
-}
-
-.tocify-subheader .tocify-item {
-  font-size: 0.90em;
-}
-
-.tocify .list-group-item {
-  border-radius: 0px;
-}
-
-
-</style>
 
 
 
@@ -306,16 +232,6 @@ div.tocify {
 
 
 <div class="container-fluid main-container">
-
-
-<!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row">
-<div class="col-xs-12 col-sm-4 col-md-3">
-<div id="TOC" class="tocify">
-</div>
-</div>
-
-<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -390,33 +306,84 @@ div.tocify {
 
 <div id="header">
 
-<div class="btn-group pull-right float-right">
-<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
-<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
-<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+
+
+<h1 class="title toc-ignore">Untitled</h1>
+<h4 class="author">Prof. Mauricio</h4>
+<h4 class="date">2022-07-08</h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#r-markdown">R Markdown</a></li>
 </ul>
 </div>
 
+<div id="r-markdown" class="section level2">
+<h2>R Markdown</h2>
+<pre class="r"><code>cobb &lt;- function(L){
+  -0.5*L^3+6*L^2-L
+  }
 
 
-<h1 class="title toc-ignore">Lab 4 - Competição Perfeita</h1>
-<h4 class="date">Última versão em 08/07/22</h4>
+L &lt;- seq(from= 0.1, to=10, by=0.1)
+Q &lt;- funcao_prod(L)
 
+data &lt;- data.frame(L,Q=round(Q,2))
+
+
+data %&gt;% 
+  ggplot(aes(L,Q))+
+  geom_line(size=1.2)+
+  scale_y_continuous(limits=c(0,150))+
+  scale_x_continuous(limits = c(0, 8))+
+  theme_classic()+
+  labs(y=&quot;Unidades de Produto&quot;,
+       x=&quot;Trabalhadores&quot;)
+
+
+
+PMg &lt;- Deriv(cobb, &quot;L&quot;)
+
+data %&gt;% 
+  mutate(PMg = PMg(L),
+         PMe = Q/L) %&gt;% 
+  select(-Q) %&gt;% 
+  pivot_longer(2:3) %&gt;% 
+  ggplot(aes(L,value, color=name))+
+  geom_line(size=1.2)+
+  scale_y_continuous(limits=c(0,30))+
+  scale_x_continuous(limits = c(0, 8))+
+  theme_classic()+
+  geom_dl(aes(label = name), method = &quot;smart.grid&quot;)+
+  theme(legend.position = &quot;none&quot;)+
+  labs(y=&quot;Unidades de Produto&quot;,
+       x=&quot;Trabalhadores&quot;)</code></pre>
+<pre class="r"><code>library(gt)
+data2 &lt;- data.frame(L=1:10)
+
+data2 &lt;- data2 %&gt;% 
+  mutate(Q=cobb(L),
+         PMg = PMg(L),
+         PMe = Q/L) 
+
+data2 %&gt;% 
+  gt::gt()</code></pre>
+<pre class="r"><code>data %&gt;% 
+  mutate(PMg = PMg(L),
+         PMe = Q/L,
+         RMgP = PMg*10) %&gt;% 
+  select(L,RMgP) %&gt;% 
+  ggplot(aes(L,RMgP))+
+  geom_line()+
+  scale_y_continuous(limits = c(0, 250))+
+  scale_x_continuous(limits = c(0,8))+
+  theme_classic()</code></pre>
 </div>
 
 
-<div id="sobre-este-laboratório" class="section level1">
-<h1>Sobre este laboratório</h1>
-<p>Baixe a pasta no link abaixo. Abra o arquivo <code>.Rmd</code> no
-RStudio no seu computador.</p>
-<p><a href="data:application/zip;base64,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" download="lab4.zip">Você pode baixar o script aqui.</a></p>
-</div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiTGFiIDQgLSBDb21wZXRpw6fDo28gUGVyZmVpdGEiCm91dHB1dDogCiAgaHRtbF9kb2N1bWVudDoKICAgIHRvYzogdHJ1ZQogICAgdG9jX2Zsb2F0OiB0cnVlCiAgICBjb2RlX2Rvd25sb2FkOiB0cnVlCiAgICB0aGVtZTogcGFwZXIKICAgIGNzczogbGFicy5jc3MKZGF0ZTogIsOabHRpbWEgdmVyc8OjbyBlbSBgciBmb3JtYXQoU3lzLnRpbWUoKSwgJyVkLyVtLyV5JylgIgotLS0KCgpgYGB7ciBzZXR1cCwgaW5jbHVkZT1GQUxTRX0Ka25pdHI6Om9wdHNfY2h1bmskc2V0KGVjaG8gPSBUUlVFLCBldmFsPUZBTFNFKQpgYGAKCiMgU29icmUgZXN0ZSBsYWJvcmF0w7NyaW8KCkJhaXhlIGEgcGFzdGEgbm8gbGluayBhYmFpeG8uIEFicmEgbyBhcnF1aXZvIGAuUm1kYCBubyBSU3R1ZGlvIG5vIHNldSBjb21wdXRhZG9yLgoKYGBge3IgZWNobyA9IEZBTFNFLCBldmFsPVRSVUV9CnhmdW46OnBrZ19sb2FkMihjKCdodG1sdG9vbHMnLCAnbWltZScpKQp4ZnVuOjplbWJlZF9kaXIoImxhYjQvIiwgdGV4dCA9ICJWb2PDqiBwb2RlIGJhaXhhciBvIHNjcmlwdCBhcXVpLiIpCgpgYGAKCg==</div>
-
-
-</div>
-</div>
 
 </div>
 
@@ -448,41 +415,7 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
-<script>
-$(document).ready(function () {
-  window.initializeSourceEmbed("Lab4.Rmd");
-});
-</script>
 
-<script>
-$(document).ready(function ()  {
-
-    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
-    $('.unlisted.unnumbered').addClass('toc-ignore')
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

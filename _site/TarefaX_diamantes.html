@@ -11,7 +11,7 @@
 
 
 
-<title>Lab 4 - Competição Perfeita</title>
+<title>Tarefa 2 - Monopólio e competição monopolística</title>
 
 <script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -33,8 +33,6 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<script src="site_libs/navigation-1.1/codefolding.js"></script>
-<script src="site_libs/navigation-1.1/sourceembed.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 
@@ -61,14 +59,9 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-#rmd-source-code {
-  display: none;
-}
-</style>
 
 
-<link rel="stylesheet" href="labs.css" type="text/css" />
+<link rel="stylesheet" href="tarefas.css" type="text/css" />
 
 
 
@@ -230,9 +223,6 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
-<style type="text/css">
-.code-folding-btn { margin-bottom: 4px; }
-</style>
 
 
 
@@ -390,29 +380,114 @@ div.tocify {
 
 <div id="header">
 
-<div class="btn-group pull-right float-right">
-<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
-<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
-<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
-</ul>
-</div>
 
 
-
-<h1 class="title toc-ignore">Lab 4 - Competição Perfeita</h1>
-<h4 class="date">Última versão em 08/07/22</h4>
+<h1 class="title toc-ignore">Tarefa 2 - Monopólio e competição
+monopolística</h1>
 
 </div>
 
 
-<div id="sobre-este-laboratório" class="section level1">
-<h1>Sobre este laboratório</h1>
-<p>Baixe a pasta no link abaixo. Abra o arquivo <code>.Rmd</code> no
-RStudio no seu computador.</p>
-<p><a href="data:application/zip;base64,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" download="lab4.zip">Você pode baixar o script aqui.</a></p>
+<div class="figure">
+<img src="img/carlos-esteves-1MWbwTaeJIA-unsplash.jpg" alt="Foto de Carlos Esteves em Unsplash" width="960" />
+<p class="caption">
+Foto de Carlos Esteves em Unsplash
+</p>
+</div>
+<div id="a-morte-dos-diamantes" class="section level1">
+<h1>A morte dos diamantes</h1>
+<p>Quanto você gastaria em um anel de diamantes para noivado? Se você
+respondesse em torno da média dos Estados Unidos de R$ 4.000, então você
+também foi vítima de uma das mais incríveis campanhas de marketing de
+todos os tempos. Um diamante é intrinsecamente inútil e, contra a crença
+popular, não são tão raros assim. Seu valor de revenda é próximo de
+nada.</p>
+<p>Então, por que estamos dispostos a gastar tanto em um anel? Bem,
+podemos rastrear isso até o século XIX. Antes de 1866, os diamantes
+tinham sido raros, mas quando descobertas maciças foram encontradas na
+África do Sul, o diamante estava na beira da perda de seu valor. Foi
+quando Cecil Rhodes interveio e fundou a De Beers Corporation -
+consolidando as minas e restringindo o fornecimento, mantendo a ficção
+de que os diamantes eram escassos e tinham valor inerente.</p>
+<p>A verdadeira mudança foi em 1938, quando a empresa contratou a N.W.
+Ayer para aumentar as vendas. Amarrando seu produto ao amor, e
+especificamente a uma proposta de casamento, até o final do século, mais
+de 80% de todas as noivas tinham recebido um anel de casamento com
+diamantes.</p>
+<p>A campanha publicitária “Um diamante é para sempre” exibia um
+diamante como símbolo de amor, e sugeria que um homem deve gastar até
+dois meses de salário com o símbolo.</p>
+</div>
+<div id="monopólio" class="section level1">
+<h1>Monopólio</h1>
+<p>Até 1990, a DeBeers tinha um controle absoluto no mercado, em um
+determinado ponto representava 90% de todas as vendas, mas agora o
+controle do mercado está se afrouxando. Usando nossos modelos de
+monopólio e competição monopolística, vamos examinar os efeitos deste
+mercado em mudança.</p>
+<p>Abaixo está uma representação da curva da demanda por diamantes.
+Suponha que a DeBeers esteja operando como um monopólio com a função de
+Demanda <span class="math inline">\(P=6000-25Q\)</span>).</p>
+<p><img src="TarefaX_diamantes_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<ol style="list-style-type: decimal">
+<li>Como monopolista, qual é o efeito total de uma mudança de preço de
+R$ 4.000 para R$ R$ 3.000 na receita da empresa? Use um gráfico para
+representar a mudanças em áreas.</li>
+</ol>
+<p>Se você fizesse o exercício 1 para cada mudança marginal no preço,
+você encontraria a curva de receita marginal (RMg). A receita marginal é
+fornecida para os próximos exercícios, juntamente com o custo marginal
+(CMg) para a DeBeers.</p>
+<p>A função de Receita Total é <span class="math inline">\(R = 6000Q -
+25Q^2\)</span> e a função do Custo Marginal é <span
+class="math inline">\(Cmg = 0,2Q^2\)</span></p>
+<p><img src="TarefaX_diamantes_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<ol start="2" style="list-style-type: decimal">
+<li><p>Com base na figura anterior, qual é a quantidade que a DeBeers
+deve produzir? Qual o preço que deve cobrar?</p></li>
+<li><p>Qual é o excedente do Consumidor, excedente do Produtor e
+excedente do Mercado?</p></li>
+<li><p>Qual é a perda de peso morto deste mercado?</p></li>
+</ol>
+<p>Uma curva de Custo Total Médio (CTMe) é apresentada para a DeBeers.
+Estes custos incluem marketing, exploração mineira e outros.</p>
+<p><img src="TarefaX_diamantes_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<ol start="5" style="list-style-type: decimal">
+<li>Quais são os lucros da DeBeers? Por que eles são capazes de
+sustentá-los no longo prazo?</li>
+</ol>
+</div>
+<div id="competição-monopolística" class="section level1">
+<h1>Competição Monopolística</h1>
+<p>Dos anos 90 até agora, o mercado mudou consideravelmente, com a
+DeBeer tendo que se adaptar aos novos desafios.</p>
+<p>O primeiro é a introdução de concorrentes diretos. A empresa estatal
+de diamantes russa ALROSA agora produz mais diamantes do que a própria
+DeBeers. Algumas novas empresas até compraram minas da DeBeers quando a
+empresa estava tentando equilibrar seu Balancete.</p>
+<p>Outra mudança é a introdução de substitutos, com os diamantes
+sintéticos se tornando mais atraentes para os jovens compradores. Os
+avanços na produção desses produtos são bastante recentes, notadamente
+em 2015 a nova Tecnologia Diamantada mostrou o potencial dos sintéticos
+ao criar um diamante polido de dez carats.</p>
+<p>Isto significa que o mercado está mudando de monopólio para
+competição monopolística. Sabemos que a entrada de outros farão com que
+a curva de demanda dos monopolistas mude.</p>
+<ol start="6" style="list-style-type: decimal">
+<li><p>Mostrar o efeito das mudanças se a nova função de Demanda é <span
+class="math inline">\(P=4700-25Q\)</span>, desenhe a nova curva de
+Demanda e a nova curva de receita marginal.</p></li>
+<li><p>Neste novo cenário de concorrência monopolística, qual a
+quantidade que a DeBeers deve produzir? Qual o preço que eles devem
+cobrar? Desenhe</p></li>
+<li><p>Quais são os lucros da DeBeers agora? Desenhe</p></li>
+<li><p>Qual é a perda de peso morto em concorrência monopolística?
+Desenhe</p></li>
+<li><p>Estas mudanças de mercado são boas ou ruins para os
+consumidores?</p></li>
+</ol>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiTGFiIDQgLSBDb21wZXRpw6fDo28gUGVyZmVpdGEiCm91dHB1dDogCiAgaHRtbF9kb2N1bWVudDoKICAgIHRvYzogdHJ1ZQogICAgdG9jX2Zsb2F0OiB0cnVlCiAgICBjb2RlX2Rvd25sb2FkOiB0cnVlCiAgICB0aGVtZTogcGFwZXIKICAgIGNzczogbGFicy5jc3MKZGF0ZTogIsOabHRpbWEgdmVyc8OjbyBlbSBgciBmb3JtYXQoU3lzLnRpbWUoKSwgJyVkLyVtLyV5JylgIgotLS0KCgpgYGB7ciBzZXR1cCwgaW5jbHVkZT1GQUxTRX0Ka25pdHI6Om9wdHNfY2h1bmskc2V0KGVjaG8gPSBUUlVFLCBldmFsPUZBTFNFKQpgYGAKCiMgU29icmUgZXN0ZSBsYWJvcmF0w7NyaW8KCkJhaXhlIGEgcGFzdGEgbm8gbGluayBhYmFpeG8uIEFicmEgbyBhcnF1aXZvIGAuUm1kYCBubyBSU3R1ZGlvIG5vIHNldSBjb21wdXRhZG9yLgoKYGBge3IgZWNobyA9IEZBTFNFLCBldmFsPVRSVUV9CnhmdW46OnBrZ19sb2FkMihjKCdodG1sdG9vbHMnLCAnbWltZScpKQp4ZnVuOjplbWJlZF9kaXIoImxhYjQvIiwgdGV4dCA9ICJWb2PDqiBwb2RlIGJhaXhhciBvIHNjcmlwdCBhcXVpLiIpCgpgYGAKCg==</div>
 
 
 </div>
@@ -448,11 +523,6 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
-<script>
-$(document).ready(function () {
-  window.initializeSourceEmbed("Lab4.Rmd");
-});
-</script>
 
 <script>
 $(document).ready(function ()  {

@@ -11,7 +11,7 @@
 
 
 
-<title>Lab 4 - Competição Perfeita</title>
+<title>Tarefa 3 - Vacinas</title>
 
 <script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -33,8 +33,6 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<script src="site_libs/navigation-1.1/codefolding.js"></script>
-<script src="site_libs/navigation-1.1/sourceembed.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 
@@ -61,14 +59,9 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-#rmd-source-code {
-  display: none;
-}
-</style>
 
 
-<link rel="stylesheet" href="labs.css" type="text/css" />
+<link rel="stylesheet" href="tarefas.css" type="text/css" />
 
 
 
@@ -230,9 +223,6 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
-<style type="text/css">
-.code-folding-btn { margin-bottom: 4px; }
-</style>
 
 
 
@@ -390,29 +380,92 @@ div.tocify {
 
 <div id="header">
 
-<div class="btn-group pull-right float-right">
-<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
-<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
-<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
-</ul>
-</div>
 
 
-
-<h1 class="title toc-ignore">Lab 4 - Competição Perfeita</h1>
-<h4 class="date">Última versão em 08/07/22</h4>
+<h1 class="title toc-ignore">Tarefa 3 - Vacinas</h1>
 
 </div>
 
 
-<div id="sobre-este-laboratório" class="section level1">
-<h1>Sobre este laboratório</h1>
-<p>Baixe a pasta no link abaixo. Abra o arquivo <code>.Rmd</code> no
-RStudio no seu computador.</p>
-<p><a href="data:application/zip;base64,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" download="lab4.zip">Você pode baixar o script aqui.</a></p>
+<div id="vacinas-e-suas-externalidades" class="section level1">
+<h1>Vacinas e suas externalidades</h1>
+<div class="figure">
+<img src="img/hakan-nural-YCVUR2JgfHA-unsplash.jpg" alt="Foto de Hakan Nural em Unsplash" width="960" />
+<p class="caption">
+Foto de Hakan Nural em Unsplash
+</p>
+</div>
+<ol style="list-style-type: decimal">
+<li><p>Explique porque uma vacina contra a Covid-19 é um exemplo de uma
+externalidade positiva.</p></li>
+<li><p>Dada a definição de uma externalidade positiva, qual seria um
+exmeplo de externalidade negativa da vacinação? Considere toda a cadeia
+desde a pesquisa e desenvolviimento, fabricação da vacina e de seus bens
+complementares.</p></li>
+<li><p>Grafique os benefícios de um indivíduo que recebe uma vacina
+contra a Covid <strong>Dica:</strong> você deve identificar os
+benefícios internos e externos.</p></li>
+<li><p>Grafique os dados de vacinação de covid-19 no Brasil, desde o
+início da vacinação (Março de 2021) até agora, coloque as datas no eixo
+<span class="math inline">\(x\)</span> e o percentual da população
+vacinada no eixo <span class="math inline">\(y\)</span>.</p></li>
+<li><p>O número de pessoas que foi vacinado contra a covid-19 é menor do
+que o número socialmente ideal? Por quê sim/não? <strong>Dica:</strong>
+utilize um gráfico para comparar os benefícios internos e
+externos.</p></li>
+<li><p>Quais são as formas de aumentar o número de pessoas que recebem
+vacinas contra a covid-19, do ponto de vista da teoria
+microeconômica?</p></li>
+</ol>
+</div>
+<div id="vacinas-e-o-mercado" class="section level1">
+<h1>Vacinas e o mercado</h1>
+<ol start="7" style="list-style-type: decimal">
+<li>Considere o mercado de trabalho no setor de restaurantes na cidade,
+como um mercado de competição perfeita, com curvas de oferta e demanda
+do mercado mostradas no gráfico abaixo.</li>
+</ol>
+<p><img src="Tarefa3_2022_1_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>Calcule a quantidade ótima de atendentes (garçons e garçonetes) em
+restaurantes. Assuma uma função de produção do restaurante típico: <span
+class="math inline">\(q=50L^{0.67}\)</span>, onde <span
+class="math inline">\(L\)</span> está em número de atendentes, <span
+class="math inline">\(q\)</span> em <span
+class="math inline">\(\left[\frac{Kg}{mês}\right]\)</span>. Assuma
+também que o salário médio desses trabalhadores é de 1 salário
+mínimo.</p>
+<p><strong>Dica:</strong> Grafique o salário médio <span
+class="math inline">\(w\)</span> e a Receita Marginal do Produto do
+Trabalho (<span class="math inline">\(RMgP_L\)</span>) no mesmo
+gráfico.</p>
+<p>Obs. Cuide com as unidades utilizadas. Para fins de entendimento, a
+<span class="math inline">\(RMgP_L\)</span> está em <span
+class="math display">\[RMgP_L=\left[\frac{Reais}{mês*trabalhador}\right]\]</span>.</p>
+<p>pois: <span
+class="math display">\[RMgP_L=PMg*P=\left[\frac{Kg}{mês*trabalhador}\right]*\left[\frac{Reais}{Kg}\right]\]</span></p>
+<p>O salário também está nas mesmas unidades: <span
+class="math display">\[w=\left[\frac{Reais}{mês*trabalhador}\right]\]</span></p>
+<p><img src="Tarefa3_2022_1_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<ol start="8" style="list-style-type: decimal">
+<li>Como a covid-19 afetou esse mercado? grafique a situação
+pré-vacinação e calcule o novo número de atendentes ótimo.
+<strong>Dica:</strong> Começe pelo deslocamento da Demanda do mercado de
+restaurantes, assumindo uma contração da Demanda em 50%.</li>
+</ol>
+<p><img src="Tarefa3_2022_1_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="Tarefa3_2022_1_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<ol start="9" style="list-style-type: decimal">
+<li>Com base na questão anterior, grafique a situação pós-vacinação para
+o mercado de trabalho de atendentes no setor de restaurantes. Assuma uma
+recuperação de x% (você escolhe o <span
+class="math inline">\(x\)</span>) na Demanda do Mercado de restaurantes.
+Como ficou agora o mercado de trabalho? qual é a nova quantidade ótima
+de atendentes?</li>
+</ol>
+<p><img src="Tarefa3_2022_1_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="Tarefa3_2022_1_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiTGFiIDQgLSBDb21wZXRpw6fDo28gUGVyZmVpdGEiCm91dHB1dDogCiAgaHRtbF9kb2N1bWVudDoKICAgIHRvYzogdHJ1ZQogICAgdG9jX2Zsb2F0OiB0cnVlCiAgICBjb2RlX2Rvd25sb2FkOiB0cnVlCiAgICB0aGVtZTogcGFwZXIKICAgIGNzczogbGFicy5jc3MKZGF0ZTogIsOabHRpbWEgdmVyc8OjbyBlbSBgciBmb3JtYXQoU3lzLnRpbWUoKSwgJyVkLyVtLyV5JylgIgotLS0KCgpgYGB7ciBzZXR1cCwgaW5jbHVkZT1GQUxTRX0Ka25pdHI6Om9wdHNfY2h1bmskc2V0KGVjaG8gPSBUUlVFLCBldmFsPUZBTFNFKQpgYGAKCiMgU29icmUgZXN0ZSBsYWJvcmF0w7NyaW8KCkJhaXhlIGEgcGFzdGEgbm8gbGluayBhYmFpeG8uIEFicmEgbyBhcnF1aXZvIGAuUm1kYCBubyBSU3R1ZGlvIG5vIHNldSBjb21wdXRhZG9yLgoKYGBge3IgZWNobyA9IEZBTFNFLCBldmFsPVRSVUV9CnhmdW46OnBrZ19sb2FkMihjKCdodG1sdG9vbHMnLCAnbWltZScpKQp4ZnVuOjplbWJlZF9kaXIoImxhYjQvIiwgdGV4dCA9ICJWb2PDqiBwb2RlIGJhaXhhciBvIHNjcmlwdCBhcXVpLiIpCgpgYGAKCg==</div>
 
 
 </div>
@@ -448,11 +501,6 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
-<script>
-$(document).ready(function () {
-  window.initializeSourceEmbed("Lab4.Rmd");
-});
-</script>
 
 <script>
 $(document).ready(function ()  {
