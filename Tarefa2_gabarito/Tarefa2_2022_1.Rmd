@@ -9,7 +9,6 @@ output:
 link-citations: yes
 ---
 
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 ```
@@ -37,9 +36,9 @@ Para aplicar os conhecimentos sobre a Teoria da Produção e Estruturas de Merca
 
 # Mercado em Concorrência Perfeita
 
-Inicialmente vamos assumir que a função de demanda nacional de tabletes de chocolate está definida por: $Q^{D}(p)=45-0.45p$, onde $Q$ está medido em **milhões de tabletes por mês** e $p$ em R$ por tablete.
+Inicialmente vamos assumir que a função de demanda nacional de tabletes de chocolate está definida por: $Q^{D}(p)=45-0.45p$, onde $Q$ está medido em **milhões de tabletes por mês** e $p$ em R\$ por tablete.
 
-E que a função de produção de uma firma qualquer nesse mercado está definida por $q_{(K,L)}=K^{0.5}L^{0.5}$, onde $q$ está medida em **tabletes por mês**. 
+E que a função de produção de uma firma qualquer nesse mercado está definida por $q_{(K,L)}=K^{0.5}L^{0.5}$, onde $q$ está medida em **tabletes por mês**.
 
 O custo de mão de obra é $w=10$ Reais por hora e o custo de capital é $r=22$ Reais por hora de máquina. No curto prazo, existem 1000 empresas no setor, cada uma com $K=9$ mil horas de máquina por mês.
 
@@ -96,10 +95,9 @@ data <- data %>%
 
 ```
 
-
 Com base nestas informações:
 
-1. Grafique a função de produção de curto prazo de uma empresa qualquer no setor
+1.  Grafique a função de produção de curto prazo de uma empresa qualquer no setor
 
 ```{r fp}
 
@@ -112,7 +110,7 @@ prod_plot <- data %>%
 prod_plot
 ```
 
-2. Com esses dados é possível calcular a Função (equação) do Custo Total de uma empresa qualquer. Informe-a aqui.
+2.  Com esses dados é possível calcular a Função (equação) do Custo Total de uma empresa qualquer. Informe-a aqui.
 
 ```{r ct}
 
@@ -123,9 +121,7 @@ CT <- function(q){
 CT
 ```
 
-
-
-3. Calcule a Função de Custo Marginal de uma empresa qualquer e informe-a aqui
+3.  Calcule a Função de Custo Marginal de uma empresa qualquer e informe-a aqui
 
 ```{r}
 
@@ -134,8 +130,7 @@ CMg <- Deriv(CT, "q")
 CMg
 ```
 
-
-4. Grafique o custo total, custo variável, custo fixo para uma empresa. Use $q$ no eixo horizontal e $Reais$ no eixo vertical
+4.  Grafique o custo total, custo variável, custo fixo para uma empresa. Use $q$ no eixo horizontal e $Reais$ no eixo vertical
 
 ```{r ctplot}
 ct_plot <- data %>% 
@@ -148,8 +143,7 @@ ct_plot <- data %>%
 ct_plot
 ```
 
-
-5. Grafique o custo médio, custo variável médio, custo fixo médio e custo marginal de curto prazo para uma empresa. Use $q$ tabletes por mês no eixo horizontal e **R$ por tablete** no eixo vertical
+5.  Grafique o custo médio, custo variável médio, custo fixo médio e custo marginal de curto prazo para uma empresa. Use $q$ tabletes por mês no eixo horizontal e **R\$ por tablete** no eixo vertical
 
 ```{r}
 
@@ -172,13 +166,11 @@ custos_unitarios_plot
 
 ```
 
+6.  Grafique as curvas de oferta e demanda de curto prazo para o mercado de tabletes de chocolate e encontre a quantidade e preço de equilíbrio. Coloque $Q$ em milhões de tabletes no eixo horizontal e **R\$ por tablete** no eixo vertical.
 
-6. Grafique as curvas de oferta e demanda de curto prazo para o mercado de tabletes de chocolate e encontre a quantidade e preço de equilíbrio. Coloque $Q$ em milhões de tabletes no eixo horizontal e **R$ por tablete** no eixo vertical.
+**Dica** calcule inicialmente a função *inversa* da Demanda, ou seja, $p$ em função de $Q^{D}$: $$Demanda=p(Q^{D})=a-bQ^{D}$$
 
-**Dica** calcule inicialmente a função *inversa* da Demanda, ou seja, $p$ em função de $Q^{D}$:
-$$Demanda=p(Q^{D})=a-bQ^{D}$$
-
-**Dica 2** a função de oferta do mercado é igual à soma das funções de oferta de cada empresa: $$Q^{O}(p)=\sum_{i=1}^{1000}q(p)_{i}=1000q(p)_{i}$$. 
+**Dica 2** a função de oferta do mercado é igual à soma das funções de oferta de cada empresa: $$Q^{O}(p)=\sum_{i=1}^{1000}q(p)_{i}=1000q(p)_{i}$$.
 
 Logo, calcule a função *inversa* da Oferta, ou seja, $p$ em função de $Q^{O}$: $$Oferta=p(Q^{O})=a+bQ^{O}$$
 
@@ -241,12 +233,11 @@ oferta_demanda_plot
 
 ```
 
+O valor de Q: **`r round(Q_otimo,2)`** Milhões de tabletes
 
-O valor de Q: **`r Q_otimo`** M de tabletes
+O valor de P: **`r round(P_otimo,2)`** R$ por tablete
 
-O valor de P: **`r P_otimo`** R$ por tablete
-
-7. Encontre no gráfico da questão $5$, o Lucro de curto prazo para cada empresa e a sua produção ótima. Coloque $q$ em tabletes por mês no eixo horizontal e **R$ por tablete** no eixo vertical.
+7.  Encontre no gráfico da questão $5$, o Lucro de curto prazo para cada empresa e a sua produção ótima. Coloque $q$ em tabletes por mês no eixo horizontal e **R\$ por tablete** no eixo vertical.
 
 ```{r}
 
@@ -282,9 +273,9 @@ Lucro_Total <- (q_otimo*P_otimo)-CT(q_otimo)
 
 ```
 
-Lucro Total: `r Lucro_Total` R$
+Lucro Total: `r round(as.numeric(Lucro_Total),2)` R$
 
-8. O que irá acontecer no Longo Prazo? qual será o novo preço e quantidade ótima de cada firma? Use o gráfico da questão 7 com as novas informações de preço e quantidade.
+8.  O que irá acontecer no Longo Prazo? qual será o novo preço e quantidade ótima de cada firma? Use o gráfico da questão 7 com as novas informações de preço e quantidade.
 
 ```{r}
 
@@ -309,11 +300,11 @@ lucro_lp_plot
 
 ```
 
-A quantidade q no Longo Prazo: **`r q_otimo_lp`** milhares de tabletes.
+A quantidade q no Longo Prazo: **`r round(q_otimo_lp,2)`** milhares de tabletes.
 
-O preço P no Longo Prazo: **`r P_otimo_lp`** R$ por tablete.
+O preço P no Longo Prazo: **`r round(P_otimo_lp,2)`** R\$ por tablete.
 
-9. Mostre o novo equilíbrio do mercado de tabletes de chocolate com base no novo preço. Use o gráfico da questão 6 e além das curvas já apresentadas, adicione a nova curva de oferta.
+9.  Mostre o novo equilíbrio do mercado de tabletes de chocolate com base no novo preço. Use o gráfico da questão 6 e além das curvas já apresentadas, adicione a nova curva de oferta.
 
 ```{r}
 
@@ -345,7 +336,7 @@ oferta_demanda_lp
 
 10. Considerando este equilíbrio de longo prazo, quantas empresas fazem, agora, parte do mercado? Lembrando que a quantidade inicial era de 1000 empresas.
 
-O numero de firmas no Longo Prazo: **`r Firmas_lp`** firmas
+O numero de firmas no Longo Prazo: **`r round(Firmas_lp,0)`** firmas
 
 # Mercado em Monopólio
 
@@ -404,14 +395,11 @@ Lucro_monopolio <- Q_otimo_monopolio*(P_monopolio-CMe_monopolio)
 
 ```
 
-
-
 11. Considerando estas novas informações, qual é a quantidade em milhões de tabletes, que a empresa deve produzir? Qual preço deve cobrar?
 
-O preço ótimo P no Monopólio é: `r P_monopolio`
+O preço ótimo P no Monopólio é: `r round(P_monopolio,2)`
 
-A quantidade ótima Q no Monopólio é: `r Q_otimo_monopolio`
-
+A quantidade ótima Q no Monopólio é: `r round(Q_otimo_monopolio,0)`
 
 12. Qual é o excedente do consumidor? excedente do produtor? e excedente do mercado?
 
@@ -425,7 +413,7 @@ CMg_monopolio <- function(Q){
   0.1*Q^2
 }
 
-f <- function(x) {100 - (2.22*x) + 0.1*x^2}
+f <- function(x) {100 - (2.22*x) - 0.1*x^2}
 
 optimal_Q_monopolio_cp <- uniroot(function(x) D_monopolio(x) - CMg_monopolio(x), c(20,30))
 
@@ -438,34 +426,34 @@ EM_cp <- EM$value
 
 RMg_CMg <- RMg_monopolio(Q_otimo_monopolio)
 
-base <- P_monopolio-RMg_CMg
-altura <- Q_m_cp - Q_otimo_monopolio
 
-deadwloss <- (base*altura)/2
+deadwloss <- integrate(f, lower = Q_otimo_monopolio, upper = Q_m_cp)
 
-EM_monopolio <- EM_cp - deadwloss
+perda <- deadwloss$value
+
+EM_monopolio <- EM_cp - perda
 
 base_EC <- Q_otimo_monopolio
 altura_EC <- 100 - P_monopolio
 
-EC_monopolio <- (base_EC*altura_EC)/2
+EC_monopolio <- (Q_otimo_monopolio*(100-P_monopolio))/2
 
 EP_monopolio <- EM_monopolio - EC_monopolio
 ```
 
-Excedente do Mercado: `r EM_monopolio` Milhões de R$
+Excedente do Mercado: `r round(EM_monopolio,2)` Milhões de R$
 
-Excedente do Consumidor: `r EC_monopolio` Milhões de R$
+Excedente do Consumidor: `r round(EC_monopolio,2)` Milhões de R$
 
-Excedente do Produtor: `r EP_monopolio` Milhões de R$
+Excedente do Produtor: `r round(EP_monopolio,2)` Milhões de R$
 
 13. Qual é a perda de peso morto deste mercado?
 
-A perda de peso morto deste mercado: `r deadwloss` Milhões de R$
+A perda de peso morto deste mercado: `r round(perda,2)` Milhões de R$
 
 14. Quais são os lucros da empresa monopolista?
 
-O Lucro no Monopólio é: `r Lucro_monopolio`
+O Lucro no Monopólio é: `r round(Lucro_monopolio,2)` R$
 
 15. Grafique as curvas de Receita Total, Custo Total e Lucro para a empresa monopolista
 
@@ -485,4 +473,3 @@ monopolio_plot <- data2 %>%
 
 monopolio_plot
 ```
-

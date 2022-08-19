@@ -16,16 +16,16 @@ navbar:
         href: Lab4.html
       - text: "Lab 5"
         href: Lab5.html
-    - text: "Tarefas"
-      menu: 
-      - text: "Autoavaliação"
-        href: Tarefa_Instrucoes_grupo.html
-      - text: "Tarefa 1"
-        href: Tarefa1.html
-      - text: "Tarefa 2"
-        href: Tarefa2_2022_1.html
-      - text: "Tarefa 3"
-        href: Tarefa3_2022_1.html
+ #   - text: "Tarefas"
+#      menu: 
+#      - text: "Autoavaliação"
+#        href: Tarefa_Instrucoes_grupo.html
+#      - text: "Tarefa 1"
+#        href: Tarefa1.html
+#      - text: "Tarefa 2"
+#        href: Tarefa2_2022_1.html
+#      - text: "Tarefa 3"
+#        href: Tarefa3_2022_1.html
 output:
   html_document:
     toc: yes

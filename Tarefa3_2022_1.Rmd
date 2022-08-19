@@ -52,7 +52,7 @@ library(glue)
 demanda <- function(q) 100 - (q/15000)
 oferta <- function(q) (q/6000)
 
-dados <- data.frame(q= c(0:600000))
+dados <- data.frame(q= seq(0,600000, by = 10000))
 
 dados <- dados %>% 
   mutate(demanda = demanda(q),
@@ -61,6 +61,9 @@ dados <- dados %>%
 mercado_long<- dados %>% 
   pivot_longer(-q, names_to = "curves", values_to = "price") %>% 
   mutate(tipo="Mercado")
+```
+
+```{r plot1}
 
 PLOT01 <- mercado_long %>% 
   ggplot(aes(q, price, color=curves))+
@@ -205,9 +208,14 @@ trabalho2 <- data %>%
 8. Como a covid-19 afetou esse mercado? grafique a situação pré-vacinação e calcule o novo número de atendentes ótimo. **Dica:** Começe pelo deslocamento da Demanda do mercado de restaurantes, assumindo uma contração da Demanda em 50%.
 
 ```{r}
-mercado_long %>% 
+
+demanda2 <- function(q){50 - (q/15000)}
+
+dados %>% 
+  mutate(demanda50 = demanda2(q)) %>% 
+  pivot_longer(2:4, names_to = "curves", values_to = "price") %>% 
   ggplot(aes(q, price, color=curves))+
-  #  geom_line(size=1.2)+
+    geom_line(size=1.2)+
  # xlim(0,100)+
   scale_y_continuous(limits= c(0,100),
                      breaks=seq(0,100, by=20))+
@@ -224,9 +232,19 @@ mercado_long %>%
 ```
 
 ```{r}
+
+optimal <- uniroot(function(x) oferta(x) - demanda2(x), c(200000,250000))
+
+Q_otimo <- optimal$root
+P_otimo <- demanda2(Q_otimo)
+
+
 data %>% 
-  ggplot(aes(L, RMgP))+
-  #geom_line(color = "orange", size=1.2)+
+  mutate(RMgP50 = PML(L)*P_otimo) %>% 
+  select(-2,-3) %>% 
+  pivot_longer(2:4, names_to = "curvas", values_to = "values") %>% 
+  ggplot(aes(L, values, color=curvas))+
+  geom_line(size=1.2)+
   scale_y_continuous(limits = c(0,2000))+
   labs(x="Atendentes", y="R$/Atendente/mês", title="RMgP e w",
        subtitle = "Situação Pré-vacinação")+

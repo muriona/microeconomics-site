@@ -116,7 +116,7 @@ Uma curva de Custo Total Médio (CTMe) é apresentada para a DeBeers. Estes cust
 
 ```{r}
 
-custos <- read_excel("~/Dropbox/mauricio/UFSC/01_GRAD/2020.2/EPS 5222/Aula 08/custos_com_dados.xlsx", 
+custos <- read_excel("/Users/mauricio/Dropbox/mauricio/UFSC/01_GRAD/2020/2020.2/EPS 5222/Aula 08/custos_com_dados.xlsx", 
     sheet = "Sheet 1",
     skip = 1)
 
