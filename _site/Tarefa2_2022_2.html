@@ -9,16 +9,14 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Prof. Mauricio" />
 
-<meta name="date" content="2022-09-01" />
 
-<title>Untitled</title>
+<title>Tarefa 2 - Estruturas de Mercado</title>
 
 <script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
@@ -31,6 +29,9 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -60,7 +61,7 @@ if (window.hljs) {
 
 
 
-<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="tarefas.css" type="text/css" />
 
 
 
@@ -225,6 +226,69 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
 
 </head>
 
@@ -232,6 +296,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -290,82 +364,64 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Untitled</h1>
-<h4 class="author">Prof. Mauricio</h4>
-<h4 class="date">2022-09-01</h4>
+<h1 class="title toc-ignore">Tarefa 2 - Estruturas de Mercado</h1>
 
 </div>
 
-<div id="TOC">
-<ul>
-<li><a href="#r-markdown" id="toc-r-markdown">R Markdown</a></li>
-</ul>
+
+<div class="figure">
+<img src="img/tina-guina-obV_LM0KjxY-unsplash.jpg" alt="Foto de Tina Guina em Unsplash" width="2048" />
+<p class="caption">
+Foto de Tina Guina em Unsplash
+</p>
 </div>
-
-<div id="r-markdown" class="section level2">
-<h2>R Markdown</h2>
-<pre class="r"><code>cobb &lt;- function(L){
-  -0.5*L^3+6*L^2-L
-  }
-
-
-L &lt;- seq(from= 0.1, to=10, by=0.1)
-Q &lt;- funcao_prod(L)
-
-data &lt;- data.frame(L,Q=round(Q,2))
-
-
-data %&gt;% 
-  ggplot(aes(L,Q))+
-  geom_line(size=1.2)+
-  scale_y_continuous(limits=c(0,150))+
-  scale_x_continuous(limits = c(0, 8))+
-  theme_classic()+
-  labs(y=&quot;Unidades de Produto&quot;,
-       x=&quot;Trabalhadores&quot;)
-
-
-
-PMg &lt;- Deriv(cobb, &quot;L&quot;)
-
-data %&gt;% 
-  mutate(PMg = PMg(L),
-         PMe = Q/L) %&gt;% 
-  select(-Q) %&gt;% 
-  pivot_longer(2:3) %&gt;% 
-  ggplot(aes(L,value, color=name))+
-  geom_line(size=1.2)+
-  scale_y_continuous(limits=c(0,30))+
-  scale_x_continuous(limits = c(0, 8))+
-  theme_classic()+
-  geom_dl(aes(label = name), method = &quot;smart.grid&quot;)+
-  theme(legend.position = &quot;none&quot;)+
-  labs(y=&quot;Unidades de Produto&quot;,
-       x=&quot;Trabalhadores&quot;)</code></pre>
-<pre class="r"><code>library(gt)
-data2 &lt;- data.frame(L=1:10)
-
-data2 &lt;- data2 %&gt;% 
-  mutate(Q=cobb(L),
-         PMg = PMg(L),
-         PMe = Q/L) 
-
-data2 %&gt;% 
-  gt::gt()</code></pre>
-<pre class="r"><code>data %&gt;% 
-  mutate(PMg = PMg(L),
-         PMe = Q/L,
-         RMgP = PMg*10) %&gt;% 
-  select(L,RMgP) %&gt;% 
-  ggplot(aes(L,RMgP))+
-  geom_line()+
-  scale_y_continuous(limits = c(0, 250))+
-  scale_x_continuous(limits = c(0,8))+
-  theme_classic()</code></pre>
+<div id="falhas-de-mercado" class="section level1">
+<h1>Falhas de Mercado</h1>
+<div id="questão-1" class="section level2">
+<h2>Questão 1</h2>
+</div>
+<div id="questão-2" class="section level2">
+<h2>Questão 2</h2>
+</div>
+<div id="questão-3" class="section level2">
+<h2>Questão 3</h2>
+</div>
+</div>
+<div id="estruturas-de-mercado" class="section level1">
+<h1>Estruturas de Mercado</h1>
+<div id="questão-4" class="section level2">
+<h2>Questão 4</h2>
+<p>Num mercado qualquer foi estimada que a curva de demanda seria dada
+por <span class="math inline">\(P_D=2000-2Q\)</span>. Sobre este mercado
+pergunta-se:</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Calcule o equilíbrio desse mercado, caso esse mercado seja um
+Monopólio, onde a curva de custos seja dada por: <span
+class="math inline">\(CT=500+2Q^2+100Q\)</span>.</p></li>
+<li><p>Calcule o Lucro, e os excedentes do consumidor, do produtor e do
+mercado</p></li>
+<li><p>Discuta os resultados sob o ponto de vista dos excedentes e das
+perdas de eficiência de mercado</p></li>
+</ol>
+</div>
+<div id="questão-5" class="section level2">
+<h2>Questão 5</h2>
+<p>Um monopolista se defronta com uma curva de demanda dada por <span
+class="math inline">\(P(y)=100-2y\)</span> e possui custos marginais
+constantes e iguais a R$ 20,00.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Qual é o nível de produção deste monopólio? e o preço?</p></li>
+<li><p>Qual situação (preço e quantidade) seria a eficiente de
+Pareto?</p></li>
+<li><p>Qual é a perda de peso morto deste monopólio?</p></li>
+</ol>
+</div>
 </div>
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -398,6 +454,35 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

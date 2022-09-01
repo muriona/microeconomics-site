@@ -1,5 +1,5 @@
 ---
-title: "Lab 4 - Competição Perfeita"
+title: "Lab 3 - Custos de Produção"
 output: 
   html_document:
     toc: true

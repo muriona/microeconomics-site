@@ -1,0 +1,55 @@
+---
+title: "Tarefa 2 - Estruturas de Mercado"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    theme: paper
+    css: tarefas.css
+link-citations: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+```
+
+```{r grassmarket, fig.margin = TRUE, echo = FALSE, warning=FALSE, message=FALSE, fig.width=3, fig.cap="Foto de Tina Guina em Unsplash"}
+
+knitr::include_graphics("img/tina-guina-obV_LM0KjxY-unsplash.jpg")
+
+library(Deriv)
+library(tidyverse)
+library(plotly)
+library(glue)
+
+```
+
+# Falhas de Mercado
+
+## Questão 1
+
+## Questão 2
+
+## Questão 3
+
+# Estruturas de Mercado
+
+## Questão 4
+
+Num mercado qualquer foi estimada que a curva de demanda seria dada por $P_D=2000-2Q$. Sobre este mercado pergunta-se:
+
+a)  Calcule o equilíbrio desse mercado, caso esse mercado seja um Monopólio, onde a curva de custos seja dada por: $CT=500+2Q^2+100Q$.
+
+b)  Calcule o Lucro, e os excedentes do consumidor, do produtor e do mercado
+
+c)  Discuta os resultados sob o ponto de vista dos excedentes e das perdas de eficiência de mercado
+
+## Questão 5
+
+Um monopolista se defronta com uma curva de demanda dada por $P(y)=100-2y$ e possui custos marginais constantes e iguais a R\$ 20,00.
+
+a)  Qual é o nível de produção deste monopólio? e o preço?
+
+b)  Qual situação (preço e quantidade) seria a eficiente de Pareto?
+
+c)  Qual é a perda de peso morto deste monopólio?

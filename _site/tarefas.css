@@ -9,6 +9,11 @@ body {
 
 h1 {
     font-family: 'Muli';
+    font-size: 25px;
+}
+
+h2 {
+    font-family: 'Muli';
     font-size: 19px;
 }
 

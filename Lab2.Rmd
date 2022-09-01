@@ -1,5 +1,5 @@
 ---
-title: "Lab 2 - Teoria da Produção"
+title: "Lab 1 - Teoria do Consumidor"
 output: 
   html_document:
     toc: true

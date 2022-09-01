@@ -1,5 +1,5 @@
 ---
-title: "Lab 4 - Competição Perfeita"
+title: "Lab 5 - Monopólio e Competição Monopolística"
 output: 
   html_document:
     toc: true
@@ -21,7 +21,7 @@ Baixe a pasta no link abaixo. Abra o arquivo `.Rmd` no RStudio no seu computador
 
 ```{r echo = FALSE, eval=TRUE}
 xfun::pkg_load2(c('htmltools', 'mime'))
-xfun::embed_dir("lab5/", text = "Você pode baixar o script aqui.")
+xfun::embed_dir("lab6/", text = "Você pode baixar o script aqui.")
 
 ```
 
