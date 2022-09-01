@@ -1,0 +1,179 @@
+---
+title: "Competição Perfeita"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+
+#knitr::opts_chunk(echo = TRUE)
+
+library(flexdashboard)
+library(shiny)
+library(tidyverse)
+library(plotly)
+library(akima)
+library(Ryacas0)
+library(glue)
+library(directlabels)
+library(readxl)
+library(glue)
+```
+
+
+# Competição Perfeita
+
+
+Column {.sidebar data-width=200}
+------------------
+
+
+```{r}
+
+sliderInput("Ad",
+            label = "Altere a Curva de Demanda",
+            min = 1,
+            max = 30,
+            value = 20,
+            step = 1,
+            dragRange = TRUE
+            )
+
+sliderInput("Ao",
+            label = "Altere a Curva de Oferta",
+            min = 1,
+            max = 18,
+            value = 1,
+            step = 1,
+            dragRange = TRUE
+            )
+
+
+
+```
+
+Column {data-width=800 .tabset}
+-----------------------------------------------------------------------
+
+### Equílibrio de Mercado
+
+```{r}
+
+renderPlotly({
+
+intercept_d <- input$Ad
+intercept_o <- input$Ao
+
+demanda <- function(q) intercept_d - (0.12*q)
+oferta <- function(q) intercept_o + (0.15*q)
+
+optimal_q <- uniroot(function(x) demanda(x) - oferta(x), c(1,140))
+
+q_otimo <- optimal_q$root
+p_otimo <- demanda(q_otimo)
+
+dados <- data.frame(q= c(0:140))
+
+dados <- dados %>% 
+  mutate(demanda = demanda(q),
+         oferta = oferta(q))
+
+mercado_long<- dados %>% 
+  pivot_longer(-q, names_to = "curves", values_to = "price") %>% 
+  mutate(tipo="Mercado")
+
+  
+PLOT01 <- mercado_long %>% 
+  ggplot(aes(q, price, color=curves))+
+    geom_line(size=1.2)+
+  scale_y_continuous(limits= c(0,20),
+                     breaks=seq(0,20, by=2))+
+  scale_x_continuous(limits = c(0,150),
+                     n.breaks = 10)+
+  geom_hline(yintercept = p_otimo, linetype = 3)+
+  geom_vline(xintercept = q_otimo, linetype = 3)+
+  annotate("text", x=140,y=15, label=glue("P={round(p_otimo,2)}"))+
+  annotate("text", x=140, y=14, label=glue("Q={round(q_otimo,2)}"))+
+  theme_bw()+
+  labs(y="Preço (R$ por litro)",
+       x="Milhões de litros/dia")+
+  theme(axis.text=element_text(size=12),
+        axis.title=element_text(size=10, face="bold"),
+        legend.position = "none")
+
+ggplotly(PLOT01)
+
+})
+```
+
+### Curvas de Custo da Firma
+
+
+```{r firma}
+
+library(mosaic)
+
+marginal<-function(x){3*x^2-8*x+8}
+average<-function(x){x^2-4*x+8+10/x}
+averagev<-function(x){x^2-4*x+8}
+
+renderPlotly({
+
+intercept_d <- input$Ad
+intercept_o <- input$Ao
+
+demanda <- function(q) intercept_d - (0.12*q)
+oferta <- function(q) intercept_o + (0.15*q)
+
+optimal_Q <- uniroot(function(x) demanda(x) - oferta(x), c(1,140))
+
+Q_otimo <- optimal_Q$root
+p_otimo <- demanda(Q_otimo)
+
+RMg_empirical <- function(q){p_otimo}
+
+optimal_q_firma <- uniroot(function(x) marginal(x) - RMg_empirical(x), c(0,6))
+
+q_otimo_firma <- optimal_q_firma$root
+
+lucro_firma <- round(1000*q_otimo_firma*(p_otimo-average(q_otimo_firma)),2)
+
+data <- data.frame(q=seq(from = 0, to = 10, by=0.1))
+
+PLOT02 <- data %>% 
+  mutate(CMg = marginal(q),
+         CMe = average(q),
+         CVMe = averagev(q),
+         RMg = RMg_empirical(q)) %>% 
+  pivot_longer(2:5) %>% 
+  ggplot(aes(q, value, color=name))+
+  geom_line(size=1.2)+
+  geom_hline(yintercept = p_otimo, linetype = 3)+
+  geom_label(aes(x=3.5,y=marginal(3.5)), 
+             label="CMg(q)", size = 6)+
+  geom_label(aes(x=5,y=averagev(5)), color = "brown", label="CVMe(q)", size = 6)+
+  geom_label(aes(x=5.5,y=average(5.5)), color = "orange", label="CMe(q)", size = 6)+
+  annotate("text", x=6, y=2, label = glue::glue("Lucro = {lucro_firma}"))+
+  scale_y_continuous(limits= c(0,20),
+                     breaks=seq(0,20, by=2))+
+  scale_x_continuous(limits = c(0,7),
+                     n.breaks = 7)+
+  labs(y="Preço (R$ por litro)",
+       x="Milhares de litros/dia")+
+  scale_color_brewer(palette = "Dark2")+
+  theme(axis.text=element_text(size=12),
+        axis.title=element_text(size=10, face="bold"),
+        legend.position = "none")+
+  theme_bw() 
+
+  
+ggplotly(PLOT02)
+
+})
+```
+
+
+
