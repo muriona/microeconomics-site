@@ -1,0 +1,105 @@
+---
+title: "Notas das Tarefas e autoavaliações"
+date: "`r format(Sys.time(), '%d de %B de %Y')`"
+output:
+   html_document:
+    toc: true
+    toc_float: true
+    theme: paper
+link-citations: yes
+css: tarefas.css
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE)
+```
+
+
+```{r grading, fig.margin = TRUE, echo = FALSE, warning=FALSE, message=FALSE, fig.width=3, fig.cap="Photo by Mick Haupt on Unsplash"}
+knitr::include_graphics("img/mick-haupt-qfrtUw4NBPQ-unsplash.jpg")
+
+```
+
+
+```{r load}
+
+library(tidyverse)
+library(knitr)
+library(googlesheets4)
+library(openxlsx)
+
+```
+
+```{r gsheets, eval=FALSE}
+
+
+url <- "https://docs.google.com/spreadsheets/d/1Hmdeq46D1mbbq8-35ElBA7qG0LzcApDrWrff7qurGXU/edit#gid=219118458"
+
+
+
+#gs4_deauth()
+#autoav <- range_read(url)
+
+
+####################
+create_dt <- function(x,caption){
+  DT::datatable(x,
+                extensions = 'Buttons',
+                caption = caption,
+                options = list(dom = 'Blfrtip',
+                               buttons = c('copy', 'csv', 'excel'),
+                               lengthMenu = list(c(10,25,50,-1),
+                                                 c(10,25,50,"All"))))
+}
+#####################
+
+```
+
+# Tarefa 1
+
+```{r loadtarefas, eval=FALSE}
+
+library(openxlsx)
+
+#write.xlsx(autoav, file="autoav.xlsx")
+
+autoav <- readxl::read_xlsx("autoav.xlsx")
+
+colnames(autoav) <- c("data","tarefa","nome_avaliador",
+                      "membro_mais","peso_membro_mais",
+                      "membro_segundo","peso_membro_segundo",
+                      "membro_terceiro")
+
+autoav <- autoav %>% 
+  select(-nome_avaliador)
+
+tarefa1 <- read.xlsx("turma2022-1.xlsx",
+                      sheet="Tarefa1")
+
+#tarefa2 <- read.xlsx("/Users/mauricio/Dropbox/mauricio/UFSC/01_GRAD/2021.1/EPS7008/02. Tarefas/Notas_Tarefas.xlsx",
+#                      sheet="tarefa02")
+
+#tarefa3 <- read.xlsx("/Users/mauricio/Dropbox/mauricio/UFSC/01_GRAD/2021.1/EPS7008/02. Tarefas/Notas_Tarefas.xlsx",
+#                      sheet="tarefa03")
+
+#tarefa4 <- read.xlsx("/Users/mauricio/Dropbox/mauricio/UFSC/01_GRAD/2020.1/EPS 7008/06_Avaliações/Notas_Tarefas_4.xlsx",
+  #                    sheet="tarefa04")
+
+autoav$membro_mais <- factor(autoav$membro_mais)
+tarefa1$Nome <- factor(tarefa1$Nome)
+
+pond <- function(x){1/(1+exp(-0.4*(x-20)))}
+
+autoav %>% 
+  filter(tarefa == "Tarefa 1") %>% 
+  mutate(
+         peso3 = 100-(peso_membro_mais+peso_membro_segundo),
+         abaixo = ifelse(peso3 < 33, 1, 0)) %>% 
+  select(membro_terceiro, peso3, abaixo) %>% 
+  filter(abaixo == 1) %>% 
+  mutate(nota_pond = round(pond(peso3),2))
+
+```
+
+

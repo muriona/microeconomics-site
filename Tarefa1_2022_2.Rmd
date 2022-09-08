@@ -28,15 +28,15 @@ library(glue)
 
 ## Questão 1
 
-Um consumidor tem a função de utilidade $U(x_1,x_2)=10x_1+5x_2+x_1x_2$ para o consumo entre Café (bem 1) e Croissants (bem 2). O preço do bem 1 é R\$ 2 e o preço do bem 2 é 4. Já, a renda do consumidor é R\$ 102 para um consumo mensal.
+Um consumidor tem a função de utilidade $U(x_1,x_2)=10x_1+5x_2+x_1x_2$ para o consumo entre Café (`bem 1`) e Croissants (`bem 2`). O preço do `bem 1` é R\$ 2 e o preço do `bem 2` é R\$4. Já, a renda do consumidor é R\$ 102 para um consumo mensal (**1pts**).
 
 a)  Calcule a escolha ótima do consumidor
 
-b)  Suponha que o preço do bem 1 passe a ser 3. O que a mudança sobre a escolha ótima do consumidor indica sobre a curva de preço-consumo nessa região?
+b)  Suponha que o preço do `bem 1` passe a ser R\$3. O que a mudança sobre a escolha ótima do consumidor indica sobre a curva de preço-consumo nessa região?
 
 ## Questão 2
 
-Resolva os seguintes problemas de maximização sujeita a uma restrição (ou seja, monte o Lagrangeano, ache as condições de primeira ordem e encontre os valores ótimos das variáveis de escolha):
+Resolva os seguintes problemas de maximização sujeita a uma restrição (ou seja, monte o *Lagrangeano*, ache as condições de primeira ordem e encontre os valores ótimos das variáveis de escolha): (**2pts**)
 
 a)  Maximize $z=xy$ sujeito a $x+2y=2$
 
@@ -46,29 +46,29 @@ c)  Maximize $z=x+y^2$ sujeito a $x+y=6$
 
 ## Questão 3
 
-Um consumidor tem uma renda de \$100,00 para escolher entre o consumo de dois bens. O preço do bem 1 é R\$ 4,00 e do bem 2 é R\$ 6,00.
+Um consumidor tem uma renda de \$100,00 para escolher entre o consumo de dois bens. O preço do `bem 1` é R\$ 4,00 e do `bem 2` é R\$ 6,00. (**1pts**)
 
-a)  Suponha que o preço do bem 1 dobre, mas o preço do bem 2 e a renda permaneçam constantes. Desenhe em um mesmo gráfico as restrições orçamentárias deste consumidor para as duas situações. Assinale os pontos relevantes e indique a inclinação das retas.
+a)  Suponha que o preço do `bem 1` dobre, mas o preço do `bem 2` e a renda permaneçam constantes. Desenhe em um mesmo gráfico as restrições orçamentárias deste consumidor para as duas situações. Assinale os pontos relevantes e indique a inclinação das retas.
 
-b)  Suponha que renda desse consumidor tenha sido alterada para R\$ 150,00 e que ao mesmo tempo, preço do bem 2 tenha triplicado enquanto o preço do bem 1 permaneceu constante. Desenhe em um mesmo gráfico as restrições orçamentárias para esta nova situação e para a original. Assinale os pontos relevantes e indique a inclinação das retas.
+b)  Suponha que renda desse consumidor tenha sido alterada para R\$ 150,00 e que ao mesmo tempo, preço do `bem 2` tenha triplicado enquanto o preço do `bem 1` permaneceu constante. Desenhe em um mesmo gráfico as restrições orçamentárias para esta nova situação e para a original. Assinale os pontos relevantes e indique a inclinação das retas.
 
 # Teoria da Produção
 
 ## Questão 4
 
-Considere uma firma com função de produção $f(x_1,x_2)=x_1^{1/3}x_2^{2/3}$ e seja $w_1$ o preço do fator 1, $w_2$ o preço do fator 2 e $y$ o nível de produção.
+Considere uma firma com função de produção $f(x_1,x_2)=x_1^{1/3}x_2^{2/3}$ e seja $w_1$ o preço do `fator 1`, $w_2$ o preço do `fator 2` e $y$ o nível de produção. (**2pts**)
 
 a)  Monte o problema de minimização de custos e obtenha as funções de demanda condicionadas dos fatores no longo prazo
 
 b)  Calcule a função custo no longo prazo
 
-c)  No curto prazo, o fator 2 está fixo de tal maneira que $x_2=2^{7/3}$ supondo que $w_1=w_2=1$, calcule o custo mínimo de produzir 4 unidades de produto no curto prazo
+c)  No curto prazo, o `fator 2` está fixo de tal maneira que $x_2=2^{7/3}$ supondo que \$w_1=w_2=1\$, calcule o custo mínimo de produzir $4$ unidades de produto no curto prazo
 
-d)  Verifique que o resultado obtido no item (c) é igual ao valor da função custo no longo prazo quando $w_1=1$, $w_2=1$ e $y=4$. Porque isso ocorre?
+d)  Verifique que o resultado obtido no `item (c)` é igual ao valor da função custo no longo prazo quando $w_1=1$, $w_2=1$ e $y=4$. Porque isso ocorre?
 
 ## Questão 5
 
-Sejam 100 firmas idênticas atuando em concorrência perfeita. O custo total de curto prazo de uma delas é dado por $C(q)=0,5q^2+10q+5$.
+Sejam 100 firmas idênticas atuando em concorrência perfeita. O custo total de curto prazo de uma delas é dado por $C(q)=0,5q^2+10q+5$. (**1pts**)
 
 a)  Derive a curva de oferta de curto prazo da firma. Qual é a curva de oferta de curto prazo da indústria?
 
@@ -78,7 +78,7 @@ c)  O que irá acontecer no longo prazo? qual será o novo equilíbrio? quais se
 
 ## Questão 6
 
-Considere a seguinte curva de custo de uma firma competitiva: $c(y)=4y^2+400$.
+Considere a seguinte curva de custo de uma firma competitiva: $c(y)=4y^2+400$. (**1pts**)
 
 a)  Determine algebricamente e represente em um gráfico as funções de custo marginal, custo médio e custo variável médio.
 
@@ -88,9 +88,9 @@ c)  Calcule a quantidade produzida, o lucro, caso o preço de mercado seja \$100
 
 d)  Se houver possibilidade de livre entrada de outras firmas com a mesma estrutura de custos, o que é de se esperar que aconteça no mercado? O que acontece com o Lucro?
 
-Questão 7
+## Questão 7
 
-Suponha que um produtor produça azeite com a seguinte função de custo de curto prazo: \$C(y)=y\^{a}+F\$, onde $a>1$ e $F$ uma constante.
+Suponha que um produtor produça azeite com a seguinte função de custo de curto prazo: $C(y)=y^{a}+F$, onde $a>1$ e $F$ uma constante. (**2pts**)
 
 a)  Obtenha as expressões para as funções de custo marginal, custo variável médio, custo fixo médio e custo médio desse produtor
 
@@ -98,4 +98,4 @@ b)  Encontre a curva de oferta do produtor
 
 c)  Suponha que existam 100 produtores idênticos de azeite nessa região. Se o valor do parâmetro $a$ for igual a 2 e a demanda de mercado por azeite for igual a $D(p)=102-p$, calcule o preço de equilíbrio desse mercado
 
-d)  Qual valor de $F$ que torna o Lucro de um produtor igual a zero no equilíbrio do item (c)?
+d)  Qual valor de $F$ que torna o Lucro de um produtor igual a zero no equilíbrio do `item (c)`?
