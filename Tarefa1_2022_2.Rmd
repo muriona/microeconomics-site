@@ -13,9 +13,9 @@ link-citations: yes
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 ```
 
-```{r grassmarket, fig.margin = TRUE, echo = FALSE, warning=FALSE, message=FALSE, fig.width=3, fig.cap="Foto de Tina Guina em Unsplash"}
+```{r grassmarket, fig.margin = TRUE, echo = FALSE, warning=FALSE, message=FALSE, fig.width=3, fig.cap="Foto de Towfigu Barbhuiya em Unsplash"}
 
-knitr::include_graphics("img/tina-guina-obV_LM0KjxY-unsplash.jpg")
+knitr::include_graphics("img/towfiqu-barbhuiya-jpqyfK7GB4w-unsplash.jpg")
 
 library(Deriv)
 library(tidyverse)
