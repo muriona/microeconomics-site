@@ -1,5 +1,5 @@
 ---
-title: "Lab 5 - Monopólio e Competição Monopolística"
+title: "Lab 6 - Monopólio e Competição Monopolística"
 output: 
   html_document:
     toc: true

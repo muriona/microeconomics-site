@@ -1,5 +1,5 @@
 ---
-title: "Lab 4 - Competição Perfeita"
+title: "Lab 5 - Competição Perfeita"
 output: 
   html_document:
     toc: true
