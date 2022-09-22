@@ -22,6 +22,8 @@ navbar:
       menu:
       - text: "Tarefa 1"
         href: Tarefa1_2022_2.html
+      - text: "Tarefa 2"
+        href: Tarefa2_2022_2.html
 output:
   html_document:
     toc: yes

@@ -1,5 +1,5 @@
 ---
-title: "Tarefa 2 - Estruturas de Mercado"
+title: "Tarefa 2 - Falhas de Mercado e Monopólios"
 output: 
   html_document:
     toc: true
@@ -13,9 +13,7 @@ link-citations: yes
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 ```
 
-```{r grassmarket, fig.margin = TRUE, echo = FALSE, warning=FALSE, message=FALSE, fig.width=3, fig.cap="Foto de Tina Guina em Unsplash"}
-
-knitr::include_graphics("img/tina-guina-obV_LM0KjxY-unsplash.jpg")
+```{r}
 
 library(Deriv)
 library(tidyverse)
@@ -26,17 +24,62 @@ library(glue)
 
 # Falhas de Mercado
 
+```{r nc, fig.margin = TRUE, echo = FALSE, fig.width=3, fig.cap="Foto de Hakan Nural em Unsplash"}
+knitr::include_graphics("img/hakan-nural-YCVUR2JgfHA-unsplash.jpg")
+```
+
+Assista o vídeo a seguir: "Externalidades e Incentivos: A Economia da COVID", e pause o vídeo às 3:47 para responder as perguntas abaixo.
+
+```{marginfigure}
+*Dica:* Para legendas em português, assista: https://www.youtube.com/watch?v=QYuVx8y2reU 
+```
+
+[Link para vídeo no Youtube](https://www.youtube.com/watch?v=2EFG6dvtQ6M "Economics of Covid-19")
+
 ## Questão 1
+
+Resuma em suas próprias palavras porque uma vacina contra gripe é um exemplo de uma externalidade positiva. (1pts)
+
+a) Identifique 1-2 outras atividades/bens/serviços com externalidades positivas.
+
+
+b) Grafique os benefícios de um indivíduo que recebe uma vacina contra a gripe? **Dica:** você deve identificar os benefícios internos e externos.
+
 
 ## Questão 2
 
+O apresentador afirma que o número de pessoas que tomam vacinas contra a gripe é menor do que o número socialmente ideal de vacinas contra a gripe. Por quê? (1pts.)
+
+a) Quais são as duas formas de aumentar o número de pessoas que recebem vacinas contra a gripe?
+
+b)  Explique como o desenvolvimento de vacinas contra o coronavírus também é um exemplo de uma externalidade positiva.
+
+c)  Considerando que, sem algum tipo de intervenção, o desenvolvimento de vacinas também seria subprovido, quais são algumas soluções possíveis para incentivar o desenvolvimento de vacinas?
+
+d)  Das soluções que você identificou, quais são as mais viáveis?
+
+
+
 ## Questão 3
+
+Agora assista o restante do vídeo: várias vacinas já foram desenvolvidas para o Covid-19, com eficácias comprovadamente altas e de acordo a muitos especialistas, numa velocidade nunca antes vista na história. Por que a velocidade para obter uma ou várias vacinas eficazes é tão importante quanto o fato delas serem eficazes? (1pts.)
 
 # Estruturas de Mercado
 
+```{r kopen, fig.margin = TRUE, echo = FALSE, warning=FALSE, message=FALSE, fig.width=3, fig.cap="Imagem obtida no site da empresa"}
+
+knitr::include_graphics("img/kopen.jpg")
+
+library(Deriv)
+library(tidyverse)
+library(plotly)
+library(glue)
+
+```
+
 ## Questão 4
 
-Num mercado qualquer foi estimada que a curva de demanda seria dada por $P_D=2000-2Q$. Sobre este mercado pergunta-se:
+Num mercado qualquer foi estimada que a curva de demanda seria dada por $P_D=2000-2Q$. Sobre este mercado pergunta-se: (1,5pts.)
 
 a)  Calcule o equilíbrio desse mercado, caso esse mercado seja um Monopólio, onde a curva de custos seja dada por: $CT=500+2Q^2+100Q$.
 
@@ -46,10 +89,281 @@ c)  Discuta os resultados sob o ponto de vista dos excedentes e das perdas de ef
 
 ## Questão 5
 
-Um monopolista se defronta com uma curva de demanda dada por $P(y)=100-2y$ e possui custos marginais constantes e iguais a R\$ 20,00.
+Um monopolista se defronta com uma curva de demanda dada por $P(y)=100-2y$ e possui custos marginais constantes e iguais a R\$ 20,00. (1,5pts.)
 
 a)  Qual é o nível de produção deste monopólio? e o preço?
 
 b)  Qual situação (preço e quantidade) seria a eficiente de Pareto?
 
 c)  Qual é a perda de peso morto deste monopólio?
+
+## Questão 6
+
+Ao longo do tempo empresas acabam entrando e saindo e algumas poucas acabam ficando maiores. Vamos supor que uma única empresa fique no mercado de bombons de chocolate nacional devido às economias de escala, à fusão com outras empresas menores e aos custos crescentes de produção de chocolate (dificultando as operações de menor porte e privilegiando as grandes empresas produtoras). (2pts.)
+
+Esta estrutura de mercado configura-se agora, como um Monopólio.
+
+Vamos assumir que a curva de Demanda do mercado seja: $$Q^{D}(p)=40-\frac{1}{6} p$$
+
+A Receita Total da empresa monopolista: $RT=100Q-2.22Q^2$
+
+**Observação** A equação da Receita Total acima também pode ser calculada ao multiplicar a função inversa da demanda pela quantidade $Q$.
+
+E o custo marginal da empresa monopolista: $CMg=0.1Q^2$
+
+```{r}
+data2 <- tibble(Q=0:50)
+
+demanda <- function(Q){
+  240-(6*Q)
+}
+
+data2 <- data2 %>% 
+  mutate(Demanda=demanda(Q))
+         
+lm1 <- lm(Demanda ~ Q, data=data2)
+
+
+Demanda_func <- function(Q){
+  coef(lm1)[1] + coef(lm1)[2]*Q
+}
+
+RMg_monopolio <- function(Q){
+  240-(12*Q)
+}
+
+CMg_monopolio <- function(Q){
+  0.1*Q^2
+}
+
+optimal_Q_monopolio <- uniroot(function(x) RMg_monopolio(x) - CMg_monopolio(x), c(10,20))
+
+Q_otimo_monopolio <- optimal_Q_monopolio$root
+
+P_monopolio <- Demanda_func(Q_otimo_monopolio)
+
+CMe_monopolio <- (0.1/3)*(Q_otimo_monopolio)^2
+
+monopolio_plot <- data2 %>% 
+  mutate(RMg = RMg_monopolio(Q),
+         CMg = CMg_monopolio(Q),
+         CMe = (0.1/3)*Q^2) %>% 
+  pivot_longer(2:5, values_to = "P", names_to = "Curvas") %>% 
+  ggplot(aes(Q,P, color=Curvas))+
+  geom_line(size=1)+
+  geom_hline(yintercept = P_monopolio, linetype=2)+
+  geom_hline(yintercept = CMe_monopolio, linetype=2)+
+  geom_vline(xintercept = Q_otimo_monopolio, linetype=2)+
+  coord_cartesian(xlim=c(0,50),
+                  ylim=c(0,250))+
+  labs(y="Preço (R$/caixa)")+
+  theme_bw()
+
+#monopolio_plot
+
+
+
+
+```
+
+a) Considerando estas informações, qual é a quantidade em milhões de caixas de bombons, que a empresa deve produzir? Qual preço deve cobrar por caixa?
+
+```{r}
+#Q_otimo_monopolio
+#P_monopolio
+
+
+```
+
+
+b) Qual é o excedente do consumidor? excedente do produtor? e excedente do mercado?
+
+```{r}
+
+CMg_monopolio <- function(Q){
+  0.1*Q^2
+}
+
+f <- function(x) {240 - (6*x) - 0.1*x^2}
+
+optimal_Q_cp <- uniroot(function(x) demanda(x) - CMg_monopolio(x), c(20,30))
+
+Q_m_cp <- optimal_Q_cp$root
+P_m_cp <- demanda(Q_m_cp)
+
+EM <- integrate(f, lower = 0, upper = Q_m_cp)
+
+EM_cp <- EM$value
+
+RMg_CMg <- RMg_monopolio(Q_otimo_monopolio)
+
+
+deadwloss <- integrate(f, lower = Q_otimo_monopolio, upper = Q_m_cp)
+
+perda <- deadwloss$value
+
+EM_monopolio <- EM_cp - perda
+
+base_EC <- Q_otimo_monopolio
+altura_EC <- 240 - P_monopolio
+
+EC_monopolio <- (base_EC*altura_EC)/2
+
+EP_monopolio <- EM_monopolio - EC_monopolio
+```
+
+
+c) Qual é a perda de peso morto deste mercado?
+
+```{r}
+#perda
+```
+
+
+
+d) Quais são os lucros da empresa monopolista?
+
+```{r}
+Lucro_monopolio <- Q_otimo_monopolio*(P_monopolio-CMe_monopolio)
+```
+
+
+e) Grafique as curvas de Receita Total, Custo Total e Lucro para a empresa monopolista
+
+```{r}
+
+monopolio_plot2 <- data2 %>% 
+  mutate(RT=demanda(Q)*Q,
+         CT = (0.1/3)*Q^3,
+         L = RT-CT) %>% 
+  select(Q, RT, CT, L) %>% 
+  pivot_longer(2:4) %>% 
+  ggplot(aes(Q, value, color=name))+
+  geom_line(size=1)+
+  coord_cartesian(xlim=c(0,40),
+                  ylim=c(0,2500))+
+  labs(y="Milhões de R$/ano", x="Milhões de caixas")+
+  theme_bw()
+
+#monopolio_plot2
+```
+
+## Questão 7
+
+Assuma agora que existem na verdade dois grupos de consumidores de chocolate, os que compram chocolate fora das temporadas altas (p.ex. dia dos namorados), denotados como $T_b$ e os que compram chocolate durante as temporadas altas ($T_a$). (2pts.)
+
+Podemos inferir que existem agora, duas curvas de demanda, uma cada cada tipo de consumidor. A demanda para o consumidor $T_b$ é: $$Q^{D}_{b}(p)=50-0.5p$$ já a demanda para o consumidor $T_a$ é: $$Q^{D}_{a}(p)=35-0.25p$$.
+
+Obs. Note que a soma das duas curvas de demanda é igual à curva de demanda original: $$Q^{D}_{a}+Q^{D}_{b}=Q^{D}$$
+
+a) Se fosse possível realizar a discriminação de preços, qual seria o Lucro Total do monopolista? 
+
+b) O Lucro Total com preço fixo é menor ou maior do que o novo Lucro com discriminação de preço? justifique
+
+```{r demanda_a}
+
+demanda_a <- function(Q){
+  140-(4*Q)
+}
+
+data1 <- tibble(Q = 0:50)
+
+data1 <- data1 %>% 
+  mutate(Demanda=demanda_a(Q))
+         
+         
+lma <- lm(Demanda ~ Q, data=data1)
+
+
+Demanda_a_func <- function(Q){
+  coef(lma)[1] + coef(lma)[2]*Q
+}
+
+RMg_monopolio_a <- function(Q){
+  140-(8*Q)
+}
+
+CMg_monopolio <- function(Q){
+  0.1*Q^2
+}
+
+optimal_Q_monopolio_a <- uniroot(function(x) RMg_monopolio_a(x) - CMg_monopolio(x), c(1,20))
+
+Q_a <- optimal_Q_monopolio_a$root
+
+P_a <- Demanda_a_func(Q_a)
+
+CMe_a <- (0.1/3)*(Q_a)^2
+
+data1 <- data1 %>%
+  mutate(RMg = RMg_monopolio_a(Q),
+         CMg = CMg_monopolio(Q),
+         CMe = (0.1/3)*Q^2,
+         Consumidor = "Ta")
+
+
+
+
+```
+
+
+```{r demanda_b}
+
+demanda_b <- function(Q){
+  100-(2*Q)
+}
+
+datab <- tibble(Q = 0:50)
+
+datab <- datab %>% 
+  mutate(Demanda=demanda_b(Q))
+         
+         
+lmb <- lm(Demanda ~ Q, data=datab)
+
+
+Demanda_b_func <- function(Q){
+  coef(lmb)[1] + coef(lmb)[2]*Q
+}
+
+RMg_monopolio_b <- function(Q){
+  100-(4*Q)
+}
+
+
+optimal_Q_monopolio_b <- uniroot(function(x) RMg_monopolio_b(x) - CMg_monopolio(x), c(1,20))
+
+Q_b <- optimal_Q_monopolio_b$root
+
+P_b <- Demanda_a_func(Q_b)
+
+CMe_b <- (0.1/3)*(Q_b)^2
+
+datab <- datab %>%
+  mutate(RMg = RMg_monopolio_b(Q),
+         CMg = CMg_monopolio(Q),
+         CMe = (0.1/3)*Q^2,
+         Consumidor = "Tb")
+
+
+```
+
+c) Grafique as curvas de Demanda, RMg, CMg e CMe para os dois tipos de consumidores.
+
+```{r dtb}
+
+data1 <- rbind(data1, datab)
+
+discrim_plot <- data1 %>%   
+  pivot_longer(2:5) %>% 
+  ggplot(aes(Q,value, color=name))+
+  geom_line(size=1)+
+  facet_wrap(vars(Consumidor))+
+  coord_cartesian(xlim=c(0,50),
+                  ylim=c(0,150))+
+  theme_bw()
+
+```
+
+
+
