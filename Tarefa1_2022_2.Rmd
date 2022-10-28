@@ -40,7 +40,7 @@ Resolva os seguintes problemas de maximização sujeita a uma restrição (ou se
 
 a)  Maximize $z=xy$ sujeito a $x+2y=2$
 
-b)  Maximize $z=x(y+4)$ sujeito a $x=y=8$
+b)  Maximize $z=x(y+4)$ sujeito a $x+y=8$
 
 c)  Maximize $z=x+y^2$ sujeito a $x+y=6$
 
@@ -62,7 +62,7 @@ a)  Monte o problema de minimização de custos e obtenha as funções de demand
 
 b)  Calcule a função custo no longo prazo
 
-c)  No curto prazo, o `fator 2` está fixo de tal maneira que $x_2=2^{7/3}$ supondo que \$w_1=w_2=1\$, calcule o custo mínimo de produzir $4$ unidades de produto no curto prazo
+c)  No curto prazo, o `fator 2` está fixo de tal maneira que $x_2=2^{7/3}$ supondo que $w_1=w_2=1$, calcule o custo mínimo de produzir $4$ unidades de produto no curto prazo
 
 d)  Verifique que o resultado obtido no `item (c)` é igual ao valor da função custo no longo prazo quando $w_1=1$, $w_2=1$ e $y=4$. Porque isso ocorre?
 
