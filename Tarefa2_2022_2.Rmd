@@ -40,25 +40,21 @@ Assista o vídeo a seguir: "Externalidades e Incentivos: A Economia da COVID", e
 
 Resuma em suas próprias palavras porque uma vacina contra gripe é um exemplo de uma externalidade positiva. (1pts)
 
-a) Identifique 1-2 outras atividades/bens/serviços com externalidades positivas.
+a)  Identifique 1-2 outras atividades/bens/serviços com externalidades positivas.
 
-
-b) Grafique os benefícios de um indivíduo que recebe uma vacina contra a gripe? **Dica:** você deve identificar os benefícios internos e externos.
-
+b)  Grafique os benefícios de um indivíduo que recebe uma vacina contra a gripe? **Dica:** você deve identificar os benefícios internos e externos.
 
 ## Questão 2
 
 O apresentador afirma que o número de pessoas que tomam vacinas contra a gripe é menor do que o número socialmente ideal de vacinas contra a gripe. Por quê? (1pts.)
 
-a) Quais são as duas formas de aumentar o número de pessoas que recebem vacinas contra a gripe?
+a)  Quais são as duas formas de aumentar o número de pessoas que recebem vacinas contra a gripe?
 
 b)  Explique como o desenvolvimento de vacinas contra o coronavírus também é um exemplo de uma externalidade positiva.
 
 c)  Considerando que, sem algum tipo de intervenção, o desenvolvimento de vacinas também seria subprovido, quais são algumas soluções possíveis para incentivar o desenvolvimento de vacinas?
 
 d)  Das soluções que você identificou, quais são as mais viáveis?
-
-
 
 ## Questão 3
 
@@ -105,7 +101,7 @@ Esta estrutura de mercado configura-se agora, como um Monopólio.
 
 Vamos assumir que a curva de Demanda do mercado seja: $$Q^{D}(p)=40-\frac{1}{6} p$$
 
-A Receita Total da empresa monopolista: $RT=100Q-2.22Q^2$
+A Receita Total da empresa monopolista: $RT=240Q-6Q^2$
 
 **Observação** A equação da Receita Total acima também pode ser calculada ao multiplicar a função inversa da demanda pela quantidade $Q$.
 
@@ -166,7 +162,7 @@ monopolio_plot <- data2 %>%
 
 ```
 
-a) Considerando estas informações, qual é a quantidade em milhões de caixas de bombons, que a empresa deve produzir? Qual preço deve cobrar por caixa?
+a)  Considerando estas informações, qual é a quantidade em milhões de caixas de bombons, que a empresa deve produzir? Qual preço deve cobrar por caixa?
 
 ```{r}
 #Q_otimo_monopolio
@@ -175,8 +171,7 @@ a) Considerando estas informações, qual é a quantidade em milhões de caixas 
 
 ```
 
-
-b) Qual é o excedente do consumidor? excedente do produtor? e excedente do mercado?
+b)  Qual é o excedente do consumidor? excedente do produtor? e excedente do mercado?
 
 ```{r}
 
@@ -212,23 +207,19 @@ EC_monopolio <- (base_EC*altura_EC)/2
 EP_monopolio <- EM_monopolio - EC_monopolio
 ```
 
-
-c) Qual é a perda de peso morto deste mercado?
+c)  Qual é a perda de peso morto deste mercado?
 
 ```{r}
 #perda
 ```
 
-
-
-d) Quais são os lucros da empresa monopolista?
+d)  Quais são os lucros da empresa monopolista?
 
 ```{r}
 Lucro_monopolio <- Q_otimo_monopolio*(P_monopolio-CMe_monopolio)
 ```
 
-
-e) Grafique as curvas de Receita Total, Custo Total e Lucro para a empresa monopolista
+e)  Grafique as curvas de Receita Total, Custo Total e Lucro para a empresa monopolista
 
 ```{r}
 
@@ -252,18 +243,18 @@ monopolio_plot2 <- data2 %>%
 
 Assuma agora que existem na verdade dois grupos de consumidores de chocolate, os que compram chocolate fora das temporadas altas (p.ex. dia dos namorados), denotados como $T_b$ e os que compram chocolate durante as temporadas altas ($T_a$). (2pts.)
 
-Podemos inferir que existem agora, duas curvas de demanda, uma cada cada tipo de consumidor. A demanda para o consumidor $T_b$ é: $$Q^{D}_{b}(p)=50-0.5p$$ já a demanda para o consumidor $T_a$ é: $$Q^{D}_{a}(p)=35-0.25p$$.
+Podemos inferir que existem agora, duas curvas de demanda, uma cada cada tipo de consumidor. A demanda para o consumidor $T_b$ é: $$Q^{D}_{b}(p)=15-\frac{1}{9}p$$ já a demanda para o consumidor $T_a$ é: $$Q^{D}_{a}(p)=25-\frac{1}{18}p$$.
 
 Obs. Note que a soma das duas curvas de demanda é igual à curva de demanda original: $$Q^{D}_{a}+Q^{D}_{b}=Q^{D}$$
 
-a) Se fosse possível realizar a discriminação de preços, qual seria o Lucro Total do monopolista? 
+a)  Se fosse possível realizar a discriminação de preços, qual seria o Lucro Total do monopolista?
 
-b) O Lucro Total com preço fixo é menor ou maior do que o novo Lucro com discriminação de preço? justifique
+b)  O Lucro Total com preço fixo é menor ou maior do que o novo Lucro com discriminação de preço? justifique
 
 ```{r demanda_a}
 
 demanda_a <- function(Q){
-  140-(4*Q)
+  450-(18*Q)
 }
 
 data1 <- tibble(Q = 0:50)
@@ -280,7 +271,7 @@ Demanda_a_func <- function(Q){
 }
 
 RMg_monopolio_a <- function(Q){
-  140-(8*Q)
+  450-(36*Q)
 }
 
 CMg_monopolio <- function(Q){
@@ -306,11 +297,10 @@ data1 <- data1 %>%
 
 ```
 
-
 ```{r demanda_b}
 
 demanda_b <- function(Q){
-  100-(2*Q)
+  135-(9*Q)
 }
 
 datab <- tibble(Q = 0:50)
@@ -327,7 +317,7 @@ Demanda_b_func <- function(Q){
 }
 
 RMg_monopolio_b <- function(Q){
-  100-(4*Q)
+  135-(18*Q)
 }
 
 
@@ -348,7 +338,7 @@ datab <- datab %>%
 
 ```
 
-c) Grafique as curvas de Demanda, RMg, CMg e CMe para os dois tipos de consumidores.
+c)  Grafique as curvas de Demanda, RMg, CMg e CMe para os dois tipos de consumidores.
 
 ```{r dtb}
 
@@ -364,6 +354,3 @@ discrim_plot <- data1 %>%
   theme_bw()
 
 ```
-
-
-
