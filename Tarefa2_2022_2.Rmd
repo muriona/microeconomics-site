@@ -79,6 +79,27 @@ Num mercado qualquer foi estimada que a curva de demanda seria dada por $P_D=200
 
 a)  Calcule o equilíbrio desse mercado, caso esse mercado seja um Monopólio, onde a curva de custos seja dada por: $CT=500+2Q^2+100Q$.
 
+    ```{r echo = TRUE}
+
+    CMe <- function(q){(500/q)+(2*q)+100}
+
+    f <- function(q){
+      2000 - (2*q) - (4*q) - 100
+      
+    }
+
+    Q <- 237.5
+
+    P <- 2000 - (2*Q)
+
+    Lucro <- (P-CMe(Q))*Q
+
+    EM <- integrate(f, lower = 0, upper = Q)
+
+
+
+    ```
+
 b)  Calcule o Lucro, e os excedentes do consumidor, do produtor e do mercado
 
 c)  Discuta os resultados sob o ponto de vista dos excedentes e das perdas de eficiência de mercado
@@ -282,7 +303,7 @@ optimal_Q_monopolio_a <- uniroot(function(x) RMg_monopolio_a(x) - CMg_monopolio(
 
 Q_a <- optimal_Q_monopolio_a$root
 
-P_a <- Demanda_a_func(Q_a)
+P_a <- demanda_a(Q_a)
 
 CMe_a <- (0.1/3)*(Q_a)^2
 
@@ -325,7 +346,7 @@ optimal_Q_monopolio_b <- uniroot(function(x) RMg_monopolio_b(x) - CMg_monopolio(
 
 Q_b <- optimal_Q_monopolio_b$root
 
-P_b <- Demanda_a_func(Q_b)
+P_b <- demanda_b(Q_b)
 
 CMe_b <- (0.1/3)*(Q_b)^2
 

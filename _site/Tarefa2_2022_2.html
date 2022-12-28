@@ -349,21 +349,6 @@ div.tocify {
     </li>
   </ul>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Tarefas
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="Tarefa1_2022_2.html">Tarefa 1</a>
-    </li>
-    <li>
-      <a href="Tarefa2_2022_2.html">Tarefa 2</a>
-    </li>
-  </ul>
-</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         
@@ -449,7 +434,21 @@ pergunta-se: (1,5pts.)</p>
 <ol style="list-style-type: lower-alpha">
 <li><p>Calcule o equilíbrio desse mercado, caso esse mercado seja um
 Monopólio, onde a curva de custos seja dada por: <span
-class="math inline">\(CT=500+2Q^2+100Q\)</span>.</p></li>
+class="math inline">\(CT=500+2Q^2+100Q\)</span>.</p>
+<pre class="r"><code>CMe &lt;- function(q){(500/q)+(2*q)+100}
+
+f &lt;- function(q){
+  2000 - (2*q) - (4*q) - 100
+
+}
+
+Q &lt;- 237.5
+
+P &lt;- 2000 - (2*Q)
+
+Lucro &lt;- (P-CMe(Q))*Q
+
+EM &lt;- integrate(f, lower = 0, upper = Q)</code></pre></li>
 <li><p>Calcule o Lucro, e os excedentes do consumidor, do produtor e do
 mercado</p></li>
 <li><p>Discuta os resultados sob o ponto de vista dos excedentes e das
